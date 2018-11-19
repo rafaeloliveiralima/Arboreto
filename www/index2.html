@@ -42,9 +42,7 @@
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <script src="bootstrap/js/jquery-3.2.1.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
-	  
-	
-	<style>
+<style>
 body {margin:0;}
 
 ul.footer {
@@ -80,35 +78,6 @@ li.lifooter a:hover:not(.active) {
 </style>
 	
     <title>Arboreto JBRJ</title>
-	
-	<script>
-		 function pegaImagens(id)
-		{
-         var params = "id="+id;
-                var resultado = 0;
-                var xmlhttp = new XMLHttpRequest();
-				
-                xmlhttp.open("GET","https://projetofauna.jbrj.gov.br/listafotos.php?"+params,false);
-                xmlhttp.onload = function (){
-                    if (xmlhttp.status==200)
-                        {
-						   	var html = this.responseText;
-							document.getElementById("imagem").innerHTML = html;
-                        }
-                    else if (xmlhttp.status == 404) {
-                        alert("Web Service doesn't work");
-                    }
-                    else
-                        {
-                            alert("Unknown erro occurred while trying insert data");
-                        }
-                };
-                xmlhttp.send();
-                return resultado;       
-     }
-	</script>
-	
-	
 </head>
 
 <body>
@@ -136,38 +105,6 @@ li.lifooter a:hover:not(.active) {
 	 </div>
 	</div>
 
-
- <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Atendimento</h4>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-			<label for="email">Descrição:</label>
-			<textarea class="form-control" rows="3" id="edtatendimento"></textarea>
-		  </div>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-			<label for="email">Situação:</label>
-			  <select name='cmboxsituacao' id='cmboxsituacao' class="form-control">
-				<option value='1'>Aberto </option>
-				<option value='2'>Em atendimento </option>
-				<option value='3'>Fechado </option>
-			  </select>
-		  </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" onclick="alterarAtendimento(document.getElementById('edtID').value,document.getElementById('edtatendimento').value,document.getElementById('cmboxsituacao').value)" class="btn btn-sm btn-success" data-dismiss="modal">Salvar</button>
-          <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Fechar</button>
-        </div>
-      </div>
-	 </div>
-	</div>
-
 	<nav class="navbar navbar-default">
 	  <div class="container-fluid">
 		<div class="navbar-header">
@@ -177,27 +114,7 @@ li.lifooter a:hover:not(.active) {
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>	
 		  </button>
-		  
-		  <!--<button type="button" class="navbar-toggle" data-toggle="pill" href="#login">
-			<span class="glyphicon glyphicon-user"></span> 
-		  </button>
-		  -->
-
-<!--		  <button type="button" class="navbar-toggle" data-toggle="pill" onclick='novochamado()'>
-			<span class="glyphicon glyphicon-eye-open"></span> 
-		  </button>
-
-   	      <button type="button" class="navbar-toggle" data-toggle="pill" onclick='carregaatendimento(0)'>
-			<span class="glyphicon glyphicon-alert"></span> 
-		  </button>
-
-
-		   <button type="button" class="navbar-toggle" data-toggle="pill" onclick='meuschamados()'>
-			<span class="glyphicon glyphicon-warning-sign"></span> 
-		  </button>
--->
-		  	
-<a class="navbar-brand" href="index2.html">Arboreto 0.2</a>
+		  <a class="navbar-brand" href="index2.html">Arboreto 0.2</a>
 		  <span id="div_dadoslogin" ></span>
 
 		</div>
@@ -213,7 +130,6 @@ li.lifooter a:hover:not(.active) {
 			  <li class='hidden'><a data-toggle="pill" href="#consatendimentofiltro">Cons. Atendimento</a></li>
 			  <li class='hidden'><a data-toggle="pill" href="#mapa">Mapa Ocorrência</a></li>
 			  -->
-			  <li><a data-toggle="pill" href="#trocarsenha"><span class="glyphicon glyphicon-log-in"></span> Trocar Senha</a></li>
 			  <li><a data-toggle="pill" href="#login"><span class="glyphicon glyphicon-user"></span> Login</a></li>
 			  <li><a onclick='exitFromApp()'><span class="glyphicon glyphicon-log-out"></span> Sair</a></li>
 			</ul>
@@ -231,134 +147,6 @@ li.lifooter a:hover:not(.active) {
 			</div>
 		</div>
 
-		<div id="consatendimentofiltro" class="tab-pane fade">
-			<div class="container">
-			<label class="radio-inline"><input type="radio" name="optradio" value="7"  onchange = 'carregaatendimento(0,this.value)'>Semana</label>
-			<label class="radio-inline"><input type="radio" name="optradio" value="15" onchange = 'carregaatendimento(0,this.value)'>15 Dias</label>
-			<label class="radio-inline"><input type="radio" name="optradio" value="30" onchange = 'carregaatendimento(0,this.value)' >30 Dias</label>
-			<label class="radio-inline"><input type="radio" name="optradio" value="0"  onchange = 'carregaatendimento(0,this.value)' >Todos</label>
-			</div>
-			<div class="container" id='chamadosfiltro'>
-			</div>
-		</div>
-	
-		<div id="novochamado" class="tab-pane fade">
-		  <form name='frmchamado' id='frmchamado' method='post'>
-			<div class="container">
-				<h3>Novo Chamado</h3>
-				<div class="form-group">
-					<label for="email">Solicitante</label>
-					<input type="text" class="form-control input-sm" id="edtsolicitante" name="edtsolicitante" value="">
-				</div>
-				<div class="form-group">
-					<label for="email">Animal:</label>
-					<input type="text" class="form-control input-sm" id="edtanimal" name="edtanimal">
-				</div>
-				<div class="form-group">
-					<label for="email">Situação do Animal:</label>
-					<select name='cmboxsituacaoanimal' id='cmboxsituacaoanimal' class="form-control input-sm" >
-						<option value='3'>Não identificada</option>
-						<option value='1'>Vivo</option>
-						<option value='2'>Morto</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="email">Local:</label>
-					<input type="text" class="form-control input-sm" id="edtlocal" name="edtlocal">
-				</div>
-				<div class="form-group">
-					<label for="email">Descrição:</label>
-					<textarea class="form-control" rows="3" id="edtdescricao" id="edtdescricao"></textarea>
-				</div>
-				
-				<button type="button" class="btn btn-success btn-block" onclick="salvarChamado()">Salvar</button>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				
-			</div>
-			
-			</form>
-		</div>
-	
-		<div id="conschamado" class="tab-pane fade">
-			<div class="container" id="containerconschamado">
-				<h4>Consulta Individuo</h4>
-				<div class="form-group">
-					<label for="email">ID:</label>
-					<div class="input-group">
-						<input readonly type="text" class="form-control input-md" id="edtID">
-						<input type="hidden" class="form-control input-md" id="idsituacaochamado" value=''>
-						<span class="input-group-btn">
-							<button  class="botao btn btn-default" type="button" onclick="abreCamera('CAMERA')"><span class="glyphicon glyphicon-camera"></span> </button>
-							<button  class="botao btn btn-default" type="button" onclick="abreCamera('ARQUIVO')" ><span class="glyphicon glyphicon-file"></span> </button>
-							<button  class="botao btn btn-default" type="button" onclick="mostraMapa(document.getElementById('edtID').value)" ><span class="glyphicon glyphicon-globe"></span> </button>
-						</span>
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="email">Solicitante:</label>
-					<input type="text" class="form-control input-sm" id="edtsolicitante2" name="edtsolicitante2">
-				</div>
-				<div class="form-group">
-					<label for="email">Animal:</label>
-					<input type="text" class="form-control input-sm" id="edtanimal2">
-				</div>
-				<div class="form-group">
-					<label for="email">Situação do Animal:</label>
-					<select id="cmboxsituacaoanimal2" name='cmboxsituacaoanimal2'  class="form-control input-sm" >
-						<option value='3'>Não identificada</option>
-						<option value='1'>Vivo</option>
-						<option value='2'>Morto</option>
-					</select>
-				</div>
-				
-				<div class="form-group">
-					<label for="email">Local:</label>
-					<input type="text" class="form-control input-sm" id="edtlocal2">
-				</div>
-				<div class="form-group">
-					<label for="email">Descrição:</label>
-					<textarea class="form-control" rows="3" id="edtdescricao2"></textarea>
-				</div>
-				<div class="form-group">
-					<a onclick="abreAtedimento(document.getElementById('edtatendimento2').value)"><label for="email"><span class="glyphicon glyphicon-edit"></span> Atendimento</label></a>
-					<textarea readonly class="form-control" rows="3" id="edtatendimento2" id="edtatendimento2"></textarea>
-				</div>
-				<div class="form-group">
-					<label for="email">Data/hora:</label>
-					<input readonly type="text" class="form-control input-sm" id="edtdata">
-				</div>
-<!--				<div class="form-group">
-					<label for="email">Hora:</label>
-					<input type="text" class="form-control input-sm" id="edthora">
-				</div>
-				<div class="form-group">
-					<label for="email">Usuário:</label>
-					<input type="text" class="form-control input-sm" id="edtusuario">
-				</div>
-				-->
-				<button type="button" class="botao btn btn-success btn-sm btn-block" onclick="alterarChamado()">Alterar dados do chamado</button>
-				<br>
-				
-				<div class="container">
-					<h4>Imagens <a onclick="pegaImagens(document.getElementById('edtID').value)" class="btn btn-info btn-sm">
-					<span class="glyphicon glyphicon-refresh"></span>
-				</a></h4> 
-					<div id='imagem'></div>
-				</div>
-				<br>
-				
-				<div id="map2" style="width:100%;height:400px"></div>
-				<br>
-				<br>
-				<br>
-				<br>
-			</div>
-		</div>
 
 		<div id="login" class="tab-pane fade">
 			<div class="container">
@@ -381,45 +169,17 @@ li.lifooter a:hover:not(.active) {
 			</div>
 		</div>
 		
-		<div id="trocarsenha" class="tab-pane fade">
-			<div class="container">
-				<h3>Alterar Senha</h3>
-					<!--<h1>Fauna JBRJ</h1>-->
-				<div class="form-group">
-					<label for="novasenha">Nova senha:</label>
-					<input type="text" class="form-control" id="edtnovasenha">
-				</div>
-				<div class="form-group">
-					<label for="confirmacaosenha">Confirmação da senha:</label>
-					<input type="text" class="form-control" id="edtconfirmacaosenha">
-				</div>
-				<button  type="button" onclick='alterarSenha()' class="btn btn-success btn-block">Enviar</button>
-				
-			</div>
-		</div>
-		
-		
+
 		<div id="home" class="tab-pane fade in active">
 			<div class="container">
-				<!--<div class="app">
-					<div id="deviceready" class="blink">
-						<p class="event listening">Conectando</p>
-						<p class="event received">Pronto para o uso</p>
-					</div>
-					<br>
-				</div>
-				-->
 				<div class="form-group">
-					<input type="text" class="form-control input-md" id="edtfiltro" onblur='pegaResultado(this.value)';>
+					<input type="text" class="form-control input-md" id="edtfiltro" onchange='pegaResultado(this.value)';>
 				</div>
 				<div id="map3" style="width:100%;height:500px"></div>
-				<div class="app2">
-					<div class="container" id='chamadosparaatender'>
-					</div>
+				<div class="list-group">
+				  <div id='div_resultado'></div>
 				</div>
-				
-			</div>
-			
+			</div>			
 		</div>
 		
 		<div id="mapa" class="tab-pane fade">
@@ -430,20 +190,8 @@ li.lifooter a:hover:not(.active) {
 var c = 0;
 
 function myMap2(div,myObj) {
-	
    navigator.geolocation.getCurrentPosition(onSuccess, onError);
    function onSuccess(position) {
-       /* var element = document.getElementById('geolocation');
-        element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
-                            'Longitude: '          + position.coords.longitude             + '<br />' +
-                            'Altitude: '           + position.coords.altitude              + '<br />' +
-                            'Accuracy: '           + position.coords.accuracy              + '<br />' +
-                            'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
-                            'Heading: '            + position.coords.heading               + '<br />' +
-                            'Speed: '              + position.coords.speed                 + '<br />' +
-                            'Timestamp: '          +                                   position.timestamp          + '<br />';
-		*/					
-//	var mapCanvas = document.getElementById("map");
 	var mapCanvas = document.getElementById(div);
 	
 	var latitude = -22.96800;
@@ -472,13 +220,45 @@ function myMap2(div,myObj) {
 	
 	var marker, i;
     var markers = new Array();
+	var html2 = '';
+	
+	var zeros = "00000000";
 	
 	for (x in myObj) {
+	
+		var qtd = myObj[x].numtombo.length;
+		zeros = zeros.substring(0,8-qtd);
+		var inv = zeros + myObj[x].numtombo;	
+	
+		html2 += '<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">';
+		html2 += '	<div class="d-flex w-100 justify-content-between">';
+		html2 += '	  <h5 >'+myObj[x].siglapj+ ' '+myObj[x].numtombo+' - '+myObj[x].aux_nomecompltaxon+'</h5>';
+		html2 += '	   <p>'+myObj[x].locfisico1 + '/' + myObj[x].locfisico2+'</p>';
+		html2 +='      <img src="http://imagens1.jbrj.gov.br/fsi/server?type=image&source=rbv%2F'+inv+'_01.jpg&width=300&height=100&profile=jpeg&quality=95">';
+		html2 += '	</div>';
+		if (myObj[x].observacoes==null)
+		{
+		}
+		else
+		{
+			html2 += '	 <small>'+myObj[x].observacoes+'</small>';
+		}
+
+		
+		html2 += '</a>';
 
 		var myLatlng = new google.maps.LatLng(myObj[x].latitude,myObj[x].longitude);
 		var marker = new google.maps.Marker({
 		position: myLatlng,
-		draggable:true,
+		draggable:false,
+		icon: {
+					path: google.maps.SymbolPath.CIRCLE,
+					scale: 8,
+					fillColor: '#A74EAF',
+					fillOpacity: 0.8,
+					strokeColor: '#fff',
+					strokeWeight: 3
+			},
 		title:""
 		});
 		marker.setMap(map);
@@ -495,7 +275,25 @@ function myMap2(div,myObj) {
       })(marker, x));
 		
 	}
-	
+	navigator.geolocation.getCurrentPosition(onSuccess, onError2);
+	function onSuccess(position) {
+	var mapCanvas = document.getElementById(div);
+	var myLatlng = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+
+	var marker = new google.maps.Marker({
+		position: myLatlng,
+		draggable:true,
+		icon: 'img/eu.png',
+		title:""
+		});
+	marker.setMap(map);
+	alert(latitude);
+    }
+	 function onError2(error) {
+        alert('code: '    + error.code    + '\n' +
+                'message: ' + error.message + '\n');
+    }
+	document.getElementById('div_resultado').innerHTML = html2;
 
 // To add the marker to the map, call setMap();
 
@@ -513,103 +311,7 @@ function myMap2(div,myObj) {
 function myMap(idchamado,latitude,longitude,div) {
 	
    navigator.geolocation.getCurrentPosition(onSuccess, onError);
-   function onSuccess(position) {
-       /* var element = document.getElementById('geolocation');
-        element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
-                            'Longitude: '          + position.coords.longitude             + '<br />' +
-                            'Altitude: '           + position.coords.altitude              + '<br />' +
-                            'Accuracy: '           + position.coords.accuracy              + '<br />' +
-                            'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
-                            'Heading: '            + position.coords.heading               + '<br />' +
-                            'Speed: '              + position.coords.speed                 + '<br />' +
-                            'Timestamp: '          +                                   position.timestamp          + '<br />';
-		*/					
-//	var mapCanvas = document.getElementById("map");
-	var mapCanvas = document.getElementById(div);
-	
-	if (latitude==0)
-	{
-		var mapOptions = {
-			center: new google.maps.LatLng(position.coords.latitude,position.coords.longitude), zoom: 16
-		};
-		var myLatlng = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-	}
-	else
-	{
-		var mapOptions = {
-			center: new google.maps.LatLng(latitude,longitude), zoom: 16
-		};
-		var myLatlng = new google.maps.LatLng(latitude,longitude);
-	}
-	
-	var map = new google.maps.Map(mapCanvas, mapOptions);
-	var kmlLayer = new google.maps.KmlLayer({
-    	url: 'http://jabot.jbrj.gov.br/v2/canteiros.kml',
-    	suppressInfoWindows: true,
-    	map: map,
-    	preserveViewport: true
-  	});
-	var kmlLayer2 = new google.maps.KmlLayer({
-    	url: 'http://jabot.jbrj.gov.br/v2/drenagem_wgs84.kml',
-    	suppressInfoWindows: true,
-    	map: map,
-    	preserveViewport: true
-  	});		
 
-	if (latitude==0)
-	{
-		var marker = new google.maps.Marker({
-		position: myLatlng,
-		draggable:true,
-		title:""
-		});
-	}
-	else
-	{
-		var marker = new google.maps.Marker({
-		position: myLatlng,
-		draggable:false,
-		title:""
-		});
-	}
-
-// To add the marker to the map, call setMap();
-	marker.setMap(map);
-	
-	if (latitude==0)
-	{
-		google.maps.event.addListener(marker, 'dragend', function(marker){
-			var latLng = marker.latLng; 
-			currentLatitude = latLng.lat();
-			currentLongitude = latLng.lng();
-			
-			var r = confirm("Confirma localização?");
-			if (r == true) {
-				alteraLocalizacao(idchamado,currentLatitude,currentLongitude);
-				//carregaatendimento(0);
-			} else {
-				//carregaatendimento(0);
-			}
-			
-		 });
-	 
-		 google.maps.event.addListener(marker, 'click', function(marker){
-			var latLng = marker.latLng; 
-			currentLatitude = latLng.lat();
-			currentLongitude = latLng.lng();
-			
-			var r = confirm("Confirma localização?");
-			if (r == true) {
-				alteraLocalizacao(idchamado,currentLatitude,currentLongitude);
-				//carregaatendimento(0);
-			} else {
-				//carregaatendimento(0);
-			}
-			
-		 });
-	}
-							
-    }
 
     // onError Callback receives a PositionError object
     //
@@ -632,293 +334,9 @@ function myMap(idchamado,latitude,longitude,div) {
 
 			$('.navbar-collapse').collapse('hide');
 			pegaResultado('');
-//			myMap(0,0,0,'map3');
-					
+			//myMap(0,0,0,'map3');
 		});
 
-		
-		function alterarSenha()
-		{
-			var novasenha = document.getElementById('edtnovasenha').value;
-			var confirmacaosenha = document.getElementById('edtconfirmacaosenha').value;
-			var codusuario = window.localStorage.getItem("idusuario");
-			var params = "idusuario="+codusuario+"&senha="+novasenha;
-			var resultado = 0;
-			var xmlhttp = new XMLHttpRequest();
-			
-			xmlhttp.open("GET","https://projetofauna.jbrj.gov.br/exec.alterarsenha.php?"+params,true);
-			xmlhttp.onload = function (){
-			if (xmlhttp.status==200)
-				{
-					var str = xmlhttp.responseText;
-					//alert(str);
-					if (str==true)
-					{
-						navigator.notification.alert(
-									'Alterado com sucesso.',  // message
-									alertDismissed,         // callback
-									'Atenção',            // title
-									'OK'                  // buttonName
-						);
-						//alert('alterado com sucesso');
-					}
-					else
-					{
-						navigator.notification.alert(
-									'Não foi possível alterar.',  // message
-									alertDismissed,         // callback
-									'Atenção',            // title
-									'OK'                  // buttonName
-						);
-						//alert('Não foi possível alterar');
-					}
-					$('#myNavbar a[href="#home"]').tab('show');
-				}
-				else if (xmlhttp.status == 404) {
-					alert("Web Service doesn't work");
-				}
-				else
-				{
-					alert("Unknown erro occurred while trying insert data");
-				}
-			};
-			xmlhttp.send();
-			return resultado;  
-		}
-		
-		function abreAtedimento(atendimento)
-		{
-		   var idtipousuario = window.localStorage.getItem("idtipousuario");
-		   if (idtipousuario<'3')
-		   {
-			  //if (document.getElementById('idsituacaochamado').value=='3')
-			  //{
-			//	alert('Chamado fechado.')
-			 // }
-			  //else
-			  //{
-				document.getElementById('edtatendimento').value=atendimento;
-				$("#myModal").modal();
-			  //}
-		   }
-		   else
-		   {
-		   		navigator.notification.alert(
-									'Sem acesso a funcionalidade.',  // message
-									alertDismissed,         // callback
-									'Atenção',            // title
-									'OK'                  // buttonName
-				);
-			   //alert('Sem acesso a funcionalidade');
-		   }
-		}
-		
-	
-		function alterarAtendimento(idchamado,atendimento,idsituacaochamado)
-		{
-		  var idtipousuario = window.localStorage.getItem("idtipousuario");
-		  if (idtipousuario<'3')
-		  {
-		
-			  if (atendimento=='')
-			  {
-				navigator.notification.alert(
-									'Informe o atendimento.',  // message
-									alertDismissed,         // callback
-									'Atenção',            // title
-									'OK'                  // buttonName
-				);
-//				alert('Informe o atendimento');
-			  }
-			  else
-			  {
-				var atendidopor = window.localStorage.getItem("uname");
-				var params = "op=ASC&atendimento="+atendimento+"&idsituacaochamado="+idsituacaochamado+"&idchamado="+idchamado+"&atendidopor="+atendidopor;
-				 var resultado = 0;
-					var xmlhttp = new XMLHttpRequest();
-					
-					xmlhttp.open("GET","https://projetofauna.jbrj.gov.br/exec.chamado.php?"+params,false);
-			
-					xmlhttp.onload = function (){
-						//alert(xmlhttp.status);
-						if (xmlhttp.status==200)
-							{
-								resultado = xmlhttp.responseText;
-								//alert(params);
-								//alert(resultado);
-								carregaatendimento(0,0);
-							}
-						else if (xmlhttp.status == 404) {
-							alert("Web Service doesn't work");
-							
-						}
-						else
-							{
-								alert("Unknown erro occurred while trying insert data");
-							}
-					};
-				xmlhttp.send();
-				}
-			}
-		}
-		
-		function alteraLocalizacao(idchamado,latitude,longitude)
-		{
-		  
-			var params = "op=AL&latitude="+latitude+"&longitude="+longitude+"&idchamado="+idchamado;
-                var resultado = 0;
-                var xmlhttp = new XMLHttpRequest();
-        		
-                xmlhttp.open("GET","https://projetofauna.jbrj.gov.br/exec.chamado.php?"+params,false);
-		
-                xmlhttp.onload = function (){
-					//alert(xmlhttp.status);
-                    if (xmlhttp.status==200)
-                        {
-        					resultado = xmlhttp.responseText;
-							carregaatendimento(resultado,0);
-                        }
-                    else if (xmlhttp.status == 404) {
-                        alert("Web Service doesn't work");
-                        
-                    }
-                    else
-                        {
-                            alert("Unknown erro occurred while trying insert data");
-                        }
-                };
-                xmlhttp.send();
-		}
-		
-		function alterarSituacao(idsituacaochamado,idchamado)
-		{
-			var params = "op=AS&idsituacaochamado="+idsituacaochamado+"&idchamado="+idchamado;
-                var resultado = 0;
-                var xmlhttp = new XMLHttpRequest();
-        		
-                xmlhttp.open("GET","https://projetofauna.jbrj.gov.br/exec.chamado.php?"+params,false);
-		
-                xmlhttp.onload = function (){
-					//alert(xmlhttp.status);
-                    if (xmlhttp.status==200)
-                        {
-        					resultado = xmlhttp.responseText;
-							
-							carregaatendimento(resultado,0);
-                        }
-                    else if (xmlhttp.status == 404) {
-                        alert("Web Service doesn't work");
-                        
-                    }
-                    else
-                        {
-                            alert("Unknown erro occurred while trying insert data");
-                        }
-                };
-                xmlhttp.send();
-				
-		
-		}
-		
-		function mostraMapa(idchamado)
-		{
-			$('#myNavbar a[href="#mapa"]').tab('show');
-			myMap(idchamado,0,0,'map');
-		}
-		
-		function novochamado()
-		{
-			
-			var idusuario = window.localStorage.getItem("idusuario");
-			if (idusuario == null) {
-				$('#myNavbar a[href="#login"]').tab('show');
-				
-			}
-			else
-			{
-				$('#myNavbar a[href="#novochamado"]').tab('show');
-				document.getElementById('edtsolicitante').value=window.localStorage.getItem('uname');
-				document.getElementById('edtlocal').value='';
-				document.getElementById('edtanimal').value='';
-				document.getElementById('edtdescricao').value='';
-				document.getElementById('cmboxsituacaoanimal').value='3';
-				$(".botao").removeAttr("disabled");
-			}
-		
-		
-		}
-		
-		function meuschamados()
-		{
-					
-
-		// retorna uma lista de chamados que pertence ao usuário logado
-		// caso não esteja logado, redireciona para a pagina de login
-			var idusuario = window.localStorage.getItem("idusuario");
-			if (idusuario == null)
-			{
-				$('#myNavbar a[href="#login"]').tab('show');
-			}
-			else
-			{
-				$('#myNavbar a[href="#consatendimento"]').tab('show');
-				getMeusChamados();
-			}
-		}
-		
-		// id = id do chamado
-		// fitro 
-		// 0 todos
-		// 7 uma semana
-		// 15 dias
-		// 30 dias
-		
-		function carregaatendimento(id,filtro) 
-		{
-		var idtipousuario = window.localStorage.getItem("idtipousuario");
-		  if ((idtipousuario=='3') && (id==0))
-		  {
-			  navigator.notification.alert(
-									'Sem acesso a esta funcionalidade.',  // message
-									alertDismissed,         // callback
-									'Atenção',            // title
-									'OK'                  // buttonName
-				);
-		     // alert('Sem acesso a esta funcionalidade');
-		  
-		  }
-		  else
-		  {
-		// se for passado o id de numero de chamado
-		// redireciona para a página de detalhamento do chamado
-		// caso contrário lista todos os chamados
-		    var idusuario = window.localStorage.getItem("idusuario");
-			if (idusuario == null) 
-			{
-				$('#myNavbar a[href="#login"]').tab('show');
-			}
-			else
-			{
-		
-			   if (id==0)
-			   {
-				$('#myNavbar a[href="#consatendimentofiltro"]').tab('show');
-				//alert(filtro);
-				getChamados(0,filtro);
-			   }
-			   else
-			   {
-				 //alert(id);
-				 $('#myNavbar a[href="#conschamado"]').tab('show');
-				 document.getElementById('edtID').value=id;  
-				 preencheDadosChamado(id);
-				 pegaImagens(id);
-			   }
-		   }
-		  }
-		   
-		   
-		}
 		
 		function exitFromApp(){
 		   window.localStorage.clear();
@@ -985,286 +403,45 @@ function myMap(idchamado,latitude,longitude,div) {
 		 }, options);
 		 }
 		 
-		function alterarChamado()
-		{
-			if ((document.getElementById('edtsolicitante2').value=='') ||
-			(document.getElementById('edtlocal2').value=='') ||
-			(document.getElementById('edtdescricao2').value==''))
-			{
-			   navigator.notification.alert(
-									'Verifique o preenchimento dos campos!',  // message
-									alertDismissed,         // callback
-									'Atenção',            // title
-									'OK'                  // buttonName
-				);
-//				alert('Verifique o preenchimento dos campos!');
-				/*navigator.notification.alert(
-				'Verifique o preenchimento dos campos!',  // message
-				alertDismissed,         // callback
-				'Atenção',            // title
-				'OK'                  // buttonName
-				);
-				*/
-			}
-			else
-			{
-				var solicitante = document.getElementById('edtsolicitante2').value;
-				var local = document.getElementById('edtlocal2').value;
-				var animal = document.getElementById('edtanimal2').value;
-				var idsituacaoanimal = document.getElementById('cmboxsituacaoanimal2').value;
-				var descricao = document.getElementById('edtdescricao2').value;
-				var codusuario = window.localStorage.getItem("idusuario");
-				var idchamado = document.getElementById('edtID').value;
-				//alert(codusuario);
-				var params = "op=A&id="+idchamado+"&codusuario="+codusuario+"&idsituacaoanimal="+idsituacaoanimal+"&solicitante="+solicitante+"&local="+local+"&animal="+animal+"&descricao="+descricao;
-                var resultado = 0;
-                var xmlhttp = new XMLHttpRequest();
-        		
-                xmlhttp.open("GET","https://projetofauna.jbrj.gov.br/exec.chamado.php?"+params,true);
-		
-                xmlhttp.onload = function (){
-					//alert(xmlhttp.status);
-                    if (xmlhttp.status==200)
-                        {
-							resultado = xmlhttp.responseText;
-							if (resultado==true)
-							{	
-								navigator.notification.alert(
-									'Alterado com sucesso',  // message
-									alertDismissed,         // callback
-									'Atenção',            // title
-									'OK'                  // buttonName
-								);
-							    // alert('Alterado com sucesso');
-							}
-							else
-							{
-							navigator.notification.alert(
-									'Não foi possível alterar o chamado!',  // message
-									alertDismissed,         // callback
-									'Atenção',            // title
-									'OK'                  // buttonName
-								);
-								//alert('Não foi possível alterar o chamado');
-							
-								carregaatendimento(idchamado,0);
-							}
-                        }
-                    else if (xmlhttp.status == 404) {
-                        alert("Web Service doesn't work");
-                        
-                    }
-                    else
-                        {
-                            alert("Unknown erro occurred while trying insert data");
-                        }
-                };
-                xmlhttp.send();
-				
-        }
-     }		 
-		 
-	 
 	 	function pegaResultado(filtro)
 		{
-			//alert(filtro);
-			var params = "filtro="+filtro;
-            var resultado = 0;
-            var xmlhttp = new XMLHttpRequest();
-				
-            xmlhttp.open("GET","https://projetofauna.jbrj.gov.br/getchamadojson2.php?"+params,true);
-            xmlhttp.onload = function ()
-			{
-                if (xmlhttp.status==200)
-                {
-					document.getElementById('map3').style.visibility='visible';
-					var myObj = JSON.parse(this.responseText);
-					//myObj = JSON.parse(this.responseText);
-					myMap2('map3',myObj);
+				var params = "filtro="+filtro;
+				var resultado = 0;
+				var xmlhttp = new XMLHttpRequest();
 					
-					/*for (x in myObj) {
-						//txt += myObj[x].idchamado + "<br>";
-						alert(x);
-						myMap(id,myObj[x].latitude,myObj[x].longitude,'map3');
-					}
-					*/
-					
-                }
-                else if (xmlhttp.status == 404) {
-                    alert("Web Service doesn't work");
-                }
-                else
-                {
-                   alert("Unknown erro occurred while trying insert data");
-                }
-            };
-            xmlhttp.send();
-            return resultado; 
-								
-		}
-	 
-
-	 
-
-		function preencheDadosChamado(id)
-		{
-			var params = "id="+id;
-            var resultado = 0;
-            var xmlhttp = new XMLHttpRequest();
-				
-            xmlhttp.open("GET","https://projetofauna.jbrj.gov.br/getchamadojson.php?"+params,true);
-            xmlhttp.onload = function ()
-			{
-                if (xmlhttp.status==200)
-                {
-					var myObj = JSON.parse(this.responseText);
-					document.getElementById("edtsolicitante2").value= myObj.solicitante;
-					document.getElementById("edtlocal2").value = myObj.local;
-					document.getElementById("edtdescricao2").value = myObj.descricao;
-					document.getElementById("edtanimal2").value = myObj.animal;
-					document.getElementById('cmboxsituacaoanimal2').value=myObj.idsituacaoanimal;
-					document.getElementById("edtlocal2").value= myObj.local;
-					document.getElementById('idsituacaochamado').value=myObj.idsituacaochamado;
-							
-							//document.getElementById("edtdata").value= myObj.data;
-							
-					var d = new Date(myObj.data);
-					var datestring = d.getDate()  + "/" + (d.getMonth()+1) + "/" + d.getFullYear() + " " +
-					d.getHours() + ":" + d.getMinutes();
-							
-					document.getElementById("edtdata").value= datestring;
-							
-					document.getElementById("edtatendimento2").value= myObj.atendimento;
-							
-							
-					if (myObj.idsituacaochamado=='3')
+				xmlhttp.open("GET","https://projetofauna.jbrj.gov.br/getchamadojson2.php?"+params,true);
+				xmlhttp.onload = function ()
+				{
+					if (xmlhttp.status==200)
 					{
-						// retirei a linha a pedido da GABI para na fase de teste
-						// eles poderem excluir o chamado após estar fechado
+						document.getElementById('map3').style.visibility='visible';
+						var myObj = JSON.parse(this.responseText);
+						//myObj = JSON.parse(this.responseText);
+						myMap2('map3',myObj);
 						
-						//$(".botao").attr("disabled","");
+						/*for (x in myObj) {
+							//txt += myObj[x].idchamado + "<br>";
+							alert(x);
+							myMap(id,myObj[x].latitude,myObj[x].longitude,'map3');
+						}
+						*/
+						
+					}
+					else if (xmlhttp.status == 404) {
+						alert("Web Service doesn't work");
 					}
 					else
 					{
-						$(".botao").removeAttr("disabled");
+					   alert("Unknown erro occurred while trying insert data");
 					}
-							//alert(myObj.latitude);
-					if (myObj.latitude!=null)
-					{
-						document.getElementById('map2').style.visibility='visible';
-						myMap(id,myObj.latitude,myObj.longitude,'map2');
-					}
-					else
-					{
-						document.getElementById('map2').style.visibility='hidden';
-					}
-							//elements.classList.addClass(" disabled ");
-							//elements.classList.remove("disabled");
-							
-							//disabled
-							
-//document.getElementById("iframemapa").innerHTML='<img src="https://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,NY&zoom=13&size=400x300&maptype=roadmap&markers=color:red%7Clabel:S%7C'+myObj.latitude+','+myObj.longitude+'">';
-                }
-                else if (xmlhttp.status == 404) {
-                    alert("Web Service doesn't work");
-                }
-                else
-                {
-                   alert("Unknown erro occurred while trying insert data");
-                }
-            };
-            xmlhttp.send();
-            return resultado; 
-								
+				};
+				xmlhttp.send();
+				return resultado; 
+			
 		}
 	 
-		function getChamados(id,filtro)
-		{
-         var params = "idusuario="+id+"&filtro="+filtro;
-                var resultado = 0;
-                var xmlhttp = new XMLHttpRequest();
-				
-                xmlhttp.open("GET","https://projetofauna.jbrj.gov.br/getchamados.php?"+params,true);
-                xmlhttp.onload = function (){
-                    if (xmlhttp.status==200)
-                        {
-						    var str = xmlhttp.responseText;
-							if (id==0)
-							{
-								document.getElementById("chamadosfiltro").innerHTML=str;
-							}
-							else
-							{
-								document.getElementById("chamados").innerHTML=str;
-							}
-						}
-                    else if (xmlhttp.status == 404) {
-                        alert("Web Service doesn't work");
-                    }
-                    else
-                        {
-                            alert("Unknown erro occurred while trying insert data");
-                        }
-                };
-                xmlhttp.send();
-                return resultado;       
-       }
-	   
-		function getMeusChamados()
-		{
-		 var codusuario = window.localStorage.getItem("idusuario");
-		 //var codusuario = document.getElementById('idusuario').value;
-		 //alert(codusuario);
-         var params = "idusuario="+codusuario;
-                var resultado = 0;
-                var xmlhttp = new XMLHttpRequest();
-				
-                xmlhttp.open("GET","https://projetofauna.jbrj.gov.br/getchamados.php?"+params,true);
-                xmlhttp.onload = function (){
-                    if (xmlhttp.status==200)
-                        {
-						    var str = xmlhttp.responseText;
-							document.getElementById("chamados").innerHTML=str;
-                        }
-                    else if (xmlhttp.status == 404) {
-                        alert("Web Service doesn't work");
-                    }
-                    else
-                        {
-                            alert("Unknown erro occurred while trying insert data");
-                        }
-                };
-                xmlhttp.send();
-                return resultado;       
-       }
-	   
-	   
-	   function mostraChamadosParaAtender()
-	   {
-	   //alert('');
-			var params = "op=PA"; // para atender
-            var resultado = 0;
-            var xmlhttp = new XMLHttpRequest();
-				
-                xmlhttp.open("GET","https://projetofauna.jbrj.gov.br/getchamados.php?"+params,true);
-                xmlhttp.onload = function (){
-                    if (xmlhttp.status==200)
-                        {
-						    var str = xmlhttp.responseText;
-							document.getElementById("chamadosparaatender").innerHTML=str;
-                        }
-                    else if (xmlhttp.status == 404) {
-                        alert("Web Service doesn't work");
-                    }
-                    else
-                        {
-                            alert("Unknown erro occurred while trying insert data");
-                        }
-                };
-                xmlhttp.send();
-				return resultado;   
-	   }
-		
+
+
 		
 		function alertDismissed() {
 
@@ -1385,21 +562,7 @@ function myMap(idchamado,latitude,longitude,div) {
 	$( document ).ready(function() {
 		$('#myNavbar a[href="#home"]').tab('show');
 		pegaResultado(document.getElementById('edtfiltro').value);
-				
-		//pegaResultado('');
-		// Handler for .ready() called.
-		
-		/*		
-		var idusuario = window.localStorage.getItem("idusuario");
-		//alert(idusuario);
-		if (idusuario == null)
-		{
-			$('#myNavbar a[href="#login"]').tab('show');
-		}
-		else
-		{
-		}
-		*/
+		myMap(0,0,0,'map3');	
 	});
 
 
