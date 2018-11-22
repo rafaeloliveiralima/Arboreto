@@ -42,6 +42,8 @@
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <script src="bootstrap/js/jquery-3.2.1.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhi_DlmaFvRu7eP357bOzl29fyZXKIJE0&libraries=drawing"></script>
+
 <style>
 body {margin:0;}
 
@@ -75,12 +77,15 @@ li.lifooter a:hover:not(.active) {
 .active {
  */   background-color: #4CAF50;*/
 }
+
+
 </style>
 	
     <title>Arboreto JBRJ</title>
 </head>
 
-<body>
+<body >
+
 <ul class="footer">
   <li class="lifooter"></span></li>
 </ul>
@@ -141,12 +146,6 @@ li.lifooter a:hover:not(.active) {
 	<input type='hidden' name='idusuario' id='idusuario' value=''>
 	<input type='hidden' name='nome' id='nome' value=''>
 	<div class="tab-content" id="mytab">
-	
-		<div id="consatendimento" class="tab-pane fade">
-			<div class="container" id='chamados'>
-			</div>
-		</div>
-
 
 		<div id="login" class="tab-pane fade">
 			<div class="container">
@@ -172,37 +171,82 @@ li.lifooter a:hover:not(.active) {
 
 		<div id="home" class="tab-pane fade in active">
 			<div class="container">
-				<div class="form-group">
-					<input type="text" class="form-control input-md" id="edtfiltro" onchange='pegaResultado(this.value)';>
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="input-group">
+							<input type="text" class="form-control" id="edtfiltro" name="edtfiltro"/>
+							<div class="input-group-btn">
+								<button class="btn btn-success" type="button" onclick="pegaResultado(document.getElementById('edtfiltro').value,'','')">
+								<i class="glyphicon glyphicon-search"></i>
+								</button>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div id="map3" style="width:100%;height:500px"></div>
+				
+				<div class="form-group">
+				</div>
+				<button class="btn btn-success btn-block" data-toggle="collapse" data-target="#demo">Clique para ver o resultado</button>
+				<div id="demo" class="collapse">
 				<div class="list-group">
 				  <div id='div_resultado'></div>
 				</div>
+				</div>
+				<div id="map3" style="width:100%;height:500px"></div>
+				
 			</div>			
 		</div>
-		
-		<div id="mapa" class="tab-pane fade">
-			<div class="container">
-				<div id="map" style="width:100%;height:400px"></div>
-<script>
+	</div>
+	
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript">
+        app.initialize();
+		$("ul").on("click", function(){
+			$('.navbar-collapse').collapse('hide');
+		});
 
 var c = 0;
+var latitude = -22.96800;
+var longitude = -43.224738;
 
-function myMap2(div,myObj) {
+
+var mapOptions = {
+		center: new google.maps.LatLng(latitude,longitude), zoom: 16
+};
+	
+function pegaMinhaPosicao()
+{
    navigator.geolocation.getCurrentPosition(onSuccess, onError);
    function onSuccess(position) {
-	var mapCanvas = document.getElementById(div);
-	
-	var latitude = -22.96800;
-	var longitude = -43.224738;
-	var mapOptions = {
-		center: new google.maps.LatLng(latitude,longitude), zoom: 16
-	};
+	latitude = position.getPosition().lat();
+	longitude = position.getPosition().lng();
+   }
+   function onError(error) {
+        alert('code: '    + error.code    + '\n' +
+               'message: ' + error.message + '\n');
+   }
+
+}
 	
 
+function myMap2(div,myObj,minhalat,minhalong) {
+	if (minhalat!='')
+	{
+		latitude = minhalat;
+		longitude = minhalong;
+	}
+	//alert(latitude);
+
+   navigator.geolocation.getCurrentPosition(onSuccess, onError);
+   
+   function onSuccess(position) {
 	
-	var map = new google.maps.Map(mapCanvas, mapOptions);
+var zoom = 16;
+var mapCanvas = document.getElementById(div);
+var map = new google.maps.Map(mapCanvas, mapOptions);	
+	
+	
 	var kmlLayer = new google.maps.KmlLayer({
     	url: 'http://jabot.jbrj.gov.br/v2/canteiros.kml',
     	suppressInfoWindows: true,
@@ -234,7 +278,10 @@ function myMap2(div,myObj) {
 		html2 += '	<div class="d-flex w-100 justify-content-between">';
 		html2 += '	  <h5 >'+myObj[x].siglapj+ ' '+myObj[x].numtombo+' - '+myObj[x].aux_nomecompltaxon+'</h5>';
 		html2 += '	   <p>'+myObj[x].locfisico1 + '/' + myObj[x].locfisico2+'</p>';
-		html2 +='      <img src="http://imagens1.jbrj.gov.br/fsi/server?type=image&source=rbv%2F'+inv+'_01.jpg&width=300&height=100&profile=jpeg&quality=95">';
+		//if (myObj[x].arquivo=='')
+		//{
+			html2 +='      <img id="'+inv+'" src="http://imagens1.jbrj.gov.br/fsi/server?type=image&source=rbv%2F'+inv+'_01.jpg&width=300&height=100&profile=jpeg&quality=95">';
+		//}
 		html2 += '	</div>';
 		if (myObj[x].observacoes==null)
 		{
@@ -262,9 +309,7 @@ function myMap2(div,myObj) {
 		title:""
 		});
 		marker.setMap(map);
-		
 		markers.push(marker);
-		
 		google.maps.event.addListener(marker, 'click', (function(marker, x) {
         return function() {
 		  var html = myObj[x].siglapj+ ' '+myObj[x].numtombo+ '<br>'+myObj[x].aux_nomecompltaxon;
@@ -273,70 +318,82 @@ function myMap2(div,myObj) {
           infowindow.open(map, marker);
         }
       })(marker, x));
+	  
+	  //checkSRC(inv);
+	  
+	 
+	  
 		
 	}
-	navigator.geolocation.getCurrentPosition(onSuccess, onError2);
-	function onSuccess(position) {
-	var mapCanvas = document.getElementById(div);
-	var myLatlng = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+	 function checkSRC(inv)
+		{
+			
+			var elem = document.getElementById(inv);
+			if(elem.getAttribute('src') == "")
+			{
+				alert("empty");
+			}
+			else
+			{
+				alert("HAS a value");
+			}
+			
+		}
 
-	var marker = new google.maps.Marker({
-		position: myLatlng,
+	var markerEU = new google.maps.Marker({
+		position: new google.maps.LatLng(latitude,longitude),
 		draggable:true,
 		icon: 'img/eu.png',
 		title:""
 		});
-	marker.setMap(map);
-	alert(latitude);
-    }
-	 function onError2(error) {
-        alert('code: '    + error.code    + '\n' +
-                'message: ' + error.message + '\n');
-    }
-	document.getElementById('div_resultado').innerHTML = html2;
-
-// To add the marker to the map, call setMap();
-
-    }
-
-    // onError Callback receives a PositionError object
-    //
-    function onError(error) {
-        alert('code: '    + error.code    + '\n' +
-                'message: ' + error.message + '\n');
-    }
-}
-
-
-function myMap(idchamado,latitude,longitude,div) {
+	markerEU.setMap(map);
+	google.maps.event.addListener(markerEU, 'click', function() {
+        return function() {
+		  infowindow.setContent('<a onclick="alert(\'pegaMinhaPosicao()\')">Clique aqui para<br>atualizar minha posição</a>');
+          infowindow.open(map, markerEU);
+        }
+      });
+	  google.maps.event.addListener(markerEU, "dragend", function() {
+      //var position = markerEU.getPosition();
+		
+	  
+	  
+		pegaResultado('',markerEU.getPosition().lat(),markerEU.getPosition().lng());
+	  
+	  
 	
-   navigator.geolocation.getCurrentPosition(onSuccess, onError);
-
-
-    // onError Callback receives a PositionError object
-    //
-    function onError(error) {
-        alert('code: '    + error.code    + '\n' +
-                'message: ' + error.message + '\n');
-    }
-}
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhi_DlmaFvRu7eP357bOzl29fyZXKIJE0&libraries=drawing"></script>
-			</div>
-		</div>
-	</div>
-	
-    <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
-    <script type="text/javascript">
-        app.initialize();
-		$("ul").on("click", function(){
-
-			$('.navbar-collapse').collapse('hide');
-			pegaResultado('');
-			//myMap(0,0,0,'map3');
+	  
+	  
 		});
+		var myCity = new google.maps.Circle({
+			center: new google.maps.LatLng(latitude,longitude),
+			radius:6,
+			strokeColor:"#F9FF00",
+			strokeOpacity:0.8,
+			strokeWeight:3,
+			fillColor:"#D8C11D",
+			fillOpacity:0.2
+		});
+		myCity.setMap(map);	  
+		
+		
 
+	document.getElementById('div_resultado').innerHTML = html2;
+    }
+
+    // onError Callback receives a PositionError object
+    //
+    function onError(error) {
+        alert('code: '    + error.code    + '\n' +
+                'message: ' + error.message + '\n');
+    }
+}
+
+
+
+		
+		
+		
 		
 		function exitFromApp(){
 		   window.localStorage.clear();
@@ -403,28 +460,21 @@ function myMap(idchamado,latitude,longitude,div) {
 		 }, options);
 		 }
 		 
-	 	function pegaResultado(filtro)
+	 	function pegaResultado(filtro,minhalat,minhalong)
 		{
-				var params = "filtro="+filtro;
+				var params = "filtro="+filtro+"&lat="+minhalat+"&long="+minhalong;
 				var resultado = 0;
 				var xmlhttp = new XMLHttpRequest();
-					
-				xmlhttp.open("GET","https://projetofauna.jbrj.gov.br/getchamadojson2.php?"+params,true);
+				xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/getarboretojson.php?"+params,false);
 				xmlhttp.onload = function ()
 				{
 					if (xmlhttp.status==200)
 					{
 						document.getElementById('map3').style.visibility='visible';
 						var myObj = JSON.parse(this.responseText);
-						//myObj = JSON.parse(this.responseText);
-						myMap2('map3',myObj);
+						myMap2('map3',myObj,minhalat,minhalong);
 						
-						/*for (x in myObj) {
-							//txt += myObj[x].idchamado + "<br>";
-							alert(x);
-							myMap(id,myObj[x].latitude,myObj[x].longitude,'map3');
-						}
-						*/
+						
 						
 					}
 					else if (xmlhttp.status == 404) {
@@ -436,8 +486,7 @@ function myMap(idchamado,latitude,longitude,div) {
 					}
 				};
 				xmlhttp.send();
-				return resultado; 
-			
+				return resultado;
 		}
 	 
 
@@ -560,9 +609,10 @@ function myMap(idchamado,latitude,longitude,div) {
      }
 	 
 	$( document ).ready(function() {
+		
 		$('#myNavbar a[href="#home"]').tab('show');
-		pegaResultado(document.getElementById('edtfiltro').value);
-		myMap(0,0,0,'map3');	
+		pegaResultado(document.getElementById('edtfiltro').value,'','');
+		//myMap(0,0,0,'map3');	
 	});
 
 
