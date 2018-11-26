@@ -222,7 +222,8 @@ function pegaMinhaPosicao()
 {
    navigator.geolocation.getCurrentPosition(onSuccess, onError);
    function onSuccess(position) {
-	pegaResultado('',position.getPosition().lat(),position.getPosition().lng());
+	alert(position.getPosition().lat());
+//	pegaResultado('',position.getPosition().lat(),position.getPosition().lng());
    }
    function onError(error) {
         alert('code: '    + error.code    + '\n' +
