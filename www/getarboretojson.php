@@ -92,18 +92,18 @@ and t.codcolbot = 4635
 		$fator = '0.00006';
 		$sql_where = " and contains(Buffer(GeomFromText('SRID=4326;POINT(".$long." ".$lat.")'), 0.00006),p.geom) ";
   	}
+	else
+	{
 
-
-	
 		$sql_where .= " and upper(jabot.subst_caracsport('".str_replace(' ','-',$v)."')) in ( (select upper(jabot.subst_caracsport(nome_vulgar.nomevulgar)) from jabot.taxon_nome_vulgar, jabot.nome_vulgar 
                        where taxon_nome_vulgar.codnomevulgar = nome_vulgar.codnomevulgar 
                        and taxon_nome_vulgar.codarvtaxon = a.codarvtaxon group by 1 )) ";
-	
-
-
+	}
 
 	$sql.= $sql_where;
 	$sql.=' limit 50 ';
+	
+	
 
 $res = pg_exec($conn,$sql);
 $row = pg_fetch_all($res);

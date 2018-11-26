@@ -179,6 +179,9 @@ li.lifooter a:hover:not(.active) {
 								<button class="btn btn-success" type="button" onclick="pegaResultado(document.getElementById('edtfiltro').value,'','')">
 								<i class="glyphicon glyphicon-search"></i>
 								</button>
+								<button class="btn btn-warning" type="button" onclick="pegaMinhaPosicao()">
+								<i class="glyphicon glyphicon-record"></i>
+								</button>
 							</div>
 						</div>
 					</div>
@@ -219,8 +222,7 @@ function pegaMinhaPosicao()
 {
    navigator.geolocation.getCurrentPosition(onSuccess, onError);
    function onSuccess(position) {
-	latitude = position.getPosition().lat();
-	longitude = position.getPosition().lng();
+	pegaResultado('',position.getPosition().lat(),position.getPosition().lng());
    }
    function onError(error) {
         alert('code: '    + error.code    + '\n' +
@@ -354,14 +356,13 @@ var map = new google.maps.Map(mapCanvas, mapOptions);
         }
       });
 	  google.maps.event.addListener(markerEU, "dragend", function() {
+//	  alert(markerEU.getPosition().lat());
+//	  alert(markerEU.getPosition().lng());
       //var position = markerEU.getPosition();
 		
 	  
 	  
 		pegaResultado('',markerEU.getPosition().lat(),markerEU.getPosition().lng());
-	  
-	  
-	
 	  
 	  
 		});
