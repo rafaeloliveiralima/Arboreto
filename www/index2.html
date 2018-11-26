@@ -217,23 +217,34 @@ var longitude = -43.224738;
 var mapOptions = {
 		center: new google.maps.LatLng(latitude,longitude), zoom: 16
 };
+
+
 	
 function pegaMinhaPosicao()
 {
-   navigator.geolocation.getCurrentPosition(onSuccess, onError);
-   function onSuccess(position) {
-	alert(position.getPosition().lat());
-//	pegaResultado('',position.getPosition().lat(),position.getPosition().lng());
-   }
-   function onError(error) {
-        alert('code: '    + error.code    + '\n' +
-               'message: ' + error.message + '\n');
-   }
+	navigator.geolocation.getCurrentPosition(success, error, options);
 
+	var options = {
+	  enableHighAccuracy: true,
+	  timeout: 5000,
+	  maximumAge: 0
+	};
+
+	function success(pos) {
+    var crd = pos.coords;
+	pegaResultado('',crd.latitude,crd.longitude);
+	}
+
+	function error(err) 
+	{
+
+	}
+	
 }
 	
 
 function myMap2(div,myObj,minhalat,minhalong) {
+
 	if (minhalat!='')
 	{
 		latitude = minhalat;
@@ -244,11 +255,10 @@ function myMap2(div,myObj,minhalat,minhalong) {
    navigator.geolocation.getCurrentPosition(onSuccess, onError);
    
    function onSuccess(position) {
-	
-var zoom = 16;
-var mapCanvas = document.getElementById(div);
-var map = new google.maps.Map(mapCanvas, mapOptions);	
-	
+
+    var zoom = 16;
+	var mapCanvas = document.getElementById(div);
+	var map = new google.maps.Map(mapCanvas, mapOptions);	
 	
 	var kmlLayer = new google.maps.KmlLayer({
     	url: 'http://jabot.jbrj.gov.br/v2/canteiros.kml',
@@ -328,20 +338,7 @@ var map = new google.maps.Map(mapCanvas, mapOptions);
 	  
 		
 	}
-	 function checkSRC(inv)
-		{
-			
-			var elem = document.getElementById(inv);
-			if(elem.getAttribute('src') == "")
-			{
-				alert("empty");
-			}
-			else
-			{
-				alert("HAS a value");
-			}
-			
-		}
+
 
 	var markerEU = new google.maps.Marker({
 		position: new google.maps.LatLng(latitude,longitude),
@@ -357,16 +354,12 @@ var map = new google.maps.Map(mapCanvas, mapOptions);
         }
       });
 	  google.maps.event.addListener(markerEU, "dragend", function() {
-//	  alert(markerEU.getPosition().lat());
-//	  alert(markerEU.getPosition().lng());
-      //var position = markerEU.getPosition();
-		
 	  
-	  
-		pegaResultado('',markerEU.getPosition().lat(),markerEU.getPosition().lng());
+	pegaResultado('',markerEU.getPosition().lat(),markerEU.getPosition().lng());
 	  
 	  
 		});
+		
 		var myCity = new google.maps.Circle({
 			center: new google.maps.LatLng(latitude,longitude),
 			radius:6,
@@ -380,7 +373,7 @@ var map = new google.maps.Map(mapCanvas, mapOptions);
 		
 		
 
-	document.getElementById('div_resultado').innerHTML = html2;
+	   document.getElementById('div_resultado').innerHTML = html2;
     }
 
     // onError Callback receives a PositionError object
@@ -556,39 +549,12 @@ var map = new google.maps.Map(mapCanvas, mapOptions);
 								document.getElementById('idusuario').value=window.localStorage.getItem("idusuario");
 								document.getElementById('nome').value=window.localStorage.getItem("uname");
 								
-								//alert('Login efetuado com sucesso';//. Cod:'+window.localStorage.getItem("idusuario")+' - '+window.localStorage.getItem("uname"));
-								/*navigator.notification.alert(
-				'Login efetuado com sucesso.',  // message
-				alertDismissed,         // callback
-				'Atenção',            // title
-				'OK'                  // buttonName
-				);
-				*/
+								
 								$('#myNavbar a[href="#home"]').tab('show');
 
-								/*
-								navigator.notification.alert(
-				'Login efetuado com sucesso.',  // message
-				alertDismissed,         // callback
-				'Atenção',            // title
-				'OK'                  // buttonName
-				);
-				*/
-								//alert('Login efetuado com sucesso');
-								
-							/*	navigator.notification.alert(
-    'Usuário: '+res[1],  // message
-    alertDismissed,         // callback
-    'Login',            // title
-    'OK'                  // buttonName
-);
-	*/							//$("#login").removeClass("in active");
-								//$("#busca").addClass("in active");
                             }
 
-							//alert(params);
-                            //alert(xmlhttp.responseText);
-							//$('#myNavbar a[href="#home"]').tab('show');
+							
 							if (idtiposuaurio<3)
 							{
 							   // mostraChamadosParaAtender();

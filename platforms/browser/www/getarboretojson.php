@@ -49,9 +49,13 @@ ej.latitude,
 ej.longitude,
 t.desaparecido,
 Y(replace(AsText(geom), 'MULTIPOINT', 'POINT')) as \"latitude\",
-X(replace(AsText(geom), 'MULTIPOINT', 'POINT')) as \"longitude\"
+X(replace(AsText(geom), 'MULTIPOINT', 'POINT')) as \"longitude\",
+imagem.arquivo
 
- from jabot.testemunho t left join jabot.individuovivo iv on t.codtestemunho = iv.codindividuovivo
+ from jabot.testemunho t
+ left join jabot.imagem imagem on t.numtombo = cast(imagem.codigobarras as int) and imagem.siglacolbotorigem = 'rbv' and arquivo ilike '%_01.jpg'
+ left join jabot.individuovivo iv on t.codtestemunho = iv.codindividuovivo
+
  left join publicacao.extracao_jabot ej on t.codtestemunho = ej.codtestemunho
  ,
 jabot.determinacao det
