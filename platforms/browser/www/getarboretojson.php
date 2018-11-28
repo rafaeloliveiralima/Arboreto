@@ -6,6 +6,8 @@
 
 //$conexao = new Conexao;
 //$conn2 = $conexao->Conectar();
+//echo "rafael";
+
 
 $conn = pg_connect("host='jb051' dbname='Jardim' user='jabot' password='#1808nccg#-@'");
 
@@ -17,9 +19,12 @@ $v = $_REQUEST['filtro'];
 $lat = $_REQUEST['lat'];
 $long = $_REQUEST['long'];
 
+//$lat = '-22.96800';
+//$long = '-43.224738';
+
 if ((empty($v)) && (empty($lat)))
 {
-	$v = 'xx';
+	$v = 'JUCURUJU';
 }
 
 $f = 'TODOS';
@@ -98,16 +103,33 @@ and t.codcolbot = 4635
   	}
 	else
 	{
-
-		$sql_where .= " and upper(jabot.subst_caracsport('".str_replace(' ','-',$v)."')) in ( (select upper(jabot.subst_caracsport(nome_vulgar.nomevulgar)) from jabot.taxon_nome_vulgar, jabot.nome_vulgar 
-                       where taxon_nome_vulgar.codnomevulgar = nome_vulgar.codnomevulgar 
-                       and taxon_nome_vulgar.codarvtaxon = a.codarvtaxon group by 1 )) ";
+		if (is_numeric($v))
+		{
+			$sql_where = ' and cast(t.numtombo as int) = '.$v;
+		}
+		else
+		{
+		$sql_where .= " and ( a.aux_nomecompltaxon ilike '%".$v."%' or 
+		
+		
+		
+		 a.codarvtaxon in (select taxon_nome_vulgar.codarvtaxon from
+jabot.taxon_nome_vulgar, 
+jabot.nome_vulgar
+where 
+taxon_nome_vulgar.codnomevulgar = nome_vulgar.codnomevulgar and
+nome_vulgar.nomevulgar ilike '%".$v."%' and
+taxon_nome_vulgar.codarvtaxon = a.codarvtaxon)
+		)
+ ";
+		}
 	}
 
 	$sql.= $sql_where;
 	$sql.=' limit 50 ';
 	
-	
+//echo $sql;
+//exit;
 
 $res = pg_exec($conn,$sql);
 $row = pg_fetch_all($res);
@@ -133,4 +155,5 @@ $myObj->longitude= utf8_encode($row['longitude']);*/
 $myJSON = json_encode($row);
 //}
 echo $myJSON;
+//exit;
 ?>

@@ -80,6 +80,7 @@ li.lifooter a:hover:not(.active) {
 
 
 </style>
+  
 	
     <title>Arboreto JBRJ</title>
 </head>
@@ -195,7 +196,8 @@ li.lifooter a:hover:not(.active) {
 				  <div id='div_resultado'></div>
 				</div>
 				</div>
-				<div id="map3" style="width:100%;height:500px"></div>
+   			    <div id='loading'></div>
+				<div id="map" style="width:100%;height:400px"></div>
 				
 			</div>			
 		</div>
@@ -209,40 +211,247 @@ li.lifooter a:hover:not(.active) {
 			$('.navbar-collapse').collapse('hide');
 		});
 
+var markers = new Array();
 var c = 0;
 var latitude = -22.96800;
 var longitude = -43.224738;
-
-
+var zoom = 16;
+var mapCanvas = document.getElementById('map');
 var mapOptions = {
 		center: new google.maps.LatLng(latitude,longitude), zoom: 16
 };
 
-
-	
-function pegaMinhaPosicao()
-{
-	navigator.geolocation.getCurrentPosition(success, error, options);
-
-	var options = {
+var options = {
 	  enableHighAccuracy: true,
 	  timeout: 5000,
 	  maximumAge: 0
-	};
+};	
 
+		var map = new google.maps.Map(mapCanvas, mapOptions);	
+		var kmlLayer = new google.maps.KmlLayer({
+				url: 'http://jabot.jbrj.gov.br/v2/canteiros.kml',
+				suppressInfoWindows: true,
+				map: map,
+				preserveViewport: true
+		});
+
+		var kmlLayer2 = new google.maps.KmlLayer({
+				url: 'http://jabot.jbrj.gov.br/v2/drenagem_wgs84.kml',
+				suppressInfoWindows: true,
+				map: map,
+				preserveViewport: true
+		});		
+
+
+function pegaMinhaPosicao()
+{
+	navigator.geolocation.getCurrentPosition(success, error, options);
 	function success(pos) {
-    var crd = pos.coords;
-	pegaResultado('',crd.latitude,crd.longitude);
+
+		var crd = pos.coords;
+		var markerEU = new google.maps.Marker({
+			position: new google.maps.LatLng(crd.latitude,crd.longitude),
+			draggable:true,
+			icon: 'img/eu.png',
+			title:""
+			});
+					
+			
+		markerEU.setMap(map);
+		var Circulo = new google.maps.Circle({
+			center: new google.maps.LatLng(crd.latitude,crd.longitude),
+			radius:6,
+			strokeColor:"#F9FF00",
+			strokeOpacity:0.8,
+			strokeWeight:3,
+			fillColor:"#D8C11D",
+			fillOpacity:0.2
+		});
+		Circulo.setMap(map);	
+		pegaResultado('',crd.latitude,crd.longitude);
+        google.maps.event.addListener(markerEU, "dragend", function() {
+			 pegaResultado('',markerEU.getPosition().lat(),markerEU.getPosition().lng());
+		});
 	}
 
 	function error(err) 
 	{
 
 	}
-	
 }
-	
 
+function setMapOnAll(map) {
+        for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(map);
+        }
+      }
+
+function pegaResultado(filtro,minhalat,minhalong)
+{
+	//alert(filtro);
+	//alert(minhalong);
+	//alert(minhalong);
+	document.getElementById('loading').innerHTML = "<img src='img/spinner2.gif'>";
+
+	var params = "filtro="+filtro+"&lat="+minhalat+"&long="+minhalong;
+	var resultado = 0;
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/getarboretojson.php?"+params,false);
+	xmlhttp.onload = function ()
+	{
+		if (xmlhttp.status==200)
+		{
+			document.getElementById('map').style.visibility='visible';
+			//alert(this.responseText);
+			var myObj = JSON.parse(this.responseText);
+			setMapOnAll(null);
+			criaPontos(myObj);
+			document.getElementById('loading').innerHTML = "";
+			
+
+			//myMap2('map3',myObj,minhalat,minhalong);
+		}
+		else if (xmlhttp.status == 404) {
+			alert("Web Service doesn't work");
+		}
+		else
+		{
+		   alert("Unknown erro occurred while trying insert data");
+		}
+	};
+	xmlhttp.send();
+	return resultado;
+}
+
+function criaPontos(myObj)
+{
+	
+	var marker, i;
+	var htmlimagem = '';
+	var html2 = '';
+	var zeros = "00000000";
+	for (x in myObj) {
+		var qtd = myObj[x].numtombo.length;
+		zeros = zeros.substring(0,8-qtd);
+		var inv = zeros + myObj[x].numtombo;	
+	
+		html2 += '<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">';
+		html2 += '	<button type="button" class="btn btn-primary" onclick="abreCamera()"><span class="glyphicon glyphicon-camera"></span></button><div class="d-flex w-100 justify-content-between">';
+		html2 += '	   <h5 >'+myObj[x].siglapj+ ' '+myObj[x].numtombo+' - '+myObj[x].aux_nomecompltaxon+'</h5>';
+		html2 += '	   <p>'+myObj[x].locfisico1 + '/' + myObj[x].locfisico2+'</p>';
+		//alert(myObj[x].arquivo);
+		htmlimagem = '';
+		if (myObj[x].arquivo!=null)
+		{
+			htmlimagem = '      <img id="'+inv+'" src="http://imagens1.jbrj.gov.br/fsi/server?type=image&source=rbv%2F'+inv+'_01.jpg&width=300&height=100&profile=jpeg&quality=95">';
+		}
+		html2 += htmlimagem + '	</div>';
+		if (myObj[x].observacoes==null)
+		{
+		}
+		else
+		{
+			html2 += '	 <small>'+myObj[x].observacoes+'</small>';
+		}
+
+		
+		html2 += '</a>';
+
+		var myLatlng = new google.maps.LatLng(myObj[x].latitude,myObj[x].longitude);
+		var marker = new google.maps.Marker({
+		position: myLatlng,
+		draggable:false,
+		icon: {
+					path: google.maps.SymbolPath.CIRCLE,
+					scale: 8,
+					fillColor: '#A74EAF',
+					fillOpacity: 0.8,
+					strokeColor: '#fff',
+					strokeWeight: 3
+			},
+		title:""
+		});
+		marker.setMap(map);
+		markers.push(marker);
+		var infowindow = new google.maps.InfoWindow();
+		google.maps.event.addListener(marker, 'click', (function(marker, x) {
+        return function() {
+		  var qtd = myObj[x].numtombo.length;
+		  zeros = zeros.substring(0,8-qtd);
+		  var inv = zeros + myObj[x].numtombo;
+		  var html = myObj[x].siglapj+ ' '+myObj[x].numtombo+ '<br>'+myObj[x].aux_nomecompltaxon;
+          html+='<br>'+myObj[x].locfisico1 + '/' + myObj[x].locfisico2;
+		  htmlimagem = '';
+		  if (myObj[x].arquivo!=null)
+		  {
+			htmlimagem = '      <img id="'+inv+'" src="http://imagens1.jbrj.gov.br/fsi/server?type=image&source=rbv%2F'+inv+'_01.jpg&width=300&height=100&profile=jpeg&quality=95">';
+		  }
+		  html+='<br>'+htmlimagem;
+		  //if (myObj[x].arquivo!='')
+		  //{
+		//	 html +='<br><img id="'+inv+'" src="http://imagens1.jbrj.gov.br/fsi/server?type=image&source=rbv%2F'+inv+'_01.jpg&width=300&height=100&profile=jpeg&quality=95">';
+		 // }
+		  
+		  infowindow.setContent(html);
+          infowindow.open(map, marker);
+        }
+      })(marker, x));
+	}
+	document.getElementById('div_resultado').innerHTML = html2;
+}
+
+function abreCamera()
+{
+   var tipo = 'CAMERA';
+   getImage(tipo);
+}
+
+function getImage(tipo) {
+	if (tipo=='CAMERA')
+	{
+		navigator.camera.getPicture(uploadPhoto, function(message) {
+			alert('get picture failed');
+		}, {
+		quality: 25,
+		destinationType: navigator.camera.DestinationType.FILE_URI,
+		sourceType: navigator.camera.PictureSourceType.CAMERA
+		});
+	}
+	else
+	{
+		navigator.camera.getPicture(uploadPhoto, function(message) {
+			alert('get picture failed');
+		}, {
+		quality: 25,
+		destinationType: navigator.camera.DestinationType.FILE_URI,
+		sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+		});
+	}
+}
+
+function uploadPhoto(imageURI) {
+	 var options = new FileUploadOptions();
+	 options.fileKey = "file";
+	 options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
+	 //options.fileName = leftPad(document.getElementById('edtID').value,4)+'_'+imageURI.substr(imageURI.lastIndexOf('/') + 1);
+	 options.mimeType = "image/jpeg";
+	 console.log(options.fileName);
+	 var params = new Object();
+	 params.value1 = "test";
+	 params.value2 = "param";
+	 options.params = params;
+	 options.chunkedMode = false;
+
+	var ft = new FileTransfer();
+	 ft.upload(imageURI, "https://jabot.jbrj.gov.br/arboreto/upload.php", function(result){
+	 console.log(JSON.stringify(result));
+	 }, function(error){
+	 console.log(JSON.stringify(error));
+	 }, options);
+}
+
+	
+/*
 function myMap2(div,myObj,minhalat,minhalong) {
 
 	if (minhalat!='')
@@ -275,69 +484,6 @@ function myMap2(div,myObj,minhalat,minhalong) {
 
 	var infowindow = new google.maps.InfoWindow();
 	
-	var marker, i;
-    var markers = new Array();
-	var html2 = '';
-	
-	var zeros = "00000000";
-	
-	for (x in myObj) {
-	
-		var qtd = myObj[x].numtombo.length;
-		zeros = zeros.substring(0,8-qtd);
-		var inv = zeros + myObj[x].numtombo;	
-	
-		html2 += '<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">';
-		html2 += '	<div class="d-flex w-100 justify-content-between">';
-		html2 += '	  <h5 >'+myObj[x].siglapj+ ' '+myObj[x].numtombo+' - '+myObj[x].aux_nomecompltaxon+'</h5>';
-		html2 += '	   <p>'+myObj[x].locfisico1 + '/' + myObj[x].locfisico2+'</p>';
-		//if (myObj[x].arquivo=='')
-		//{
-			html2 +='      <img id="'+inv+'" src="http://imagens1.jbrj.gov.br/fsi/server?type=image&source=rbv%2F'+inv+'_01.jpg&width=300&height=100&profile=jpeg&quality=95">';
-		//}
-		html2 += '	</div>';
-		if (myObj[x].observacoes==null)
-		{
-		}
-		else
-		{
-			html2 += '	 <small>'+myObj[x].observacoes+'</small>';
-		}
-
-		
-		html2 += '</a>';
-
-		var myLatlng = new google.maps.LatLng(myObj[x].latitude,myObj[x].longitude);
-		var marker = new google.maps.Marker({
-		position: myLatlng,
-		draggable:false,
-		icon: {
-					path: google.maps.SymbolPath.CIRCLE,
-					scale: 8,
-					fillColor: '#A74EAF',
-					fillOpacity: 0.8,
-					strokeColor: '#fff',
-					strokeWeight: 3
-			},
-		title:""
-		});
-		marker.setMap(map);
-		markers.push(marker);
-		google.maps.event.addListener(marker, 'click', (function(marker, x) {
-        return function() {
-		  var html = myObj[x].siglapj+ ' '+myObj[x].numtombo+ '<br>'+myObj[x].aux_nomecompltaxon;
-          html+='<br>'+myObj[x].locfisico1 + '/' + myObj[x].locfisico2;
-		  infowindow.setContent(html);
-          infowindow.open(map, marker);
-        }
-      })(marker, x));
-	  
-	  //checkSRC(inv);
-	  
-	 
-	  
-		
-	}
 
 
 	var markerEU = new google.maps.Marker({
@@ -355,7 +501,7 @@ function myMap2(div,myObj,minhalat,minhalong) {
       });
 	  google.maps.event.addListener(markerEU, "dragend", function() {
 	  
-	pegaResultado('',markerEU.getPosition().lat(),markerEU.getPosition().lng());
+	//pegaResultado('',markerEU.getPosition().lat(),markerEU.getPosition().lng());
 	  
 	  
 		});
@@ -575,16 +721,20 @@ function myMap2(div,myObj,minhalat,minhalong) {
 				
          
      }
-	 
+	 */
 	$( document ).ready(function() {
 		
 		$('#myNavbar a[href="#home"]').tab('show');
-		pegaResultado(document.getElementById('edtfiltro').value,'','');
+
+		
+		//pegaResultado(document.getElementById('edtfiltro').value,'','');
 		//myMap(0,0,0,'map3');	
 	});
 
 
     </script>
+	
+				
 </body>
 
 </html>
