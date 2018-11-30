@@ -415,18 +415,23 @@ function criaPontos(myObj)
 		var inv = zeros + myObj[x].numtombo;	
 	
 		html2 += '<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">';
+		html2 += '<div class="d-flex w-100 justify-content-between">';
+		html2 += '	   <h5 >'+myObj[x].siglapj+ ' '+myObj[x].numtombo+' - '+myObj[x].aux_nomecompltaxon+'</h5>';
+		html2 += '	   <p>'+myObj[x].locfisico1 + '/' + myObj[x].locfisico2+'</p>';
 		html2 += '	<button type="button" class="btn btn-primary" onclick="abreCamera(01,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-camera"></span> 01</button>';
 		html2 += '	<button type="button" class="btn btn-primary" onclick="abreCamera(02,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-camera"></span> 02</button>';
 		html2 += '	<button type="button" class="btn btn-primary" onclick="abreCamera(03,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-camera"></span> 03</button>';
 		html2 += '	<button type="button" class="btn btn-primary" onclick="abreCamera(04,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-camera"></span> 04</button>';
-		html2 += '<div class="d-flex w-100 justify-content-between">';
-		html2 += '	   <h5 >'+myObj[x].siglapj+ ' '+myObj[x].numtombo+' - '+myObj[x].aux_nomecompltaxon+'</h5>';
-		html2 += '	   <p>'+myObj[x].locfisico1 + '/' + myObj[x].locfisico2+'</p>';
+		html2 += '	<button type="button" class="btn btn-primary" onclick="pegaImagens('+myObj[x].numtombo+')"><span class="glyphicon glyphicon-refresh"></span></button>';
+		//html2 += '	<img id="'+inv+'_01" src="https://aplicacoes.jbrj.gov.br/jabot/arboreto/upload/'+inv+'_01.jpg'+'" width=100px">';
+		//html2 += '	<img id="'+inv+'_02" src="https://aplicacoes.jbrj.gov.br/jabot/arboreto/upload/'+inv+'_02.jpg'+'" width=100px">';
+		//html2 += '	<img id="'+inv+'_03" src="https://aplicacoes.jbrj.gov.br/jabot/arboreto/upload/'+inv+'_03.jpg'+'" width=100px">';
+		//html2 += '	<img id="'+inv+'_04" src="https://aplicacoes.jbrj.gov.br/jabot/arboreto/upload/'+inv+'_04.jpg'+'" width=100px">';
 		//alert(myObj[x].arquivo);
 		htmlimagem = '';
 		if (myObj[x].arquivo!=null)
 		{
-			htmlimagem = '      <img id="'+inv+'" src="http://imagens1.jbrj.gov.br/fsi/server?type=image&source=rbv%2F'+inv+'_01.jpg&width=300&height=100&profile=jpeg&quality=95">';
+			htmlimagem = '      <img id="div'+myObj[x].numtombo+'" src="http://imagens1.jbrj.gov.br/fsi/server?type=image&source=rbv%2F'+inv+'_01.jpg&width=300&height=100&profile=jpeg&quality=95">';
 		}
 		html2 += htmlimagem + '	</div>';
 		if (myObj[x].observacoes==null)
@@ -438,7 +443,7 @@ function criaPontos(myObj)
 		}
 
 		
-		html2 += '</a>';
+		html2 += '<div id="imagem'+myObj[x].numtombo+'"</div></a>';
 
 		var myLatlng = new google.maps.LatLng(myObj[x].latitude,myObj[x].longitude);
 		var marker = new google.maps.Marker({
@@ -467,7 +472,7 @@ function criaPontos(myObj)
 		  htmlimagem = '';
 		  if (myObj[x].arquivo!=null)
 		  {
-			htmlimagem = '      <img id="'+inv+'" src="http://imagens1.jbrj.gov.br/fsi/server?type=image&source=rbv%2F'+inv+'_01.jpg&width=300&height=100&profile=jpeg&quality=95">';
+			htmlimagem = '      <img id="div'+myObj[x].numtombo+'" src="http://imagens1.jbrj.gov.br/fsi/server?type=image&source=rbv%2F'+inv+'_01.jpg&width=300&height=100&profile=jpeg&quality=95">';
 		  }
 		  html+='<br>'+htmlimagem;
 		  //if (myObj[x].arquivo!='')
@@ -542,7 +547,33 @@ function uploadPhoto(imageURI) {
 	 }, options);
 }
 
-	
+
+function pegaImagens(id)
+{
+ var params = "id="+id;
+		var resultado = 0;
+		var xmlhttp = new XMLHttpRequest();
+		
+		xmlhttp.open("GET","https://aplicacoes.jbrj.gov.br/jabot/arboreto/listafotos.php?"+params,false);
+		xmlhttp.onload = function (){
+			if (xmlhttp.status==200)
+				{
+					var html = this.responseText;
+					var div = 'imagem'+id;
+					document.getElementById(div).innerHTML = html;
+				}
+			else if (xmlhttp.status == 404) {
+				alert("Web Service doesn't work");
+			}
+			else
+				{
+					alert("Unknown erro occurred while trying insert data");
+				}
+		};
+		xmlhttp.send();
+	return resultado;       
+}
+
 /*
 function myMap2(div,myObj,minhalat,minhalong) {
 
