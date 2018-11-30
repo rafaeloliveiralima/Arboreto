@@ -210,7 +210,8 @@ li.lifooter a:hover:not(.active) {
 		$("ul").on("click", function(){
 			$('.navbar-collapse').collapse('hide');
 		});
-
+var gnumtombo = '';
+var gtipofoto = '';
 var markers = new Array();
 var c = 0;
 var latitude = -22.96800;
@@ -242,6 +243,84 @@ var options = {
 				preserveViewport: true
 		});		
 
+
+	/*function login()
+	{
+	
+	var login = document.getElementById('edtlogin').value;
+	var senha = document.getElementById('edtsenha').value;
+	var uuid = document.getElementById('edtuuid').value;
+	//alert(ime);
+	 //document.getElementById('edtlabel').innerHTML="Usuario: "+usuario+" Lat/Long: "+latitude + ','+ longitude + ' Equipe: '+equipe;
+	 var params = "edtlogin="+login+"&edtsenha="+senha+"&edtuuid="+uuid;
+			var resultado = 0;
+			var xmlhttp = new XMLHttpRequest();
+			//alert(latitude);
+			
+			xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/testaloginapp.php?"+params,false);
+			//xmlhttp.setRequestHeader( 'Access-Control-Allow-Origin', '*');
+
+			xmlhttp.onload = function (){
+				//alert(xmlhttp.status);
+				if (xmlhttp.status==200)
+					{
+						var str = xmlhttp.responseText;
+						//alert(str);
+						if (str.substring(0, 4)=='ERRO')
+						{
+							document.getElementById('div_dadoslogin').innerHTML='<p class="navbar-text">LOGIN INVÁLIDO</p>';
+
+							navigator.notification.alert(
+								'Não foi possível efetuar o login.',  // message
+								alertDismissed,         // callback
+								'Atenção',            // title
+								'OK'                  // buttonName
+							);
+							
+							//alert('Não foi possível efetuar o login.');
+						}
+						else
+						{
+							
+							var res = str.split("|");
+							//alert(res[0]);
+							var codusuario = res[0];
+							var username = res[1];
+							var idtiposuaurio = res[2];
+							var tiposuaurio = res[3];
+							var idsituacaousuario = res[4];
+
+							window.localStorage.setItem("uname", username);
+							window.localStorage.setItem("idusuario",codusuario);
+							window.localStorage.setItem("idtipousuario",idtiposuaurio);
+							window.localStorage.setItem("tipousuario",tiposuaurio);
+							window.localStorage.setItem("idsituacaousuario",idsituacaousuario);
+							
+							document.getElementById('div_dadoslogin').innerHTML='<p class="navbar-text">'+username+' ('+tiposuaurio+')</p>';
+							
+							document.getElementById('idusuario').value=window.localStorage.getItem("idusuario");
+							document.getElementById('nome').value=window.localStorage.getItem("uname");
+							
+							
+							$('#myNavbar a[href="#home"]').tab('show');
+
+						}
+					}
+				else if (xmlhttp.status == 404) {
+					alert("Web Service doesn't work");
+					
+				}
+				else
+					{
+						alert("Unknown erro occurred while trying insert data");
+					}
+			};
+			xmlhttp.send();
+			return resultado;
+ }
+		*/
+		
+		
 
 function pegaMinhaPosicao()
 {
@@ -336,7 +415,11 @@ function criaPontos(myObj)
 		var inv = zeros + myObj[x].numtombo;	
 	
 		html2 += '<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">';
-		html2 += '	<button type="button" class="btn btn-primary" onclick="abreCamera()"><span class="glyphicon glyphicon-camera"></span></button><div class="d-flex w-100 justify-content-between">';
+		html2 += '	<button type="button" class="btn btn-primary" onclick="abreCamera(01,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-camera"></span> 01</button>';
+		html2 += '	<button type="button" class="btn btn-primary" onclick="abreCamera(02,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-camera"></span> 02</button>';
+		html2 += '	<button type="button" class="btn btn-primary" onclick="abreCamera(03,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-camera"></span> 03</button>';
+		html2 += '	<button type="button" class="btn btn-primary" onclick="abreCamera(04,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-camera"></span> 04</button>';
+		html2 += '<div class="d-flex w-100 justify-content-between">';
 		html2 += '	   <h5 >'+myObj[x].siglapj+ ' '+myObj[x].numtombo+' - '+myObj[x].aux_nomecompltaxon+'</h5>';
 		html2 += '	   <p>'+myObj[x].locfisico1 + '/' + myObj[x].locfisico2+'</p>';
 		//alert(myObj[x].arquivo);
@@ -400,8 +483,10 @@ function criaPontos(myObj)
 	document.getElementById('div_resultado').innerHTML = html2;
 }
 
-function abreCamera()
+function abreCamera(tipofoto,numtombo)
 {
+   gtipofoto = tipofoto;
+   gnumtombo = numtombo;
    var tipo = 'CAMERA';
    getImage(tipo);
 }
@@ -432,8 +517,9 @@ function getImage(tipo) {
 function uploadPhoto(imageURI) {
 	 var options = new FileUploadOptions();
 	 options.fileKey = "file";
-	 options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
-	 //options.fileName = leftPad(document.getElementById('edtID').value,4)+'_'+imageURI.substr(imageURI.lastIndexOf('/') + 1);
+	 //options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
+//	 options.fileName = leftPad(document.getElementById('edtID').value,4)+'_'+imageURI.substr(imageURI.lastIndexOf('/') + 1);
+	 options.fileName = leftPad(gnumtombo,4)+'_'+gtipofoto;
 	 options.mimeType = "image/jpeg";
 	 console.log(options.fileName);
 	 var params = new Object();
@@ -638,89 +724,7 @@ function myMap2(div,myObj,minhalat,minhalong) {
 		}
 
 		
-		function login()
-		{
-		
-		var login = document.getElementById('edtlogin').value;
-		var senha = document.getElementById('edtsenha').value;
-		var uuid = document.getElementById('edtuuid').value;
-		//alert(ime);
-	     //document.getElementById('edtlabel').innerHTML="Usuario: "+usuario+" Lat/Long: "+latitude + ','+ longitude + ' Equipe: '+equipe;
-         var params = "edtlogin="+login+"&edtsenha="+senha+"&edtuuid="+uuid;
-                var resultado = 0;
-                var xmlhttp = new XMLHttpRequest();
-                //alert(latitude);
-				
-                xmlhttp.open("GET","https://projetofauna.jbrj.gov.br/testaloginapp.php?"+params,false);
-				//xmlhttp.setRequestHeader( 'Access-Control-Allow-Origin', '*');
 
-                xmlhttp.onload = function (){
-					//alert(xmlhttp.status);
-                    if (xmlhttp.status==200)
-                        {
-						    var str = xmlhttp.responseText;
-							//alert(str);
-							if (str.substring(0, 4)=='ERRO')
-							{
-								document.getElementById('div_dadoslogin').innerHTML='<p class="navbar-text">LOGIN INVÁLIDO</p>';
-
-								navigator.notification.alert(
-									'Não foi possível efetuar o login.',  // message
-									alertDismissed,         // callback
-									'Atenção',            // title
-									'OK'                  // buttonName
-								);
-								
-								//alert('Não foi possível efetuar o login.');
-							}
-							else
-							{
-								
-								var res = str.split("|");
-								//alert(res[0]);
-								var codusuario = res[0];
-								var username = res[1];
-								var idtiposuaurio = res[2];
-								var tiposuaurio = res[3];
-								var idsituacaousuario = res[4];
-
-								window.localStorage.setItem("uname", username);
-								window.localStorage.setItem("idusuario",codusuario);
-								window.localStorage.setItem("idtipousuario",idtiposuaurio);
-								window.localStorage.setItem("tipousuario",tiposuaurio);
-								window.localStorage.setItem("idsituacaousuario",idsituacaousuario);
-								
-								document.getElementById('div_dadoslogin').innerHTML='<p class="navbar-text">'+username+' ('+tiposuaurio+')</p>';
-								
-								document.getElementById('idusuario').value=window.localStorage.getItem("idusuario");
-								document.getElementById('nome').value=window.localStorage.getItem("uname");
-								
-								
-								$('#myNavbar a[href="#home"]').tab('show');
-
-                            }
-
-							
-							if (idtiposuaurio<3)
-							{
-							   // mostraChamadosParaAtender();
-							}
-
-                        }
-                    else if (xmlhttp.status == 404) {
-                        alert("Web Service doesn't work");
-                        
-                    }
-                    else
-                        {
-                            alert("Unknown erro occurred while trying insert data");
-                        }
-                };
-                xmlhttp.send();
-                return resultado;
-				
-         
-     }
 	 */
 	$( document ).ready(function() {
 		
