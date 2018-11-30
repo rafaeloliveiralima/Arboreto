@@ -517,9 +517,9 @@ function getImage(tipo) {
 function uploadPhoto(imageURI) {
 	 var options = new FileUploadOptions();
 	 options.fileKey = "file";
-	 //options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
+	 options.fileName = gnumtombo+'-'+imageURI.substr(imageURI.lastIndexOf('/') + 1);
 //	 options.fileName = leftPad(document.getElementById('edtID').value,4)+'_'+imageURI.substr(imageURI.lastIndexOf('/') + 1);
-	 options.fileName = leftPad(gnumtombo,4)+'_'+gtipofoto;
+//	 options.fileName = leftPad(gnumtombo,4)+'_'+gtipofoto;
 	 options.mimeType = "image/jpeg";
 	 console.log(options.fileName);
 	 var params = new Object();
