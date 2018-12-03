@@ -297,14 +297,14 @@ var options = {
 	 var params = "edtlogin="+login+"&edtsenha="+senha+"&edtuuid="+uuid;
 			var resultado = 0;
 			var xmlhttp = new XMLHttpRequest();
-			alert(params);
+			//alert(params);
 			
 			//xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/testaloginapp.php?"+params,false);
 			//xmlhttp.setRequestHeader( 'Access-Control-Allow-Origin', '*');
 			xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/testaloginapp.php?"+params,false);
 			
 			xmlhttp.onload = function (){
-				alert(xmlhttp.status);
+				//alert(xmlhttp.status);
 				if (xmlhttp.status==200)
 					{
 						var str = xmlhttp.responseText;
@@ -373,7 +373,7 @@ function pegaMinhaPosicao()
 
 		Circulo.setCenter(myLatlng);
 		raio = parseInt(document.getElementById('edtraio').value);
-		alert(raio);
+		//alert(raio);
 		Circulo.setRadius(raio);
 		Circulo.setMap(map);	
 
