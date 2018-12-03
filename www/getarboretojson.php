@@ -18,6 +18,11 @@ $id = $_REQUEST['id'];
 $v = $_REQUEST['filtro'];
 $lat = $_REQUEST['lat'];
 $long = $_REQUEST['long'];
+$raio = $_REQUEST['raio'];
+if (empty($raio))
+{
+	$raio = 6;
+}
 
 //$lat = '-22.96800';
 //$long = '-43.224738';
@@ -98,8 +103,8 @@ and t.codcolbot = 4635
 ";
 	if ((!empty($lat)) && (!empty($long)))
 	{
-		$fator = '0.00006';
-		$sql_where = " and contains(Buffer(GeomFromText('SRID=4326;POINT(".$long." ".$lat.")'), 0.00006),p.geom) ";
+		$fator = $raio/100000;//'0.00006';
+		$sql_where = " and contains(Buffer(GeomFromText('SRID=4326;POINT(".$long." ".$lat.")'), ".$fator."),p.geom) ";
   	}
 	else
 	{

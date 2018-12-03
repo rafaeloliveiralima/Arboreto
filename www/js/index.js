@@ -40,23 +40,23 @@ var app = {
         app.receivedEvent('deviceready');
 		document.getElementById('div_dadoslogin').innerHTML = '';
 		login();
-        //var codusuario = window.localStorage.getItem("codusuario");
-        //var nome = window.localStorage.getItem("uname");
-//		if (codusuario == null)
-//		{
+        var codusuario = window.localStorage.getItem("codusuario");
+        var nome = window.localStorage.getItem("uname");
+		if (codusuario == null)
+		{
 			//alert('codusuario = null');
-	//		$('#myNavbar a[href="#login"]').tab('show');
-//		}
-//		else
-//		{
-		//	document.getElementById('edtsolicitante').value=nome;
-		//	document.getElementById('idusuario').value=codusuario;
+			$('#myNavbar a[href="#login"]').tab('show');
+		}
+		else
+		{
+			document.getElementById('edtsolicitante').value=nome;
+			document.getElementById('idusuario').value=codusuario;
 			
-		//	document.getElementById('nome').value=nome;
-		//	var res2 = '<p class="navbar-text">'+nome+'</p>';
-		//	document.getElementById('div_dadoslogin').innerHTML=res2;
-		//	$('#myNavbar a[href="#home"]').tab('show');
-//		}
+			document.getElementById('nome').value=nome;
+			var res2 = '<p class="navbar-text">'+nome+'</p>';
+			document.getElementById('div_dadoslogin').innerHTML=res2;
+			$('#myNavbar a[href="#home"]').tab('show');
+		}
      	//document.addEventListener("backbutton", onBackKeyDown, false);
             // Handle the back button
             //

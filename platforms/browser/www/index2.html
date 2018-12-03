@@ -120,13 +120,13 @@ li.lifooter a:hover:not(.active) {
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>	
 		  </button>
-		  <a class="navbar-brand" href="index2.html">Arboreto 0.2</a>
+		  <a class="navbar-brand" href="index2.html">Arboreto 0.8</a>
 		  <span id="div_dadoslogin" ></span>
 
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">	
 			<ul class="nav navbar-nav">
-			  <li class="active"><a data-toggle="pill" href="#home">Home</a></li>
+			  <li class="active"><a data-toggle="pill" href="#home">Mapa</a></li>
 			  <!--<li class='hidden'><a data-toggle="pill" href="#novochamado" >Novo chamado</a></li>
 			  <li><a onclick='novochamado()'>Novo chamado</a></li>
 			  <li><a onclick='meuschamados()'>Meus chamados</a></li>
@@ -137,6 +137,7 @@ li.lifooter a:hover:not(.active) {
 			  <li class='hidden'><a data-toggle="pill" href="#mapa">Mapa Ocorrência</a></li>
 			  -->
 			  <li><a data-toggle="pill" href="#login"><span class="glyphicon glyphicon-user"></span> Login</a></li>
+			  <li><a data-toggle="pill" href="#config"><span class="glyphicon glyphicon-wrench"></span> Configuração</a></li>
 			  <li><a onclick='exitFromApp()'><span class="glyphicon glyphicon-log-out"></span> Sair</a></li>
 			</ul>
 			
@@ -169,6 +170,31 @@ li.lifooter a:hover:not(.active) {
 			</div>
 		</div>
 		
+		
+		
+		<div id="config" class="tab-pane fade">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12">
+					<div class="form-group">
+						<label for="usr">Raio em metros:</label>
+						<input type="number" name="edtraio" id='edtraio' class="form-control" min="1" max="20" step="1" value="6">
+					</div>
+						<div class="input-group">
+							<input type="text" class="form-control" id="edtfiltro" name="edtfiltro"/>
+							<div class="input-group-btn">
+								<button class="btn btn-success" type="button" onclick="pegaResultado(document.getElementById('edtfiltro').value,'','')">
+								<i class="glyphicon glyphicon-search"></i> Buscar
+								</button>
+								<button class="btn btn-danger" type="button" onclick="pegaMinhaPosicao()">
+								<span class="glyphicon glyphicon-map-marker"></span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<div id="home" class="tab-pane fade in active">
 			<div class="container">
@@ -178,10 +204,10 @@ li.lifooter a:hover:not(.active) {
 							<input type="text" class="form-control" id="edtfiltro" name="edtfiltro"/>
 							<div class="input-group-btn">
 								<button class="btn btn-success" type="button" onclick="pegaResultado(document.getElementById('edtfiltro').value,'','')">
-								<i class="glyphicon glyphicon-search"></i>
+								<i class="glyphicon glyphicon-search"></i> Buscar
 								</button>
-								<button class="btn btn-warning" type="button" onclick="pegaMinhaPosicao()">
-								<i class="glyphicon glyphicon-record"></i>
+								<button class="btn btn-danger" type="button" onclick="pegaMinhaPosicao()">
+								<span class="glyphicon glyphicon-map-marker"></span>
 								</button>
 							</div>
 						</div>
@@ -190,14 +216,14 @@ li.lifooter a:hover:not(.active) {
 				
 				<div class="form-group">
 				</div>
-				<button class="btn btn-success btn-block" data-toggle="collapse" data-target="#demo">Clique para ver o resultado</button>
+				<div id="map" style="width:100%;height:400px"></div>
+				<button class="btn btn-primary btn-block" data-toggle="collapse" data-target="#demo">Clique para ver o resultado</button>
 				<div id="demo" class="collapse">
 				<div class="list-group">
 				  <div id='div_resultado'></div>
 				</div>
 				</div>
    			    <div id='loading'></div>
-				<div id="map" style="width:100%;height:400px"></div>
 				
 			</div>			
 		</div>
@@ -213,6 +239,22 @@ li.lifooter a:hover:not(.active) {
 var gnumtombo = '';
 var gtipofoto = '';
 var markers = new Array();
+var markerEU = new google.maps.Marker({
+	draggable:true,
+	icon: 'img/eu.png',
+	title:""
+});
+
+var raio = 6;
+var Circulo = new google.maps.Circle({
+			radius:6,
+			strokeColor:"#F9FF00",
+			strokeOpacity:0.8,
+			strokeWeight:3,
+			fillColor:"#D8C11D",
+			fillOpacity:0.2
+		});
+
 var c = 0;
 var latitude = -22.96800;
 var longitude = -43.224738;
@@ -244,7 +286,7 @@ var options = {
 		});		
 
 
-	/*function login()
+	function login()
 	{
 	
 	var login = document.getElementById('edtlogin').value;
@@ -255,13 +297,14 @@ var options = {
 	 var params = "edtlogin="+login+"&edtsenha="+senha+"&edtuuid="+uuid;
 			var resultado = 0;
 			var xmlhttp = new XMLHttpRequest();
-			//alert(latitude);
+			alert(params);
 			
-			xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/testaloginapp.php?"+params,false);
+			//xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/testaloginapp.php?"+params,false);
 			//xmlhttp.setRequestHeader( 'Access-Control-Allow-Origin', '*');
-
+			xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/testaloginapp.php?"+params,false);
+			
 			xmlhttp.onload = function (){
-				//alert(xmlhttp.status);
+				alert(xmlhttp.status);
 				if (xmlhttp.status==200)
 					{
 						var str = xmlhttp.responseText;
@@ -286,17 +329,11 @@ var options = {
 							//alert(res[0]);
 							var codusuario = res[0];
 							var username = res[1];
-							var idtiposuaurio = res[2];
-							var tiposuaurio = res[3];
-							var idsituacaousuario = res[4];
-
+							
 							window.localStorage.setItem("uname", username);
 							window.localStorage.setItem("idusuario",codusuario);
-							window.localStorage.setItem("idtipousuario",idtiposuaurio);
-							window.localStorage.setItem("tipousuario",tiposuaurio);
-							window.localStorage.setItem("idsituacaousuario",idsituacaousuario);
 							
-							document.getElementById('div_dadoslogin').innerHTML='<p class="navbar-text">'+username+' ('+tiposuaurio+')</p>';
+							document.getElementById('div_dadoslogin').innerHTML='<p class="navbar-text">'+username+'</p>';
 							
 							document.getElementById('idusuario').value=window.localStorage.getItem("idusuario");
 							document.getElementById('nome').value=window.localStorage.getItem("uname");
@@ -318,7 +355,7 @@ var options = {
 			xmlhttp.send();
 			return resultado;
  }
-		*/
+		
 		
 		
 
@@ -326,29 +363,25 @@ function pegaMinhaPosicao()
 {
 	navigator.geolocation.getCurrentPosition(success, error, options);
 	function success(pos) {
-
+		setMapOnAll(null);
+		
+		
 		var crd = pos.coords;
-		var markerEU = new google.maps.Marker({
-			position: new google.maps.LatLng(crd.latitude,crd.longitude),
-			draggable:true,
-			icon: 'img/eu.png',
-			title:""
-			});
-					
-			
+		myLatlng = new google.maps.LatLng(crd.latitude,crd.longitude);
+		markerEU.setPosition(myLatlng);
 		markerEU.setMap(map);
-		var Circulo = new google.maps.Circle({
-			center: new google.maps.LatLng(crd.latitude,crd.longitude),
-			radius:6,
-			strokeColor:"#F9FF00",
-			strokeOpacity:0.8,
-			strokeWeight:3,
-			fillColor:"#D8C11D",
-			fillOpacity:0.2
-		});
+
+		Circulo.setCenter(myLatlng);
+		raio = parseInt(document.getElementById('edtraio').value);
+		alert(raio);
+		Circulo.setRadius(raio);
 		Circulo.setMap(map);	
+
+		
+        document.getElementById('loading').innerHTML = "<img src='img/spinner2.gif'>";
 		pegaResultado('',crd.latitude,crd.longitude);
         google.maps.event.addListener(markerEU, "dragend", function() {
+			 document.getElementById('loading').innerHTML = "<img src='img/spinner2.gif'>";
 			 pegaResultado('',markerEU.getPosition().lat(),markerEU.getPosition().lng());
 		});
 	}
@@ -371,8 +404,8 @@ function pegaResultado(filtro,minhalat,minhalong)
 	//alert(minhalong);
 	//alert(minhalong);
 	document.getElementById('loading').innerHTML = "<img src='img/spinner2.gif'>";
-
-	var params = "filtro="+filtro+"&lat="+minhalat+"&long="+minhalong;
+	
+	var params = "filtro="+filtro+"&lat="+minhalat+"&long="+minhalong+"&raio="+raio;
 	var resultado = 0;
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/getarboretojson.php?"+params,false);
@@ -385,6 +418,13 @@ function pegaResultado(filtro,minhalat,minhalong)
 			var myObj = JSON.parse(this.responseText);
 			setMapOnAll(null);
 			criaPontos(myObj);
+			//Circulo.setMap(null);	
+			myLatlng = new google.maps.LatLng(minhalat,minhalong);
+			Circulo.setCenter(myLatlng);
+			raio = parseInt(document.getElementById('edtraio').value);
+			Circulo.setRadius(raio);
+			Circulo.setMap(map);
+
 			document.getElementById('loading').innerHTML = "";
 			
 
@@ -418,7 +458,14 @@ function criaPontos(myObj)
 		html2 += '<div class="d-flex w-100 justify-content-between">';
 		html2 += '	   <h5 >'+myObj[x].siglapj+ ' '+myObj[x].numtombo+' - '+myObj[x].aux_nomecompltaxon+'</h5>';
 		html2 += '	   <p>'+myObj[x].locfisico1 + '/' + myObj[x].locfisico2+'</p>';
-		html2 += '	<button type="button" class="btn btn-primary" onclick="abreCamera(01,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-camera"></span> 01</button>';
+		if (myObj[x].observacoes==null)
+		{
+		}
+		else
+		{
+			html2 += '	 <small>'+myObj[x].observacoes+'</small>';
+		}
+		html2 += '	<br><button type="button" class="btn btn-primary" onclick="abreCamera(01,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-camera"></span> 01</button>';
 		html2 += '	<button type="button" class="btn btn-primary" onclick="abreCamera(02,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-camera"></span> 02</button>';
 		html2 += '	<button type="button" class="btn btn-primary" onclick="abreCamera(03,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-camera"></span> 03</button>';
 		html2 += '	<button type="button" class="btn btn-primary" onclick="abreCamera(04,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-camera"></span> 04</button>';
@@ -434,13 +481,7 @@ function criaPontos(myObj)
 			htmlimagem = '      <img id="div'+myObj[x].numtombo+'" src="http://imagens1.jbrj.gov.br/fsi/server?type=image&source=rbv%2F'+inv+'_01.jpg&width=300&height=100&profile=jpeg&quality=95">';
 		}
 		html2 += htmlimagem + '	</div>';
-		if (myObj[x].observacoes==null)
-		{
-		}
-		else
-		{
-			html2 += '	 <small>'+myObj[x].observacoes+'</small>';
-		}
+		
 
 		
 		html2 += '<div id="imagem'+myObj[x].numtombo+'"</div></a>';
@@ -766,6 +807,8 @@ function myMap2(div,myObj,minhalat,minhalong) {
 	$( document ).ready(function() {
 		
 		$('#myNavbar a[href="#home"]').tab('show');
+		//cordova.SpinnerDialog.show("title","message");
+		Circulo.setRadius(document.getElementById(edtraio).value);
 
 		
 		//pegaResultado(document.getElementById('edtfiltro').value,'','');
