@@ -19,6 +19,11 @@ $v = $_REQUEST['filtro'];
 $lat = $_REQUEST['lat'];
 $long = $_REQUEST['long'];
 $raio = $_REQUEST['raio'];
+$tipofiltro = $_REQUEST['tipofiltro'];
+if (empty($tipofiltro))
+{
+	$tipofiltro = 'TOMBO';
+}
 if (empty($raio))
 {
 	$raio = 6;
@@ -29,7 +34,7 @@ if (empty($raio))
 
 if ((empty($v)) && (empty($lat)))
 {
-	$v = 'JUCURUJU';
+//	$v = 'JUCURUJU';
 }
 
 $f = 'TODOS';
@@ -108,16 +113,18 @@ and t.codcolbot = 4635
   	}
 	else
 	{
-		if (is_numeric($v))
+		if ($tipofiltro=='TOMBO')
 		{
 			$sql_where = ' and cast(t.numtombo as int) = '.$v;
 		}
-		else
+		
+		if ($tipofiltro=='CIENTIFICO')
 		{
-		$sql_where .= " and ( a.aux_nomecompltaxon ilike '%".$v."%' or 
-		
-		
-		
+		$sql_where .= " and ( a.aux_nomecompltaxon ilike '%".$v."%')";
+		}
+		if ($tipofiltro=='POPULAR')
+		{
+		$sql_where .= " and
 		 a.codarvtaxon in (select taxon_nome_vulgar.codarvtaxon from
 jabot.taxon_nome_vulgar, 
 jabot.nome_vulgar
@@ -125,7 +132,7 @@ where
 taxon_nome_vulgar.codnomevulgar = nome_vulgar.codnomevulgar and
 nome_vulgar.nomevulgar ilike '%".$v."%' and
 taxon_nome_vulgar.codarvtaxon = a.codarvtaxon)
-		)
+		
  ";
 		}
 	}
