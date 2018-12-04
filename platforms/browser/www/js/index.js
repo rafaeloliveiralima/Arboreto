@@ -35,7 +35,7 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
 		screen.orientation.lock('portrait');
-		alert(device.uuid);
+		//alert(device.uuid);
 		document.getElementById('edtuuid').value=device.uuid;
         app.receivedEvent('deviceready');
 		document.getElementById('div_dadoslogin').innerHTML = '';

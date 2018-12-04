@@ -139,7 +139,7 @@ li.lifooter a:hover:not(.active) {
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>	
 		  </button>
-		  <a class="navbar-brand" href="index2.html">Arboreto 0.8</a>
+		  <a class="navbar-brand" href="index2.html">Arboreto 0.9</a>
 		  <span id="div_dadoslogin" ></span>
 
 		</div>
@@ -323,9 +323,9 @@ var options = {
 	var login = document.getElementById('edtlogin').value;
 	var senha = document.getElementById('edtsenha').value;
 	var uuid = document.getElementById('edtuuid').value;
-	alert(login);
-	alert(senha);
-	alert(uuid);
+	//alert(login);
+	//alert(senha);
+	//alert(uuid);
 	 //document.getElementById('edtlabel').innerHTML="Usuario: "+usuario+" Lat/Long: "+latitude + ','+ longitude + ' Equipe: '+equipe;
 	 var params = "edtlogin="+login+"&edtsenha="+senha+"&edtuuid="+uuid;
 			var resultado = 0;
@@ -364,7 +364,7 @@ var options = {
 							var username = res[1];
 							
 							window.localStorage.setItem("uname", username);
-							window.localStorage.setItem("idusuario",codusuario);
+							window.localStorage.setItem("codusuario",codusuario);
 							
 							document.getElementById('div_dadoslogin').innerHTML='<p class="navbar-text">'+username+'</p>';
 							
