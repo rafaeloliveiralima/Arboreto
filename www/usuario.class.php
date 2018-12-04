@@ -89,7 +89,7 @@ class Usuario {
             $id = '';
         }
         $sql = "
-			select * from public.usuario u where u.login = '" . $login . "'";
+			select * from public.usuario u where u.nomelogin = '" . $login . "'";
         $result = pg_exec($this->conn, $sql);
         if (pg_num_rows($result) > 0) {
             $row = pg_fetch_array($result);
