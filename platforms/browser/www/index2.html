@@ -78,6 +78,26 @@ li.lifooter a:hover:not(.active) {
  */   background-color: #4CAF50;*/
 }
 
+    /*body {background-color: #21610B; font-family: Tahoma,Arial;}*/
+    #posiciona {
+        position: absolute; /* posição absoluta ao elemento pai, neste caso o BODY */
+        /* Posiciona no meio, tanto em relação a esquerda como ao topo */
+        left: 50%; 
+        top: 50%;
+        width: 100px; /* Largura da DIV */
+        height: 50px; /* Altura da DIV */
+        /* A margem a esquerda deve ser menos a metade da largura */
+        /* A margem ao topo deve ser menos a metade da altura */
+        /* Fazendo isso, centralizará a DIV */
+        margin-left: -50px;
+        margin-top: -25px;
+        /*background-color: #FFF;*/
+        /*color: #FFF;*/
+        /*background-color: #666;*/
+        text-align: center; /* Centraliza o texto */
+        z-index: 1000; /* Faz com que fique sobre todos os elementos da página */
+    }
+    #fechar { margin: 5px; font-size: 12px; }
 
 </style>
   
@@ -86,7 +106,6 @@ li.lifooter a:hover:not(.active) {
 </head>
 
 <body >
-
 <ul class="footer">
   <li class="lifooter"></span></li>
 </ul>
@@ -188,6 +207,8 @@ li.lifooter a:hover:not(.active) {
 		</div>
 
 		<div id="home" class="tab-pane fade in active">
+		
+
 			<div class="container">
 				<div class="row">
 					<div class="col-xs-12">
@@ -224,11 +245,15 @@ li.lifooter a:hover:not(.active) {
 				
 				<div id="map" style="width:100%;height:400px"></div>
 
-   			    <div id='loading'></div>
+   			   
 				
 			</div>			
 		</div>
 	</div>
+	
+	<div id="posiciona" style="display:none;">  
+<img src='img/spinner.gif'>
+</div>
 	
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
@@ -386,10 +411,10 @@ function pegaMinhaPosicao()
 		Circulo.setMap(map);	
 
 		
-        document.getElementById('loading').innerHTML = "<img src='img/spinner2.gif'>";
+        //document.getElementById('loading').innerHTML = "<img src='img/spinner2.gif'>";
 		pegaResultado('',crd.latitude,crd.longitude);
         google.maps.event.addListener(markerEU, "dragend", function() {
-			 document.getElementById('loading').innerHTML = "<img src='img/spinner2.gif'>";
+			 //document.getElementById('loading').innerHTML = "<img src='img/spinner2.gif'>";
 			 pegaResultado('',markerEU.getPosition().lat(),markerEU.getPosition().lng());
 		});
 	}
@@ -410,20 +435,22 @@ function pegaResultado(filtro,minhalat,minhalong)
 {
 	//alert(minhalong);
 	//alert(minhalong);
-	document.getElementById('loading').innerHTML = "<img src='img/spinner2.gif'>";
+	document.getElementById('posiciona').style.display = 'block';
+	//document.getElementById('loading').innerHTML = "Carregando";//"<img src='img/spinner2.gif'>";
+	//setTimeout('', 1000);
 	tipofiltro = document.getElementById('tipofiltro').value;
 	//alert(tipofiltro);
 	//alert(filtro);
 	var params = "filtro="+filtro+"&lat="+minhalat+"&long="+minhalong+"&raio="+raio+"&tipofiltro="+tipofiltro;
 	var resultado = 0;
 	var xmlhttp = new XMLHttpRequest();
-	xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/getarboretojson.php?"+params,false);
+	xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/getarboretojson.php?"+params,true);
 	xmlhttp.onload = function ()
 	{
 		//alert(xmlhttp.status);
 		if (xmlhttp.status==200)
 		{
-			document.getElementById('map').style.visibility='visible';
+			document.getElementById('posiciona').style.display='none';
 			//alert(this.responseText);
 			var myObj = JSON.parse(this.responseText);
 			setMapOnAll(null);
@@ -434,10 +461,7 @@ function pegaResultado(filtro,minhalat,minhalong)
 			raio = parseInt(document.getElementById('edtraio').value);
 			Circulo.setRadius(raio);
 			Circulo.setMap(map);
-
-			document.getElementById('loading').innerHTML = "";
-			
-
+			//document.getElementById('loading').style.display = 'none';
 			//myMap2('map3',myObj,minhalat,minhalong);
 		}
 		else if (xmlhttp.status == 404) {
