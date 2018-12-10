@@ -528,7 +528,7 @@ function criaPontos(myObj)
 		html2 += '	<button type="button" class="btn btn-warning" onclick="pegaImagens('+myObj[x].numtombo+')"><span class="glyphicon glyphicon-refresh"></span></button>';
 		html2 += '</div>';
 
-//		html2 += '<div id="imagem'+myObj[x].numtombo+'"</div></a>';
+		html2 += '<div id="imagem'+myObj[x].numtombo+'"</div>';
 
 		var myLatlng = new google.maps.LatLng(myObj[x].latitude,myObj[x].longitude);
 		var marker = new google.maps.Marker({
