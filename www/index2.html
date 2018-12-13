@@ -121,6 +121,8 @@ li.lifooter a:hover:not(.active) {
         <div class="modal-body">
           <div class="form-group">
 			<label for="email">Sistema desenvolvido pela CTIC</label>
+			<label for="email">Rafael Lima</label>
+			<label for="email">Bruno Augusto de Farias</label>
 		  </div>
         </div>
         <div class="modal-footer">
@@ -199,6 +201,10 @@ li.lifooter a:hover:not(.active) {
 					<div class="form-group">
 						<label for="usr">Raio em metros:</label>
 						<input type="number" name="edtraio" id='edtraio' class="form-control" min="1" max="20" step="1" value="6">
+						<label for="usr">Quantidade de item retornáveis:</label>
+						<input type="number" name="edtqtditem" id='edtqtditem' class="form-control" min="1" max="200" step="1" value="50">
+						<label for="usr">Qualidade da foto (%):</label>
+						<input type="number" name="edtqualidade" id='edtqualidade' class="form-control" min="1" max="100" step="1" value="25">
 					</div>
 						<div class="input-group">
 						</div>
@@ -265,6 +271,7 @@ li.lifooter a:hover:not(.active) {
 		});
 var gnumtombo = '';
 var gtipofoto = '';
+var gqualidade = 25;
 var markers = new Array();
 var markerEU = new google.maps.Marker({
 	draggable:true,
@@ -444,9 +451,10 @@ function pegaResultado(filtro,minhalat,minhalong)
 	//document.getElementById('loading').innerHTML = "Carregando";//"<img src='img/spinner2.gif'>";
 	//setTimeout('', 1000);
 	tipofiltro = document.getElementById('tipofiltro').value;
+	qtditem = document.getElementById('edtqtditem').value;
 	//alert(tipofiltro);
 	//alert(filtro);
-	var params = "filtro="+filtro+"&lat="+minhalat+"&long="+minhalong+"&raio="+raio+"&tipofiltro="+tipofiltro;
+	var params = "qtditem="+qtditem+"&filtro="+filtro+"&lat="+minhalat+"&long="+minhalong+"&raio="+raio+"&tipofiltro="+tipofiltro;
 	var resultado = 0;
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/getarboretojson.php?"+params,true);
@@ -488,7 +496,15 @@ function criaPontos(myObj)
 	var htmlimagem = '';
 	var html2 = '';
 	var zeros = "00000000";
-	document.getElementById('btnresultado').innerHTML = 'Fora(m) encontrado(s) '+myObj.length + ' espécime(s), Clique para abrir';
+	if (myObj == false) 
+	{
+		alert('A busca não retornou resultado.');
+		document.getElementById('btnresultado').style.visibility = 'hidden';
+	}
+	else
+	{
+		document.getElementById('btnresultado').style.visibility = 'visible';
+		document.getElementById('btnresultado').innerHTML = 'Fora(m) encontrado(s) '+myObj.length + ' espécime(s), Clique para abrir';
 	for (x in myObj) {
 		var qtd = myObj[x].numtombo.length;
 		
@@ -565,12 +581,23 @@ function criaPontos(myObj)
 		//	 html +='<br><img id="'+inv+'" src="http://imagens1.jbrj.gov.br/fsi/server?type=image&source=rbv%2F'+inv+'_01.jpg&width=300&height=100&profile=jpeg&quality=95">';
 		 // }
 		  
-		  infowindow.setContent(html);
+		  		//html2 = '<div class="row text-center">';		
+		html2 = '	<br><br><button type="button" class="btn btn-sm btn-success" onclick="abreCamera(01,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-tree-deciduous"></span></button>';
+		html2 += '	<button type="button" class="btn btn-sm btn-success" onclick="abreCamera(02,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-leaf"></span></button>';
+		html2 += '	<button type="button" class="btn btn-sm btn-success" onclick="abreCamera(03,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-grain"></span></button>';
+		html2 += '	<button type="button" class="btn btn-sm btn-success" onclick="abreCamera(04,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-apple"></span></button>';
+		html2 += '	<button type="button" class="btn btn-sm btn-success" onclick="abreCamera(05,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-tag"></span></button>';
+		//html2 += '	<button type="button" class="btn btn-warning" onclick="pegaImagens('+myObj[x].numtombo+')"><span class="glyphicon glyphicon-refresh"></span></button>';
+		//html2 += '</div>';
+
+		  
+		  infowindow.setContent(html+html2);
           infowindow.open(map, marker);
         }
       })(marker, x));
 	}
 	document.getElementById('div_resultado').innerHTML = html2;
+	}
 }
 
 function leftPad(value, totalWidth, paddingChar) {
@@ -588,12 +615,16 @@ function abreCamera(tipofoto,numtombo)
 }
 
 function getImage(tipo) {
+	if (document.getElementById('edtqualidade').value!='')
+	{
+		gqualidade = document.getElementById('edtqualidade').value;
+	}
 	if (tipo=='CAMERA')
 	{
 		navigator.camera.getPicture(uploadPhoto, function(message) {
 			alert('get picture failed');
 		}, {
-		quality: 25,
+		quality: gqualidade,
 		destinationType: navigator.camera.DestinationType.FILE_URI,
 		sourceType: navigator.camera.PictureSourceType.CAMERA
 		});
@@ -603,7 +634,7 @@ function getImage(tipo) {
 		navigator.camera.getPicture(uploadPhoto, function(message) {
 			alert('get picture failed');
 		}, {
-		quality: 25,
+		quality: gqualidade,
 		destinationType: navigator.camera.DestinationType.FILE_URI,
 		sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
 		});
