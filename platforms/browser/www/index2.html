@@ -121,7 +121,9 @@ li.lifooter a:hover:not(.active) {
         <div class="modal-body">
           <div class="form-group">
 			<label for="email">Sistema desenvolvido pela CTIC</label>
+			<br>
 			<label for="email">Rafael Lima</label>
+			<br>
 			<label for="email">Bruno Augusto de Farias</label>
 		  </div>
         </div>
@@ -269,6 +271,8 @@ li.lifooter a:hover:not(.active) {
 		$("ul").on("click", function(){
 			$('.navbar-collapse').collapse('hide');
 		});
+var codusuario = '';
+var username = '';
 var gnumtombo = '';
 var gtipofoto = '';
 var gqualidade = 25;
@@ -369,8 +373,8 @@ var options = {
 							
 							var res = str.split("|");
 							//alert(res[0]);
-							var codusuario = res[0];
-							var username = res[1];
+							codusuario = res[0];
+							username = res[1];
 							
 							window.localStorage.setItem("uname", username);
 							window.localStorage.setItem("codusuario",codusuario);
@@ -887,6 +891,7 @@ function myMap2(div,myObj,minhalat,minhalong) {
 	 */
 	$( document ).ready(function() {
 		setFiltro('CIENTIFICO','Filtro: Nome Científico');
+		document.getElementById('btnresultado').style.visibility = 'hidden';
 		Circulo.setRadius(document.getElementById(edtraio).value);
 		$('#myNavbar a[href="#home"]').tab('show');
 		//cordova.SpinnerDialog.show("title","message");
