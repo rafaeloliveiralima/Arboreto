@@ -1,0 +1,973 @@
+<html>
+
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      html, body, #map-canvas {
+        height: 90%;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <title>Jabot - Arboreto</title>
+
+    <!-- Core CSS - Include with every page -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <!-- Page-Level Plugin CSS - Tables -->
+    <link href="css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <!-- SB Admin CSS - Include with every page -->
+    <link href="css/sb-admin.css" rel="stylesheet">
+    <link href="media/js/demo_table.css" rel="stylesheet">
+    <link href="css/gwm.css" rel="stylesheet">
+	<script type="text/javascript" language="javascript" src="consultainterna.js"></script>
+	<script type="text/javascript" language="javascript" src="media/js/gwmajax.js"></script>
+<!--<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>-->
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=drawing"></script>
+<script type="text/javascript" src="util.js"></script>
+<script type="text/javascript">
+var Taxon=new Array(); 
+	
+Taxon[1074]='jambo, ';Taxon[414438]='guamirim, pitanga, ';Taxon[134765]='baba-de-boi, babosa-branca, grãos-de-porco, ';Taxon[802]='jaboticaba-peluda, ';Taxon[423473]='inga-bravo, imburana, embira-de-sapo, ingazeiro, cabelouro, rabo-de-macaco, embira-de-carrapato, pau-carrapato, piacá, cabelouro-da-catinga, inga-de-bucha, ';Taxon[13703]='sacambu, ';Taxon[848819]='cereja-da-praia, ';Taxon[414992]='clerodendro-trepador, lágrima-de-cristo, ';Taxon[850446]='perinã, ';Taxon[4029]='ipê-amarelo, ipê-do-cerrado, ipê-ovo-de-macuco, ipê-pardo, pau-darco-amarelo, piúva-amarela, ';Taxon[641970]='mata-cacau, ';Taxon[3095]='cajá-mirim, ';Taxon[414211]='ingá-rana, ';Taxon[121767]='grumixameira, grumixama, grumixaba, ibaporoiti, grumixama-branca, grumixameira-cumbixaba, cumbixaba, ';Taxon[313767]='cássia-rosa, ';Taxon[414407]='bananeira-vermelha, ';Taxon[347365]='chapada, ';Taxon[327584]='aridan, fava-de-aridan, ';Taxon[416168]='palmeira-de-fita, palmeira-leque-de-fita, ';Taxon[10579]='ceboleiro, espinho-de-santa-rita, primavera, santa-rita, três-marias, ';Taxon[851027]='banana-de-macaco, helicônia, pacová, ';Taxon[419270]='bicuiba, ';Taxon[414762]='bouquet-de-noiva, ';Taxon[628899]='taperebá-do-sertão, cajarana, jobo-de-las-índias, acayáassú, taperybá-assú, cajarãna, cajá-manga, cajáseira-de-fructo-grande, ';Taxon[963003]='diadema, esponja, esponja-de-ouro, flor-da-amizade, pincel, pompom, rabo-de-cutia, ';Taxon[414456]='jaboticaba, jaboticabeira-do-mato, ';Taxon[850595]='cambuí, cambui-de-cachorro, cambuí-verdadeiro, cambuxí, ';Taxon[850924]='tarumá-frondoso, tarumã-frondoso, turumã, ';Taxon[414500]='jasmim-amarelo, ';Taxon[414787]='café-do-mato, congonha, ';Taxon[422494]='balata-verdadeira, pajarú, massaranduba, parajú, balata, paraju, maparajuba, arapaju, ';Taxon[850508]='babassu, perinã, ';Taxon[850374]='palmeira-fuso, palmeira-garrafa, ';Taxon[851617]='alpinia, colônia, gengibre-concha, louro-de-baiano, ';Taxon[414897]='japecanga, ';Taxon[797297]='taioba-braba, ';Taxon[323860]='inga-banana, inga-bravo, inga-de-quatro-quinas, ingazeiro, ';Taxon[139091]='aglaonema, café-de-jardim, café-de-salão, rajá-branco, ';Taxon[414117]='estopeiro, jequitibá-rei, bingueiro, caximbeiro, jequitibá-rosa, jequitibá-vermelho, jequitibá-branco, ';Taxon[415092]='ama, manto-de-rei, tumbérgia-azul-arbustiva, ';Taxon[414140]='canafístula, ';Taxon[377769]='amendoim-do-campo, chorão, jacarandá-branco, faveiro, jacarandá-tã, uruvalheira, jacarandazinho, ';Taxon[414807]='tangerina, ';Taxon[648051]='samambaia, ';Taxon[4057]='enoki, ';Taxon[920146]='palmeira-rabo-de-raposa, ';Taxon[413931]='cupuaçurana, ';Taxon[414062]='bambu, bambu-bengala, bambu-folha-de-samambaia, bambu-multiplex, ';Taxon[414771]='erva-de-rato, ';Taxon[883491]='peroba-candeia, ';Taxon[850928]='jambo, jambo-vermelho, ';Taxon[850847]='cabuçu, genipapo, janipaba, jenipá, jenipapeiro, jenipapinho, jenipapo, ';Taxon[414106]='falso-íris, ';Taxon[850406]='palmeira-das-bermudas, ';Taxon[886651]='tarumá-frondoso, tarumã-frondoso, turumã, ';Taxon[327472]='asoka, saraca, ';Taxon[413714]='palmeira, palmeira-leque-da-china, ';Taxon[414382]='aguano, araputanga, mogno, mogno-brasileiro, ';Taxon[413797]='bambu, bambú, bambu-bengala, bambu-folha-de-samambaia, bambu-multiplex, ';Taxon[851075]='arvore-da-morte, ';Taxon[866750]='azaleia, ';Taxon[134437]='frei-jorge, ';Taxon[4485]='cedro-mimoso, tamarindeira, tamarindo, ';Taxon[414376]='creoula, goiabarana, guili, mouririchira, murta-de-parida, ';Taxon[850365]='canjerana-miúda, carrapeteira, peloteira, jatuauba, carrapeta-verdadeira, piorréia, marinheiro, jatuauba-branca, carrapeta, ';Taxon[886641]='tarumã-do-campo, tarumã-grande, turumã-do-campo, ';Taxon[413641]='caeté, ';Taxon[850851]='cupuaçu, cupuaçú, cupuaçu-verdadeiro, cupú-assú, ';Taxon[424907]='canjerana-miúda, carrapeteira, peloteira, marinheiro, carrapeta-verdadeira, piorréia, carrapeta, ';Taxon[327436]='casqueiro, coronha, ';Taxon[254439]='bacupari, bacupary, mangustão-amarelo, sacopary, ';Taxon[794489]='abacaxi-do-reino, banana-do-brejo, banana-do-mato, ceriman, costela-de-adão, fruta-do-méxico, monstera, ';Taxon[855457]='araçá-miúdo, ';Taxon[851141]='guriri, ';Taxon[850416]='jubati, jupati, palmeira-ráfia, palmeira-rápis, ráfia, ';Taxon[852800]='abricó, abricó-amarelo, abricó-da-praia, abricoteiro-do-mato, ';Taxon[850970]='farinha-seca, maperoá, pau-rei, ';Taxon[414759]='espinho-de-fogo, ';Taxon[850534]='caiaué, ';Taxon[853831]='abacateiro, ';Taxon[13528]='angelim, ';Taxon[414775]='ixora-chinesa, ixora-vermelha, ';Taxon[880325]='chapéu-do-panamá, ';Taxon[413724]='tamareira, ';Taxon[120729]='oiticica, oiticica-verdadeira, ';Taxon[121827]='cabaçu, cajueiro-bravo, kaa-açú, ';Taxon[414783]='estrela-açucena, estrela-da-noite, estrela-do-norte, jasmim-estrela, ';Taxon[340432]='mangue-borboleta, ';Taxon[870178]='paineira, ';Taxon[413868]='holly-chinês, ilex-chinês, ';Taxon[869893]='comigo-ninguém-pode, ';Taxon[129765]='kigélia, ';Taxon[413592]='carambola, caramboleira, ';Taxon[258991]='tento-miúdo, gigueriti, tentinho, jequiriti, alcaçuz-da-américa, carolina-miúda, cipó-de-alcaçuz, arvoeiro, piriquiti, juqueriti, alcaçuz, assacu-mirim, olho-de-pomba, ';Taxon[854107]='jaborandi-manso, ';Taxon[850939]='jequitibá-rosa, ';Taxon[850591]='caimito, ';Taxon[883805]='pau-ferro, ';Taxon[414823]='falsa-murta, murta-de-cheiro, ';Taxon[2092]='lichi, litchi, alixia, lichia, lechia, lixia, alexia, ';Taxon[257280]='abricó, abricó-das-antilhas, abricó-do-pará, abricoteiro, ';Taxon[733983]='copaíba, copaibeira, pau-óleo, ';Taxon[850523]='areca-banguá, ';Taxon[850959]='cana-de-macaco, cana-do-brejo, canela-de-ema, cóstus, gengibre-espiral, ';Taxon[850571]='árvore-de-natal, cedro-elegante, cedro-japonês, ';Taxon[850873]='palmeira, palmeira-furacão, palmeira-leque-da-china, tâmara-do-senegal, ';Taxon[888960]='cambuí, cambui-de-cachorro, cambuí-verdadeiro, cambuxí, ';Taxon[850430]='tamareira, ';Taxon[413914]='ipê-branco, itaipoca, pau-darco-branco, taipoca, ';Taxon[2390]='stamvrug, stemberry, ';Taxon[120108]='castanha-de-galinha, castanha-pendula, ';Taxon[423914]='flor-de-jade, trepadeira-jade, ';Taxon[317709]='pau-de-erva-doce, ';Taxon[67772]='karanda, ';Taxon[101179]='laurotino, ';Taxon[4155]='cupuí, cupuaí, capuí, capuaí, cupuhy, chimarrão, cacao, capeú, ';Taxon[323818]='angoco-pedra, orelha-de-negro, vinhático-cabeleira, ';Taxon[14986]='gerivá, ';Taxon[768558]='cedro-novo, guapiruba, tapirirá, camboatá, peito-de-pombo, pau-pombo, fruta-de-pombo, tapiriri, cedrói, jobo, ';Taxon[186469]='bacupari-cascudo, ';Taxon[886656]='ipê-branco, maminha-de-cadela, tarumã-mirim, ';Taxon[851037]='aroeirinha, ';Taxon[1804]='geniparana, ';Taxon[850481]='areca-banguá, ';Taxon[850436]='palmeira-fuso, palmeira-garrafa, palmeira-imperial, ';Taxon[881465]='tapia-guaçu, tapiá-guaçu-branco, mari-mole, tapiá-vermelho, tricacrana, tapiá-guasú, tanheiro, tapiá, tapia-mirim, tapia-vermelha, tamanqueiro, iricurana, tira-teima, ';Taxon[414922]='borba, ';Taxon[851121]='guatambú, ';Taxon[852723]='congonha-do-campo, pau-de-cinza, murici-branco, cinzeiro, congonheiro, canela-santa, pau-de-brinco, rabo-de-tucano, pau-de-lágrima, urucuca, ';Taxon[414937]='capote, capoti, sapote, tacazeiro, ';Taxon[4809]='campeche, ';Taxon[421811]='caimito, ';Taxon[414872]='abiu, abiurana, gema-de-ovo, guapeba-vermelha, guapebeiro, tapinhoá-amarelo, ';Taxon[414991]='clerodendro, clerodendron, ';Taxon[850501]='perinã, ';Taxon[312521]='bráunea, sol-da-bolívia, ';Taxon[733878]='timbó, ';Taxon[410290]='rosa-louca, ';Taxon[864732]='acacia, acácia, flamboyán, flamboyant, josefina, ';Taxon[414284]='lírio, lírio-de-são-josé, lírio-de-um-dia, stella-doro, ';Taxon[416099]='avoira-do-dendê, coco-de-dendê, coqueiro-de-dendê, dendê, dendezeiro, ';Taxon[850379]='ave-do-paraíso, cascalote, dividivi, pássaro-do-paraíso, ';Taxon[414391]='gameleira-grande, ';Taxon[316531]='copal, ';Taxon[850580]='caqui-preto, ébano, ébano-da-índia, ébano-verdadeiro, sapota-preta, ';Taxon[2859]='loucura, loucura-branca, minerva-dos-jardins, norma, escumilha, flor-de-são-sebastião, extremosa, escumilha-loucura, minervas-dos-jardins, estremosa, ';Taxon[4802]='braúna-preta, ibirá-una, braúna, maria-preta, graúna, ibiraúva, árvore-da-chuva, rabo-de-macaco, baraúna, guaraúna, ';Taxon[850538]='murumuru, ';Taxon[378338]='jacarandá-branco, ';Taxon[556]='eucalipto, ';Taxon[396822]='extremosa, ';Taxon[2858]='flor-de-abril, ';Taxon[414037]='barriguda, seringarana, seringueira, seringueira-barriguda, s.-tambaqui, ';Taxon[414139]='barba-de-barata, flamboyant-de-jardim, flamboyanzinho, flor-do-paraíso, ';Taxon[963955]='cadeno, cedro-amarelo, guachapele, iguá, samanigua, tabaca, ';Taxon[850527]='murumuru, palmeira-furacão, ';Taxon[414846]='árvore-samambaia, felício, junigas, juriguas, maniga, maniglia, ';Taxon[882429]='araribá, ';Taxon[2730]='andiroba, andirobeira, ';Taxon[414082]='helicônia, helicônia-asa-de-arara, ';Taxon[20485]='jacobínia, justícia, ';Taxon[854480]='pereirinha, ubá-açú, pau-forquilha, pau-pente, ubá-açu, canudo-amargoso, quina, pau-pereiro, pereiro, quinarana, pau-pereira, tringuaba, camará-do-mato, pinguaciba, ';Taxon[3955]='morcegueira, pau-de-sabão, saboeiro, sabonete, sabão-de-macaco, jequiriti, fruta-de-sabão, saboneteira, sabonete-de-soldado, saponária, sabão-de-soldado, jequitinguaçu, ';Taxon[414797]='curací, curacy, rabo-de-arara, ';Taxon[646876]='ameixa-da-mata, cambuí-roxo, cereja-da-mata, cereja-de-joinville, murta, murtinha, ';Taxon[423927]='pau-rei, ';Taxon[423908]='açucena, açucena-trepadeira, madronha, ';Taxon[960879]='chamalote, jacaré, monjolo, monjolo-ferro, monjolo-preto, ';Taxon[854025]='azeitona-do-mato, capororoca, ';Taxon[419202]='árvore-da-borracha, goma-elastica, ';Taxon[854061]='embira-branca, falso-timbó, ';Taxon[414165]='wattle, ';Taxon[854026]='tapia-guaçu, tapiá-guaçu-branco, mari-mole, tapiá-vermelho, tanheiro, tapiá, tapia-mirim, tapia-vermelha, tamanqueiro, tira-teima, ';Taxon[477791]='jaboticaba-costada, ';Taxon[413999]='cica, ';Taxon[884939]='ficheira, pataqueira, guapuruvu, faveira, pau-de-vintém, bandarra, birosca, bacurubu, ';Taxon[413895]='pinhão, pinheiro-caiová, curiúva, pinheiro-branco, pinheiro-do-paraná, curii, pinheiro-chorão, pinheiro-brasileiro, pinheiro-macaco, curi, araucária, pinho-do-paraná, pinheiro-das-missões, pinheiro-araucária, pinheiro-de-ponta-branca, pinheiro-cajuva, pinheiro-são-josé, cori, pinheiro-preto, pinheiro-do-brasil, pinheiro-macho-fêmea, pinheiro, pinheiro-elegante, pinheiro-rajado, pinho, pinho-brasileiro, ';Taxon[851146]='a.-do-canada, a.-japonesa, ameixa-amarela, nespereira, ';Taxon[973005]='quaresma-da-pedra, ';Taxon[773323]='tintureira, ';Taxon[851528]='chapéu-de-couro, ';Taxon[67659]='bomôncia, trombeta-branca, trombeta-de-arauto, ';Taxon[70335]='árvore-pagode, frangipane, frangipani-vermelho, jasmim-do-pará, jasmim-manga, jasmim-manga-vermelho, ';Taxon[3471]='árvore-chinesa-da-vida, ';Taxon[414745]='carvalho-branco, ';Taxon[414028]='pêssego-da-índia, ';Taxon[414042]='mapa, ';Taxon[414163]='guarabú, jitaí, pau-roxo, ';Taxon[126315]='aranha, flor-de-aranha, monodora, ';Taxon[414874]='guapeba-açú, oiti-ibá, ';Taxon[414446]='cambucá-preto, ';Taxon[850391]='coco-de-dendê, coco-de-espinhos, dendê, coqueiro-de-dendê, macaibeira, dendezeiro, coco-de-catarro, coco-baboso, bocaiuva, mucajuba, macaúba, coco-babão, avoira-do-dendê, bocaiuveira, ';Taxon[423115]='inga, inga-de-dedo, ';Taxon[862645]='marirana, umarirana, umari-rana, ';Taxon[850468]='palmeira-de-cuba, palmeira-imperial, ';Taxon[850999]='lanterneira, ';Taxon[52411]='cachiman, corossol, graveola, épineux, gravioleira, graviola, soursop, corossolier (créole), ';Taxon[421710]='verniz-do-japão, ';Taxon[850489]='palmeira-leque-de-espinho, ';Taxon[850870]='filodendron-glorioso, ';Taxon[928]='cerejeira, ';Taxon[14982]='murumuru, ';Taxon[414901]='japecanga, ';Taxon[416188]='boriti, buriti, caranda-guassu, carandai-guassu, coqueiro-buriti, moriti, ';Taxon[414432]='eucalipto, eucalyptus, ';Taxon[850558]='algodão-bravo, campainha-de-canudo, ipoméia-arbórea, mata-cabra, salsa-branca, ';Taxon[852734]='candiúba, chumbinho, gurindiba, pau-de-pólvora, ';Taxon[851004]='cacao-da-nova-granada, cacao-de-caracas, cacao-do-perú, cacao-do-perú-macambo, cacau-do-peru, cupuassú, macambo, ';Taxon[850592]='craveiro-da-terra, ';Taxon[850554]='árvore-de-são-tomás, pata-de-vaca, unha-de-boi, ';Taxon[101426]='mamão-jacaratiá-mirim, mamão-jacatiá-mirim, ';Taxon[310804]='jequitibá-açu, ';Taxon[850553]='sem nome vulgar, ';Taxon[773226]='espinho-de-agulha, ';Taxon[416387]='urubu-caá, orelha-de-elefante, papo-de-perú, papo-de-peru-grande, calunga, culhão-de-maroto, angelicó, mil-homens, papo-de-perú-de-babado, papo-de-peru-de-babada, mil-homens-do-grande, milhome-gigante, jarra-açu, papo-de-perú-do-grande, cipó-mata-cobra, jarrinha-monstro, ';Taxon[348551]='angelim-de-folha-larga, ';Taxon[966789]='tachizeiro, ';Taxon[414297]='barbatimão, amarelinho, hortelã-da-folha-grossa, copinho, candeia-de-caju, borragem, pacuri-do-mato, teste, pau-de-bicho, dedaleira, dedaleira-amarela, pacari, dedal, pacuri, mangava-brava, palmito-amarelo, ';Taxon[414339]='calatéia-zebra, maranta-zebra, planta-zebra, zebra, zebrina, ';Taxon[414320]='hibisco-crespo, lanterna-chinesa, lanterna-japonesa, mimo-crespo, ';Taxon[415004]='cambará, cambará-de-espinho, camará-branco, cambará-branco, camarazinho, lantana-cambará, camarajuba, camará, chumbinho, ';Taxon[313041]='pau-preto, ';Taxon[850941]='agutique-poobi, caeté, ürubá-verdadeiro, ';Taxon[414461]='cambucá, ';Taxon[4274]='capoeira, frei jorge, pereiro malva, ajuí, louro pardo, canela louro, frejó, laurel, pau cachorro, claraíba parda, louro anhinha, cambará uçú, canela batata, cascudinho, canela branca do brejo, ipê de tabaco, louro cabeludo, louro amarelo, freijó, louro-pardo, ipê louro, louro batata, louro branco, folha larga, jurutê, louro mutamba, amora do mato alto, canela parda, louro amargoso, ';Taxon[850380]='sibipiruna, ';Taxon[951164]='curuiri, pitomba, pitomba-da-bahia, pitombeira, ';Taxon[940575]='atambu-açu, pinheirinho, pinheiro-bravo, pinheiro-do-mato, ';Taxon[850567]='frutinheira, ';Taxon[413947]='morcegueira, oiti, oiti-da-praia, ';Taxon[88604]='ora-pro-nobis, groselheira-das-antilhas, orai-por-nós, quiabento, rosa-madeira, groselha-da-américa, groselha-dos-barbados, jumbeba, ';Taxon[258855]='macacaúba, macacaúba-de-terra-firme, macacaúba-vermelha, macaúba-preta, ';Taxon[4523]='coração-de-negro, ';Taxon[4063]='ventosa, ';Taxon[384496]='coração-de-negro, fruto-de-aracuã, fruto-de-urubu, ';Taxon[850871]='ipê-de-jardim, ipê-mirim, ';Taxon[313948]='fava-mari-mari, inga-mari, mari-mari, seruaia, ';Taxon[419312]='guabirobeira, ';Taxon[313548]='canafístula-verdadeira, chuva-de-ouro, ';Taxon[13487]='espinheiro, ';Taxon[850371]='manacá-açu, manacá-de-flor-grande, manacá-grande, ';Taxon[884542]='pracaúba, pracuúba, ';Taxon[416170]='palmeira, ';Taxon[850369]='açaí, palmeira-jussara, palmiteiro, palmito-doce, palmito-jussara, ';Taxon[67433]='peroba-tabuada, ';Taxon[221651]='burra-leiteira, curupitá, murupitá, seringarana, ';Taxon[854063]='flor-da-quaresma, flor-de-quaresma, quaresmeira, quaresmeira-roxa, ';Taxon[413853]='ameixa-de-natal, carissa, larangina, laranjina, ';Taxon[123008]='gravatá, ';Taxon[940421]='alpinia, gengibre-vermelho, ';Taxon[414269]='aloe, ';Taxon[4451]='canafístula, cana-fístula, cássia-grande, geneúna, ';Taxon[418121]='asa-de-papagaio, bico-de-papagaio, papagaio, ';Taxon[734554]='aldrago, mututi-da-terra-firme, pau-de-sangue, sangue-de-drago, supupira-amarela, violeta-do-campo, ';Taxon[854396]='uva-do-mato, abútua-preta, baga-da-praia, abútuas-da-terra, parreira-brava, jaboticaba-de-cipó, batata-brava, abútua-grande, orelha-de-onça, canela-de-onça, abútua-legítima, ';Taxon[121415]='baba-de-boi, chá-de-bugre, capitão-do-campo, mata-fome, canto-branco, juruté, louro-mole, ';Taxon[415511]='pau-cetim, ';Taxon[187755]='ébano, ';Taxon[414850]='rambutan, ';Taxon[853603]='jambo-amarelo, j.-comum, j.-verdadeiro, j.-da-india, jambeiro-rosa, jambeiro, j.-moreno, jambo, j.-cheiroso, jambo-rosa, ';Taxon[417]='laranjeira, ';Taxon[419473]='pau-de-cobra, ';Taxon[379503]='feijão-do-mato, ';Taxon[322799]='quebra-foice, ';Taxon[4620]='jutaí-do-alagado, jutaí-grande, jutaí-mirim, ';Taxon[415025]='bastão-do-imperador, ';Taxon[850901]='sucupira-preto, sucupira-do-serrado, paricara, sebepira, sucupira-açu, sucupira, sucupira-amarela, sucupira-do-campo, sucupira-da-praia, ';Taxon[859644]='angico-vermelho, ';Taxon[850861]='pé-de-galinha, singônio, ';Taxon[860703]='pitanga-de-cachorro, ';Taxon[960045]='quaresmeira, ';Taxon[414355]='mão-de-onça, ';Taxon[414923]='assônia, astrapéa, astrapéia, dombéia, ';Taxon[850516]='buriti, miriti, ';Taxon[850479]='perinã, ';Taxon[567595]='jacaranda-banana, ';Taxon[868211]='caju, caju-açu, cajú-açu, cajuí, cajuú-açu, cajú-da-mata, cajueiro-da-mata, cajuí-da-mata, merey-montañero, cajuri, caju-bravo, mery, caju-açú, mairu, ';Taxon[415947]='araucaria-colunar, new-caledonian-pine, pinheiro-alemão, pinheiro-de-natal, tannenbaum, ';Taxon[422751]='mororó, ';Taxon[850729]='chupa, ';Taxon[2734]='árvore-de-borracha, seringueira-amarela, seringueira-itaúba, seringueira-mangue, seringueira-vermelha, ';Taxon[850423]='palmeira-jussara, palmiteiro, palmito-doce, ';Taxon[850413]='buritirana, ';Taxon[414130]='pata-de-vaca, unha-de-vaca, ';Taxon[851054]='aicuri-micuri, licuri, ouricuri, ';Taxon[850440]='areca-banguá, ';Taxon[14667]='canjica, queixada, sucupira, angelim, sucupira-amarela, sucupira-preta, guaiçara, caiçara, macanaiba-amarela, jiçara, cabo-de-formão, ';Taxon[414408]='banana, banana-da-terra, banana-prata, bananeira, pacova, ';Taxon[850731]='angico-branco, jacaré, monjoleiro, monjolo, pau-jacaré, ';Taxon[81327]='buxinho, buxo, ';Taxon[413896]='árvore-de-natal, pinheiro-de-norfolk, ';Taxon[850946]='maranta-cinza, tenante, ';Taxon[414263]='coqueluche, pongam, ';Taxon[13360]='canafístula, chuva-de-ouro, falso-barbatimão, ';Taxon[850520]='seringueira-roxa, seringueira-verdadeira, seringueira-preta, pau-seringa, pau-moeda, cau-chu, seringueira, seringueira-boa, árvore-da-borracha, ';Taxon[413860]='chicle, tamanqueira-de-leite, ';Taxon[14649]='caliandra, esponjinha, esponjinha-sangue, esponjinha-vermelha, mandararé, ';Taxon[414428]='cambuci, cambucizeiro, ';Taxon[882850]='jurema, jurema-branca, ';Taxon[4956]='candeia, amarelinho, vinhático-testa-de-boi, vinhático-branco, vinhático-castanho, acende-candeia, oiteira, pau-de-candeia, vinhático-rajado, vinhático-do-campo, pau-amarelo, ';Taxon[361105]='assacurana, feijão-bravo, sananduva, ';Taxon[850404]='sabugueiro, ';Taxon[413712]='palmeira-leque-de-espinho, ';Taxon[413859]='cópsia, vinca-arbustiva, ';Taxon[258460]='catingueira, marmeleiro-branco, ';Taxon[414834]='mamica-de-porca, ';Taxon[423191]='couvi, ';Taxon[188409]='árvore-de-contas, ';Taxon[414321]='algodão-da-praia, ';Taxon[420915]='bela-emília, jasmim-azul, ';Taxon[413822]='caricatura, graptofilo, planta-caricata, ';Taxon[425403]='mata-pau-de-baixada, ';Taxon[850857]='árvore-pagode, frangipane, jasmim-de-caiena, jasmim-manga, ';Taxon[853840]='louro-variegado, folha-imperial, parafuso, taperibazinho, cróton, folha-de-papagaio, folha-do-imperador, croton, andorinha, folha-da-independência, ';Taxon[869608]='cassava, ';Taxon[414392]='gameleira, ';Taxon[850869]='caliandra, esponjinha, ';Taxon[49139]='arendeúva, arindeúva, aroeira-da-serra, aroeira-preta, urundeúva, ';Taxon[418083]='nogueira, nogueira-de-iguapé, nóz-da-índia, ';Taxon[414129]='bauínea-vernelha, mororó-de-flor-vermelha, pata-de-camelo, ';Taxon[413903]='roble-de-porto-rico, roble-de-puerto-rico, roble-real, ';Taxon[2893]='camelia, camélia, rosa-do-japão, ';Taxon[134463]='grão-de-galo, pau-de-formiga, ';Taxon[4596]='arara-tucupi, benguê, faveira-benguê, faveira-pé-de-arara, paricá, visgueiro, ';Taxon[850865]='coqueiro-de-vênus, cordiline, dracena-vermelha, papagaio, raíz-de-chá, ';Taxon[413909]='paratudo, para-tudo, pau-darco, caraibeira, ipê-amarelo-do-cerrado, ipê-amarelo, ipê, caraíba, caroba-do-campo, ';Taxon[414397]='figueira-dos-pagodes, figueira-religiosa, ';Taxon[258458]='sibipiruna, pau-de-pernambuco, ibirapuita, pau-brasil, brasileto, pau-rosado, ibirapitanga, imirapitã, arabuta, ';Taxon[863174]='ipê-macaco, ';Taxon[423968]='salgueiro-chorão, salgueiro-do-campo, s.-da-babilônia, ';Taxon[13341]='pata-de-vaca, unha-de-vaca, ';Taxon[415015]='léia, ';Taxon[850995]='socorujuva, saguaraji-vermelho, guaxumbo, jucuruju, sabiá-da-mata, sobrasil, saguaraji, sobraji, sucurujuva, saguari, falso-pau-brasil, sobraju, ';Taxon[419122]='aglaia, murta-do-campo, ';Taxon[414945]='bananeira-brava, pacová, sororoca, ';Taxon[850518]='samambaia-açu, ';Taxon[414824]='jaborandi, jaburandí, ';Taxon[850568]='cipreste, cipreste-lawnson, cipreste-nevado, pinheiro-prateado, ';Taxon[854034]='caçamba-do-mato, castanha-sapucaia, cumbuca-de-macaco, marmita-de-macaco, sapucaia, ';Taxon[866894]='belas, cipó-de-são-joão, cipó-de-s.-joão, flor-de-são-joão, flor-de-s.-joão, ';Taxon[864999]='caixeira, ';Taxon[854395]='pau-de-ervilha, ';Taxon[850640]='laranjeira, ';Taxon[854134]='leucena, ';Taxon[852470]='araticú, araticum, ata, biribá-do-mato, pinha-do-mato, ';Taxon[416315]='perinã, ';Taxon[414420]='ardísia, ';Taxon[312293]='bauínea-vernelha, mororó-de-flor-vermelha, pata-de-camelo, ';Taxon[416113]='palmeira-jussara, palmiteiro, palmito-doce, palmito-jussara, ';Taxon[850923]='cambará, cambará-de-espinho, camará-branco, cambará-branco, camarazinho, lantana-cambará, camarajuba, camará, chumbinho, ';Taxon[414786]='estrela-de-açucena, ';Taxon[129433]='ipê-amarelo, ';Taxon[414166]='farinha-seca, tamboril, wattle, ';Taxon[422112]='aurora, ';Taxon[414418]='ardísia, canela-preta, ';Taxon[414398]='figueira-amarela, ';Taxon[413828]='camarão-vermelho, ';Taxon[847381]='bambu-comum, ';Taxon[884741]='angico-branco, jacaré, monjoleiro, monjolo, pau-jacaré, ';Taxon[3468]='gameleira-brava, ';Taxon[413861]='coerana-negra, coreana-negra, leiteira, paina, ';Taxon[414221]='aquiqui, embira-de-sapo, facheiro, favinha, timbó-pau, ';Taxon[850892]='palmeira-furacão, palmeira-princesa, ';Taxon[413976]='batata-de-porco, ';Taxon[851003]='açucena, açucena-da-água, açucena-do-brejo, cebola-cencém, crino-cor-de-rosa, ';Taxon[3414]='cipestre, cipreste, pinheiro-do-canadá, ';Taxon[2198]='açacu, areeiro, assacu, ';Taxon[423162]='fava-de-bolota, ';Taxon[519012]='camboí, camboim, cambuím, ';Taxon[135913]='paineira-rosada, ';Taxon[854021]='paineira-das-pedras, ';Taxon[414202]='pau-de-sabão, tamboril, timbaúva, timbaíba, orelha-de-negro, orelha-de-macaco, timbó, pacará, tamburé, timburi, ';Taxon[322809]='esponja, esponjinha, manduruva, quebra-foice, ';Taxon[414782]='café, erva-de-rato-branco, ';Taxon[561]='coroa-de-cristo, ';Taxon[851024]='bananeira, ';Taxon[361280]='eritrina-candelabro, mulungu, mulungu-do-litoral, ';Taxon[43]='algodão-bravo, ';Taxon[424055]='odontonema, ';Taxon[414133]='pata-de-vaca, ';Taxon[414233]='charapilla, cumaru, ';Taxon[623020]='maiate, ';Taxon[2431]='oliveira, ';Taxon[4645]='pau-rainha, ';Taxon[323378]='arapiraca, ';Taxon[883481]='cocoite, gliricídia, madrecacao, madre-de-cacau, mata-rato, ';Taxon[853797]='cambuí, bálsamo, aroeira-mansa, aroeira-precoce, coração-de-bugre, aroeira-branca, aroeira-pimenteira, aroeira, aroeira-do-campo, aroeira-do-paraná, aroeira-vermelha, fruto-de-raposa, aguaraiba, aroeira-do-sertão, aroeira-do-brejo, aroeira-da-praia, cabaí, fruto-de-sabi, ';Taxon[851138]='acaju, caju-banana, caju, caju-da-praia, acajaíba, cajueiro, acajaúba, caju-manso, caju-manteiga, acajuíba, caju-de-casa, ';Taxon[55797]='carne-de-pescado, ';Taxon[416983]='arco-de-lajedo, ';Taxon[963621]='pitangao, ';Taxon[864102]='mororó, pata-de-boi, pata-de-vaca, unha-de-boi, unha-de-vaca, ';Taxon[413884]='guaimbê-da-folha-ondulada, ';Taxon[414869]='sapoti, sapotizeiro, ';Taxon[854347]='cássia-do-nordeste, ';Taxon[187023]='cinzeira, fruta-de-jacu-do-mato, fruta-de-jacu-macho, jacu-do-mato, maria-preta, ';Taxon[413994]='árvore-chinesa-da-vida, ';Taxon[850372]='arariba-vermelha, ';Taxon[960382]='cambuí, jaboticaba-peluda, ';Taxon[850925]='agave-dragão, tromba-de-elefante, ';Taxon[883118]='timbó-grande, timbó-urubu, timbó-verdadeiro, ';Taxon[414953]='cipreste-calvo, ';Taxon[851102]='coerana, ';Taxon[850533]='ratã, ';Taxon[4715]='copaibarana, jebaro, líbaro, ';Taxon[863385]='amendoim, amendoim-bravo, amendoim-do-campo, madeira-nova, viraro, ';Taxon[413900]='bonnet-deveque, bonnet-quadrado, ';Taxon[869602]='bandeira-branca, lírio-da-paz, ';Taxon[258966]='inga, ';Taxon[413989]='cipestre, cipestre-italiano, cipreste, cipreste-italiano, ';Taxon[850596]='pitanga, pitanga-preta, pitangueira, ';Taxon[218029]='sacacá, ';Taxon[416338]='maria-rosa, ';Taxon[853277]='caingá, ';Taxon[71136]='sapirangui, pau-de-leite, jasmim, leiteiro-de-vaca, jasmim-pipoca, burra-leiteira, leiteira, jasmim-catavento, ';Taxon[850556]='camará, camará-de-lixa, lixa, lixeira, ';Taxon[413942]='piqui, petiá, pequiá, pequiá-verdadeiro, amêndoa-de-espinho, piquiá, grão-de-cavalo, suari, ';Taxon[396811]='resedá-flor-da-rainha, resedá-gigante, ';Taxon[56965]='cheflera-pequena, ';Taxon[121782]='eucalipto, eucalipto-limão, ';Taxon[413943]='casuarina, ';Taxon[422543]='cacau, cacau-do-mato, cacaueiro, cacau-verdadeiro, ';Taxon[414175]='cássia, jahor, ';Taxon[121400]='barriguda, ';Taxon[652760]='parajú, ';Taxon[850438]='palmeira-furacão, palmeira-princesa, ';Taxon[850583]='curupa, angico-vermelho, angico, cambuí, aperta-ruão, angico-coco, cambuí-vermelho, monjolim, angico-branco, angico-cambiu, cambuí-angico, angico-liso, cambuí-branco, angico-escuro, jurema-preta, ';Taxon[852769]='japecanga-amarela, ';Taxon[414891]='muruba, pau-amargo, pau-amargoso, pau-de-surina, quassia, quina, ';Taxon[861684]='aperta-cu, barreiro, espinheiro, jacarandá-bico-de-pato, pequiá-pedra, sete-capotes, ';Taxon[414725]='pinheirinho, pinheiro-bravo, ';Taxon[3743]='caroba, caroba-da-mata, carobão, carobeira, carobinha, jacarandá-caroba, ';Taxon[413920]='samambaiaçu-do-brejo, ';Taxon[869997]='mamorana-grande, ';Taxon[421815]='guapeba, guapeba-preta, ';Taxon[413917]='açafroa, açafroeira-da-terra, urucú, urucum, ';Taxon[4567]='orelha-de-macaco, ';Taxon[414743]='catucanhém, ';Taxon[258892]='white-siris, ';Taxon[67510]='guatambú-do-cerrado, mongonçalo, peroba-branca, gonçalo-alves, peroba-cetim, pereiro-de-folha-larga, pau-pereiro-verdadeiro, peroba-peluda, guatambu-do-cerrado, peroba-amarga, gordinha, pereira, peroba-do-campo, bolsa-de-pastor, pão-de-coam, pereiro-do-campo, panacéia, guatambú, guatambu, muirajussára, peroba, pau-pereira, bolsinha, muirajussara, moela-de-ema, muirajuçara, ';Taxon[414216]='arariba-rosa, putumuju, ';Taxon[425223]='caucho, ';Taxon[416347]='palmeira, ';Taxon[850487]='pticosperma-de-salomão, ';Taxon[258547]='bico-de-papagaio, ceiba, corticeira, ';Taxon[850973]='aninga, aninga-açu, aninga-açú, linga, ';Taxon[503408]='guararema, ibirarema, pau-dalho, ';Taxon[416061]='coco-da-bahia, coqueiro, ';Taxon[869291]='embaúba, embaúba-vermelha, imbaúva, ';Taxon[121704]='abricó, abricó-de-macaco, castanha-de-macaco, coco-de-macaco, ';Taxon[734528]='inga-cipó, inga-da-praia, ';Taxon[850514]='perinã, ';Taxon[414122]='sapucaia, sapucaia-branca, sapucaia-mi&#65533;da, sapucaia-mirim, ';Taxon[850368]='areca-bambu, ';Taxon[850673]='imbé-sangue, ';Taxon[414460]='pimenta-da-jamaica, ';Taxon[850672]='cipó-de-imbé, ';Taxon[850373]='cumbixaba, grumixaba, grumixama, grumixama-branca, grumixameira, ibaporoiti, ';Taxon[854556]='camboatá, ';Taxon[414128]='unha-de-vaca, ';Taxon[1076]='ipê, ipe-laranja, ';Taxon[415398]='taperabá-açú, fruta-de-cedro, taberebá-cedro, cedro-branco, cedro-rana, taperibá-cedro, iacaiacá, cedrorana, ';Taxon[850666]='caroba-branca, cinco-folhas, ';Taxon[414444]='uvaia, ';Taxon[310]='primavera, três-marias, ';Taxon[850891]='brazilian-rosewood, jacarandá-caviúna, graúna, caviúna, cabiúna-do-mato, jacarandá-roxo, jacarandá-da-bahia, pau-preto, palisandre, jacarandá-preto, jacarandá, ';Taxon[1746]='café, café-do-méxico, café-murta-do-brasil, murta-das-antilhas, murta-do-brasil, ';Taxon[67565]='peroba-paulista, pereiro-de-saia, pereiro-branco, peroba-rosa, palo-de-rosa, pereiro-preto, pau-pereiro, pereiro, palorrossa, trevo, kirandi, pereiro-vermelho, ';Taxon[419207]='figueira-chinesa, ';Taxon[416317]='perinã, ';Taxon[973380]='araruta-da-flórida, ';Taxon[414100]='boca-de-velha, saputá, ';Taxon[414146]='palheteira, sombra-de-vaca, sombreiro, ';Taxon[415063]='pseuderântemo, ';Taxon[413855]='árvore-borracha, funtum, ';Taxon[414996]='lágrima-de-cristo, ';Taxon[573017]='joá, joazeiro, juá, juá-espinho, juá-fruta, juazeiro, laranja-de-vaqueiro, ';Taxon[414868]='massaranduba, ';Taxon[70754]='anguito, ';Taxon[413910]='ipê-rosa, ';Taxon[310828]='imbirema, ';Taxon[416239]='tamareira, ';Taxon[850894]='acapurana, ';Taxon[254387]='bacupari, ';Taxon[850561]='ratã, ';Taxon[1933]='aroeira-do-sertão, ';Taxon[782037]='socoró, ';Taxon[14985]='aicuri-micuri, licuri, ouricuri, ';Taxon[853832]='ocumo, taioba, ';Taxon[850366]='palmeira-barriguda, ';Taxon[416081]='palmeira-laca, ';Taxon[850565]='árvore-de-são-tomás, pata-de-vaca, unha-de-boi, ';Taxon[850510]='aicuri-micuri, licuri, ouricuri, ';Taxon[2691]='aroeirão, chiatã, gibatão, gonçalo-alves, guarita, guaritá, ';Taxon[893644]='laranja-amarga, laranja-caipira, laranja-da-china, laranja-da-terra, laranja-doce, laranjeira, ';Taxon[854501]='farinha-seca, ';Taxon[4100]='santa-rita, ceboleiro, buganvílea, primavera, três-marias, cansarina, espinho-de-santa-rita, sempre-lustrosa, ';Taxon[414262]='canela-do-brejo, capacho, coração-de-negro, lapachillo, ';Taxon[850698]='pata-de-vaca, unha-de-vaca, ';Taxon[414744]='catucanhém, kutucahen, kutucanhém, ';Taxon[414427]='capoteira, araçá-do-mato, araçazeiro-grande, sete-capotes, sete-capas, sete-casacas, guabiroba-verde-do-mato, ';Taxon[212070]='castanha-comadre-de-azeite, cayaté, c.-peixe, c.-de-cotia, castanha-de-azeite, c.-de-cayaté, compadre-do-azeite, c.-purgativa, ';Taxon[414300]='cega-machado, grão-de-porco, pau-de-rosas, pau-rosa, quebra-facão, resedá-nacional, ';Taxon[666331]='piririqueira, embireira, mutamba-verdadeira, pau-de-bicho, pojó, camacã, embiro, camacan, guaxima-macho, guaxima, araticum-bravo, ibixuma, mutamba, embira, guaxima-torcida, mutamba-preta, camaca, mutambo, pau-de-motamba, pojo, periquiteira, envireira, pau-de-mutamba, ';Taxon[1388]='cedro-branco, ';Taxon[414780]='mussaenda-rosa, ';Taxon[414131]='unha-de-vaca, ';Taxon[850435]='baba-de-boi, babosa-branca, grãos-de-porco, ';Taxon[414764]='café, café-da-libéria, cafeeiro-da-libéria, ';Taxon[2090]='junípero-chinês, junípero-chinês-rasteiro, ';Taxon[414503]='bilimbeiro, bilimbi, bilimbing, carambola-americana, limão-de-cayenna, ';Taxon[859691]='pinheiro-de-arco, pinheiro-moreton, ';Taxon[850602]='massaranduba, ';Taxon[850876]='cica, palmeira-samambaia, ';Taxon[413921]='castanha-do-maranhão, ';Taxon[414215]='castanha-da-austrália, ';Taxon[851056]='seringueira-roxa, seringueira-verdadeira, seringueira-preta, pau-seringa, pau-moeda, cau-chu, seringueira, seringueira-boa, árvore-da-borracha, ';Taxon[919880]='alecrim-de-campinas, pau-alecim, ';Taxon[414765]='jasmim-do-cabo, ';Taxon[863502]='cedro-dágua, embiruçu, embiruçu-vermelho, embirussú-vermelho, paina-amarela, paina-do-arpoador, ';Taxon[413854]='recurva-da-índia, ';Taxon[1875]='bunia-bunia, buni-bunia, pinheiro, ';Taxon[15007]='ingá-branco, inga-da-praia, ';Taxon[416331]='catolé, coco-de-quaresma, guariroba, coqueiro-amargoso, coco-babão, pati-amargoso, coco-catolé, ';Taxon[850407]='azaléia, ';Taxon[415992]='marajá, maraja-açu, marajá-do-iguapó, ';Taxon[733927]='falsa-eritrina, guaraná, guaraná-timbó, timbó, ';Taxon[416024]='palmeira-rabo-de-peixe, ';Taxon[414116]='amendoeira-da-américa, castanha-do-pará, castanha-verdadeira, castanheira, castanheiro-do-pará, ';Taxon[919031]='mororó, pata-de-boi, pata-de-vaca, unha-de-boi, unha-de-vaca, ';Taxon[414951]='ave-do-paraíso, estrelitzia, flor-ave-do-paraíso, flor-da-rainha, ';Taxon[854483]='canela-amarela, canela-de-cheiro, canela-rosa, canela-sassafráz, ';Taxon[866303]='cajá, cajá-de-pescoço, cajá-grande, cajá-graúdo, cajazeira, cajazeiro-graúdo, ';Taxon[415980]='murumuru, tucumã, ';Taxon[419219]='ati, ';Taxon[399140]='cipó-prata, ';Taxon[413585]='jaca, jaqueira, ';Taxon[850562]='alfeneiro-do-japão, ';Taxon[850952]='biri, birí, cana-da-índia, ';Taxon[850996]='matiambu, pequiá, piquiá, guatambú-amarelo, tambu, piquiá-de-folha-larga, guatambu-amarelo, peroba-amarela, pequiá-doce, guatambu, piquiá-amarelo, guatambu-legítimo, guatambu-grande, matambu, peroba-café, peroba-de-folha-larga, ';Taxon[850917]='jacarandá-do-cerradão, jacarandá-do-cerrado, jacarandá-do-mato, jacarandá-pardo, jacarandá-paulista, ';Taxon[316482]='jataiba, jataí-açú, jutaí, jataí-açu, trapuca, algarobo, jatobá, algarobeira, jataí, ';Taxon[414115]='cerú, churú, tauarí, ';Taxon[902493]=', ';Taxon[419223]='figueira-roxa, ';Taxon[963007]='capoti, cola, noz-de-cola, ';Taxon[858209]='palheteira, sombra-de-vaca, sombreiro, ';Taxon[71312]='café-do-mato, grão-de-galo, jasmim-de-leite, leiteira, pau-de-colher, ';Taxon[867517]='aninga, ';Taxon[414352]='aruman, bananeirinha-do-mato, caeté, ';Taxon[850392]='coyore, grigri, macaw-palmae, ';Taxon[348343]='cerejeira, cumaru-de-cheiro, ';Taxon[414736]='tachi, tachi-da-várzea, tachi-preto, ';Taxon[873411]='dietes, moréia, moréia-bicolor, ';Taxon[421827]='balata, ';Taxon[850719]='jataiba, jataí-açú, jutaí, jataí-açu, trapuca, algarobo, jatobá, algarobeira, jataí, ';Taxon[414840]='akee-free, castanheira-da-áfrica, castanheiro-da-áfrica, ';Taxon[854551]='angico-branco, ';Taxon[883286]='cumaru-amarelo, tonka-bean, ';Taxon[795611]='aldrago, aldrago-miúdo, mututi-da-terra-firme, pau-de-sangue, sangue-de-drago, supupira-amarela, violeta-do-campo, ';Taxon[259031]='olho-de-cabra, tento, ';Taxon[121409]='árvore-da-seda, sumaúma, sumúma-de-várzea, ';Taxon[414833]='limão-francês, ';Taxon[850566]='pata-de-vaca, unha-de-vaca, ';Taxon[413831]='camarão, digital, folha-da-independência, sanquesia, ';Taxon[963668]='ébano, ébano-colombiano, ';Taxon[414499]='jasmim-amarelo, ';Taxon[66279]='alamanda, alamanda-de-flor-grande, taça-de-ouro, alamanda-amarela, tocoya, puerco-espín, orelia, dribu-acuanateta (guaras), santa-maria, quatro-patacas, orélia, cipó-de-leite, dedal-de-dama, don-tomás, alamanda-purgante, buiuçu, quatro-patacas-amarela, ';Taxon[850442]='catolé, coqueiro-de-piaçaba, piaçaba, vai-tudo, ';Taxon[414469]='cravo-de-cabecinha, cravo-aromático, cravo-da-índia, cravo-das-molucas, girofleiro, craveiro-da-índia, cravo-de-doce, craveiro, cravo-fétido, cravinho-da-índia, cravo-girofle, ';Taxon[415008]='teca, ';Taxon[884714]='mulateiro, paracaxi, paroá-caxi, pau-mulato, pracaxi, ';Taxon[773610]='coerana, ';Taxon[850522]='perinã, ';Taxon[414484]='malafaia, ';Taxon[850674]='coqueiro-tucumã, tucum, tucumã-grande, ';Taxon[854411]='maria-mole, ';Taxon[870654]='ipê amarelo da mata, pau darco, ';Taxon[399070]='aiauasca, aiaxuasca, ';Taxon[421678]='araçá-da-praia, araçarana, ';Taxon[414332]='maranta-leopardo, ';Taxon[221097]='amuleto-indiano, ';Taxon[422519]='caeté, pacová, ';Taxon[13385]='copahiba, copaíba, óleo-copaíba, ';Taxon[414880]='selaginela, ';Taxon[851032]='papiro, ';Taxon[324743]='arabisco, cañafistula-de-monte, capra, ';Taxon[413916]='bolsa-de-pastor, bucho-de-boi, ipê-cabeludo, ipê-felpudo, mandioquinha, marfim, ';Taxon[629775]='banana-dágua, tifonodoro, ';Taxon[416972]='peroba-amarela, peroba-branca, peroba, ipê, peroba-de-campos, peroba-do-campo, ipê-peroba, ';Taxon[414940]='cacaoí, cacao-rana, cacao-rana-de-fruto-amarelo, ';Taxon[668463]='cupuí, ';Taxon[414419]='icacoré-catinga, ';Taxon[861625]='cana-de-macaco, ';Taxon[4511]='pacová-de-macaco, ';Taxon[414164]='guarabu, pau-roxo, jutairana, gitaí, guarabú, roxinho, óleo-de-jataí, jitaí, ';Taxon[851005]='ama, ';Taxon[414873]='abiurana, cutitiriba, oiti-tituba, ';Taxon[3251]='aroeira-mole, ';Taxon[413832]='chinela-de-judia, sapatinho, sapatinho-de-dama, sapatinho-de-judeu, sapatinho-de-judia, ';Taxon[14991]='catolé, coco-de-quaresma, gerivá, guariroba, coqueiro-amargoso, coco-babão, pati-amargoso, coco-catolé, ';Taxon[101487]='pequi, ';Taxon[414188]='avaremotemo, bordão-de-velho, ';Taxon[864499]='ingá-bravo, ingá-dura, ingarana, ingá-rana, sete-folhas, ';Taxon[421810]='murta, ';Taxon[850587]='chupa-ferro, laranjeira-do-mato, timbetaru, timbetarú, ';Taxon[5009]='balão-chinês, pau-de-salsa, salsa, ';Taxon[414046]='pau-de-leite, mata-olho, leiteiro, taropi, mata-olho-de-leite, leiteiro-de-folha-grande, pau-branquinho, tapuru, pela-cavalo, figueirinha, ';Taxon[281617]='bambu, ';Taxon[850849]='ahoay-guassú, chapéu-de-napoleão, jorro-jorro, ';Taxon[413945]='cafezinho, coração-de-bugre, seca-ligeiro, ';Taxon[389487]='farinha-seca, tamboril, ';Taxon[856182]='ipê-amarelo, ipê-rosa, ';Taxon[342271]='feijão-bravo, mucunã, ';Taxon[850424]='palmeira-garrafa, ';Taxon[850887]='borboleta, gengibre-branco, jasmim-borboleta, lágrima-de-moça, lágrima-de-vênus, lírio-branco, lírio-do-brejo, ';Taxon[326810]='visgueiro, ';Taxon[3820]='candeia-de-caju, dedal, dedaleira, pacari, ';Taxon[864998]='caóba, mogno-mirim, ';Taxon[850844]=', ';Taxon[962234]='ipê, ipê-preto, ipê-rosa, ipê-roxo, ipê-roxo-de-sete-folhas, pau-darco, pau-darco-roxo, ';Taxon[5017]='pau-preto, ';Taxon[414445]='cambuí, cambui-de-cachorro, goiabeira-do-mato, ';Taxon[852942]='ipê-amarelo, ipê-rosa, ';Taxon[795372]='imbé, ';Taxon[854057]='cajarana, cangerana, cangerana-na, canharana, cedro-cangerana, pau-de-santo, ';Taxon[854372]='embiruçu, embiruçu-branco, paineira, ';Taxon[850464]='palmeira-furacão, palmeira-princesa, ';Taxon[850389]='palmeira-de-cuba, palmeira-imperial, ';Taxon[414442]='murta, ';Taxon[414776]='ixora, ixora-coral, jasmim-vermelho, ';Taxon[853604]='pinha-do-brejo, pinho-do-brejo, araticum, canela-do-brejo, magnólia-branca, babuaçu, pau-pombo, magnólia-do-mato, magnólia-do-brejo, fruta-de-pau, ';Taxon[848931]='araticum, ariticum, biriba, biribá, condessa, fruta-do-conde, graviola-brava, ';Taxon[576]='figueira-do-rio-grande, ';Taxon[850497]='palmeira-de-rabo, ';Taxon[233794]='ginga, groselha, groselheira-da-índia, pitangueira-branca, vinagreira, ';Taxon[418130]='seringueira-chicote, ';Taxon[398029]='champá, magnólia-amarela, m.-de-petrópolis, ';Taxon[414335]='caeté, ';Taxon[3429]='acaju, cedro-bordado, cedro, cedro-mogno, cedro-vermelho, cedro-cheiroso, cedro-fêmea, cedro-rosa, ';Taxon[413841]='capim-palmeira, curculigo, ';Taxon[965136]='capa-bode, lava-cabelos, ';Taxon[980450]='crista-de-peru, rabo-de-macaco, ';Taxon[198206]='azalea, azaléia, ';Taxon[635]='caju, caju-açu, cajú-açu, cajuí, cajuú-açu, cajú-da-mata, cajueiro-da-mata, cajuí-da-mata, merey-montañero, cajuri, caju-bravo, mery, caju-açú, mairu, ';Taxon[851527]='camarão-amarelo, ';Taxon[950573]='marmelada-de-cachorro, ';Taxon[851114]='murta, ';Taxon[851111]='baobab, fruta-pão, fruta-pão-dos-macacos, ';Taxon[201921]='coca, ipadú, ipadú-coca, ';Taxon[567754]='tento, ';Taxon[1644]='ailanto, árvore-do-céu, verniz-do-japão, ';Taxon[856590]='alecrim-de-campinas, pau-alecim, pau-alecrim, ';Taxon[414827]='limão-do-mato, ';Taxon[993931]='arabuta, brasileto, ibirapitanga, ibirapuita, imirapitã, pau-brasil, pau-de-pernambuco, pau-rosado, sibipiruna, ';Taxon[853584]='caeté, ';Taxon[15080]=', ';Taxon[857509]='estrela-açucena, estrela-do-cerrado, estrela-do-norte, fruta-do-cachorro, ';Taxon[423932]='barriguda, ';Taxon[857901]='azeitona-do-mato, piúna, maria-preta, tarumã, turumã-azul, turumã-do-cerrado, velame-do-campo, marianeira, tarumã-tuíra, ';Taxon[120045]='pajurá, umarirana, ';Taxon[414047]='castanha-japonesa, castanheiro-da-europa, ';Taxon[413864]='aguaí, ';Taxon[414110]='falsa-mirra, limoneti, mirra, pluma-de-névoa, ';Taxon[423910]='gervão, jervão, ';Taxon[854822]='chá-da-campanha, chapéu-de-couro, erva-do-brejo, erva-do-pantano, reiseblaettriger-wasserwegerich, ';Taxon[414387]='borracha-do-panamá, caucho, caucho-místico, ';Taxon[414854]='olho-de-boi, pitomba, pitomba-de-macaco, pitombeira, ';Taxon[850579]='azulzinha, carolia, tumbergia-azul, ';Taxon[850564]='cedro-português, ';Taxon[414244]='pau-de-chapada, ';Taxon[3094]='árvore-da-vida, cipreste, cipreste-português, cedro-do-líbano, cedro-bussaco, cedro-português, cedro-do-bussaco, ';Taxon[858437]='angelim-amargoso, angelim-araroba, araroba, faveira, ';Taxon[215862]='manacá-açu, ';Taxon[893645]='limão-azedo, limão-silvestre, limão-de-molho, limão-miúdo, limão, limão-de-botica, limoeiro, limão-comum, limão-amargo, ';Taxon[850475]='palmeira-jussara, palmiteiro, palmito-doce, ';Taxon[851081]='cucura, i-de-vinho, imbauba-mansa, uvilha, ';Taxon[850500]='tamareira-anã, tamareira-de-jardim, ';Taxon[850852]='canela, ';Taxon[48962]='manga, mango, mangueira, ';Taxon[414483]='milho-dágua, forno-de-jaçanã, jaçanã, rainha-dos-lagos, nanpé, vitória-régia, forno-dágua, ';Taxon[949398]='aperta-cu, barreiro, espinheiro, jacarandá-bico-de-pato, pequiá-pedra, sete-capotes, ';Taxon[413867]='azedinho, azevinho, pau-azevim, sobra-de-touro, sombra-de-touro, ';Taxon[414489]='ócna, ';Taxon[883345]='ipê, ipê-rosa, ipê-roxo, pau-darco, pau-darco-roxo, ';Taxon[850474]='araçá-de-coroa, araçá, araça-amarelo, araça-do-campo, araça-manteiga, araça-de-comer, araça-doce, araça-pera, araça-rosa, araçá-da-praia, araça-vermelho, araçazeiro, china-guava, ';Taxon[416027]='banda-de-sargento, cariota, ';Taxon[413846]='quebracho-colorado, ';Taxon[414948]='árvore-do-viajante, bananeira-de-leque, bananeira-de-madagascar, ';Taxon[857508]='açucena-do-mato, bacuri, castanha-de-macaco, maria-peidorreira, marmelinho-do-mato, ';Taxon[850465]='palmeira-furacão, palmeira-princesa, ';Taxon[422248]='assa-peixe, folha-de-santana, ortiga-mansa, ';Taxon[414742]='macadâmia, ';Taxon[414035]='coroa-de-cristo, ';Taxon[409121]='a.-da-costa, a.-das-barbadas, a.-de-pernambuco, a.-de-guiné, etc..., a.-americano, algodão, a.-crioulo, a.-folha-de-parreira, ';Taxon[414342]='maranta-zebrada, ';Taxon[863735]='canela-de-ema, ';Taxon[414717]='pinheiro, pinheiro-das-canárias, ';Taxon[405780]='carrasquinha, cerejeira-das-antilhas, ';Taxon[414498]='jasmim, ';Taxon[850598]='bananeira-do-mato, ';Taxon[312551]='bráunea, ';Taxon[850575]='cipestre, cipestre-italiano, cipreste, cipreste-italiano, ';Taxon[850956]='canela-branca, casca-de-cutia, erva-moura-do-sertão, paratudo-aromático, pru-pimenta, ';Taxon[850364]='buri, imburi, ';Taxon[2571]='beque, bíque, canela-de-garça, naranjillo, pau-santo, ';Taxon[887972]='caeté, ';Taxon[423874]='araucária-de-norfolk, árvore-de-natal, norfolk-pine, pinheiro-de-norfolk, ';Taxon[850577]='coca, coronilha, maçaranduba-da-praia, quixabeira, rompe-gibão, sacutiaba, sapotiaba, ';Taxon[414193]='angico-vermelho, paricá-da-terra-firme, paricá-de-curtume, ';Taxon[883958]='pau-ferro, caviúna-rajada, jacarandá-violeta, jacarandá-ferro, candeia-do-sertão, vaviúna-vermelha, caviúna, penanguba, ';Taxon[414041]='castanha-de-arara, pau-roxo, ';Taxon[415977]='murumuru, ';Taxon[850363]='palmeira-imperial, ';Taxon[414389]='figueira-de-jardim, ';Taxon[423967]='caeté, ';Taxon[413941]='pequiarana, pequiarana-de-várzea, piquiá-rana, ';Taxon[414433]='eucalipto, ';Taxon[139120]='chorão, ';Taxon[418136]='pinhão-de-purga, ';Taxon[414501]='wild-olive, ';Taxon[129779]='kigélia, ';Taxon[414395]='laurel-da-índia, ';Taxon[416010]='ratã, ';Taxon[414277]='aspidistra, ';Taxon[413594]='figueira-vermelha, ';Taxon[415994]='tucum, tucum-do-brejo, ';Taxon[850466]='areca-bambu, ';Taxon[1557]='bacuparí-miuda, bacupari-miúdo, fruta-de-macaco, pau-de-macaco, ';Taxon[14992]='tucumã, ';Taxon[13338]='pata-de-vaca, unha-de-vaca, ';Taxon[414989]='clerodendro, ';Taxon[852805]='japicanga, salsa, salsinha, ';Taxon[558]='cambuí, ';Taxon[850544]='buritirana, caraná, ';Taxon[224522]='bacupari-de-cipó, ';Taxon[876693]='alamanda-roxa, criptostégia, ';Taxon[850740]=', ';Taxon[883944]='bico-de-pato, cauvi, guaximbé, jacarandá-de-espinho, jacarandá-ferro, ';Taxon[850548]='ratã, ';Taxon[129458]='ipê-do-brejo,ipê-amarelo-do-brejo, ipê-mulato, ipê-verde, ';Taxon[850893]='amburana, amburana-de-cheiro, cumaru-do-ceará, imburana, imburana-de-cheiro, ';Taxon[800706]='mapuá, ';Taxon[414441]='pitangão, ';Taxon[2509]='velame, sangra-d´água, tapinxigui, sangue-de-dragão, urucurana, capixingui, lixeira, velame-de-cheiro, capoeira-preta, ';Taxon[850942]='calatéia-zebra, maranta-zebra, planta-zebra, zebrina, ';Taxon[416211]='bacabá-de-azeite, bacabá-do-pará, ';Taxon[414252]='quina-quina, pau-vermelho, caboriba, bálsamo, cabreúna-vermelha, óleo-vermelho, sangue-de-gato, pau-de-incenso, ';Taxon[850601]='canela-de-cutia, guaxupita, pau-de-cutia, ';Taxon[258499]='pau-de-bálsamo, pau-vermelho, bálsamo, óleo-vermelho, sangue-de-gato, cabreuva-vermelha, óleo-cabreuva, caboriba, puá, pau-de-incenso, ';Taxon[794072]='comigo-ninguém-pode, ';Taxon[414234]='cumaru, ';Taxon[854016]='saca-rolha, ';Taxon[414061]='bambú-de-jardim, ';Taxon[120008]='abajeru, bajiru, ';Taxon[414393]='figueira-branca, lombrigueira, mata-pau, ';Taxon[317727]='fruta-de-morcego, jaborandi-do-rio, ';Taxon[1686]='cajueiro-bravo, lixeira, sobro, ';Taxon[317094]='carambola, caramboleira, ';Taxon[882037]='angelim-amargo, angelim-do-campo, ';Taxon[852554]='cana-do-brejo, ';Taxon[413975]='campainha-vermelha, ipoméia-rubra, trepadeira-cardeal, ';Taxon[385812]='tipa-branca, ';Taxon[850858]='árvore-pagode, frangipane, jasmim-manga, ';Taxon[414468]='jambeiro-aguado, jambo-branco, jambo-dágua, ';Taxon[52196]='guiné, pau-de-guiné, ';Taxon[414768]='veludinho, veludo, ';Taxon[414894]='caixeta, marubá, marupá, marupaíba, ';Taxon[4665]='falso-pau-brasil, tento-carolina, ';Taxon[3314]='tarumã, ';Taxon[853569]='canela-cheirosa, ';Taxon[850486]='jarina, tucumã, ';Taxon[850529]='tâmara-do-senegal, ';Taxon[414386]='fruta-pão, ';Taxon[71434]='crepe-jasmine, ';Taxon[939352]='folha-de-fonte, ';Taxon[414394]='belaque, ';Taxon[128824]='cuia, coité, cuiteseira, cabaceira, cuia-pequena, cuieira, cueira, cuité, árvore-de-cuia, cuieté, cuitê-cabaceira, cujeté, coite, ';Taxon[4526]='angelim-coco, angelim-doce, angelim-gigante, ';Taxon[414303]='magnólia, magnólia-lírio, ';Taxon[851002]='fibra-da-nova-zelândia, fórmio, linho-da-nova-zelândia, ';Taxon[861563]='bacupari, bacupari-da-mata, sarutá, ';Taxon[414424]='cravo-da-índia, ';Taxon[398059]='arbusto-banana, magnólia-vinho-porto, ';Taxon[414434]='princesinha-de-copacabana, ';Taxon[413998]='cica, palmeira-samambaia, ';Taxon[19313]='camarão-azul, folhagem-azul, salva-azul, ';Taxon[850419]='chá, chá-da-índia, ';Taxon[850958]='banana-dágua, tifonodoro, ';Taxon[414990]='clerodendro, clerodendron, coração-sangrento, ';Taxon[415000]='guimelina, ';Taxon[414999]='caixeta-do-pará, guimelina, ';Taxon[414306]='folha-dourada-da-praia, ';Taxon[850603]='cajá-mirim, acajá, cajazeira, taperebá, mopiyó, cajazeiro, acaíba, jobo, cajá, ';Taxon[851578]='baga-de-freira, guapê, jalão, jambolão, jamelão, ';Taxon[5040]='canivete, corticeira, mulungu, suinã, ';Taxon[258695]='arapirana, ipê-da-vazia, iperana, óleo-comumba, ';Taxon[413928]='mamorana, castanha-do-maranhão, paineira-de-cuba, cacau-selvagem, mamirama, embiratanha, casatanheira-do-maranhão, ';Taxon[850505]='guano-preto, paurotis-palmae, tique, ';Taxon[413593]='vacuá, vacuás, ';Taxon[414304]='magnólia, magnólia-tulipa, ';Taxon[852558]='guarajuba, merindiba, ';Taxon[851119]='jurema, ';Taxon[414330]='caeté, maranta-de-burle-marx, maranta-de-burle-marx-verde, ';Taxon[423574]='saraca-amarela, ';Taxon[413940]='barrigudo, chamburu, mamão-de-veado, mamão-do-mato, mamãozinho, mamoeiro-bravo, ';Taxon[416954]='jacaranda, jacarandá, tarco, ';Taxon[414756]='cerejeira, ';Taxon[414237]='aneleira, anil, ';Taxon[850377]='angélica, espinho-agulha, espinho-de-carneiro, limão-do-mato, mororó, esporão, jasmim-do-mato, fruta-do-cachorro, espinho-de-santo-antônio, ';Taxon[15936]='banana-de-macaco, banana-do-mato, ';Taxon[257]='caranauba, peroba, ';Taxon[414431]='eucalipto, ';Taxon[418821]='agulha-de-adão, iuca-mansa, ';Taxon[850462]='camberônia, ';Taxon[961327]='pau-serrote, ';Taxon[795673]='pequiá, pequiá-de-pedra, pequiá-da-restinga, guatambu-oliva, guatambu-rosa, guatambu-amarelo, guatambu-legítimo, peroba-vermelha, guatambu-marfim, guatambu-vermelho, tambu, pequiá-marfim, amarelão, pau-de-tanho-branco, guatambu-branco, guatambu, peroba, guatambu-peroba, pequiá-branco, ';Taxon[850444]='perinã, ';Taxon[854019]='gororema, pau-dalho, tapiá, trapiá, ';Taxon[323374]='jurema-branca, pau-cascudo, vinhático-de-espinho, ';Taxon[66277]='alamanda-rosa, alamanda-roxa, ';Taxon[4172]='formigueiro, tachi, tachizeiro, taxi-preto, ';Taxon[850410]='flor-do-imperador, jasmim-do-imperador, ';Taxon[121739]='pitangueira, pitangueira-vermelha, pitangueira-do-campo, ibipitanga, pitangatuba, p.-de-jardim, pitanga-da-praia, pitanga-vermelha, ';Taxon[413988]='cipreste-chorão, cipreste-fúnebre, ';Taxon[312315]='pata-de-vaca, ';Taxon[312541]='rosa-da-montanha, ';Taxon[3417]='ipê-do-cerrado, ';Taxon[919987]='mulateiro, mulateiro-da-várzea, pau-de-sebo, pau-marfim, pau-mulato, ';Taxon[414360]='agutique-poobi, caeté, ürubá-verdadeiro, ';Taxon[101492]='pequiarana-vermelha, jiqui, pequiá-da-areia, pequiá-rana, pequiarana, pequiarana-da-terra, cabeleira, ';Taxon[302927]='cânfora, canforeira, ';Taxon[414988]='lágrima-de-cristo, ';Taxon[417026]='durião, ';Taxon[414293]='iuca-elefante, iuca-mansa, pita, vela-de-pureza, ';Taxon[417984]='cica, palmeira-samambaia, ';Taxon[850524]='tucum-branco, tucum-rabo-de-peixe, ';Taxon[414333]='pacová, ';Taxon[850915]='timbó-de-porto-rico, ';Taxon[414995]='clerodendro-africano, clerodendro-azul, ';Taxon[415016]='léia-vermelha, ';Taxon[121542]='amendoeira, amendoeira-da-índia, castanhola, chapéu-de-sol, ';Taxon[850388]='arco-de-pipa, sobragi, ';Taxon[1053]='cajá-mirim, acajá, cajazeira, taperebá, mopiyó, cajazeiro, acaíba, jobo, cajá, ';Taxon[851145]='macambeira, macambira, ';Taxon[850855]='peroba-rajada, peroba-paulista, sobro, peroba-açu, peroba-rosa, perroba-miúda, peroba-miúda, peroba, peroba-comum, p.rosa, peroba-do-rio, peroba-amargosa, peroba-mirim, ';Taxon[258518]='curupa, angico-vermelho, angico, cambuí, aperta-ruão, angico-coco, cambuí-vermelho, monjolim, angico-branco, angico-cambiu, cambuí-angico, angico-liso, cambuí-branco, angico-escuro, jurema-preta, ';Taxon[414430]='algeria, eucalipto, ';Taxon[851106]='palmeira-rabo-de-peixe, ';Taxon[850370]='falsa-latânia, palmeira-leque-da-china, palmeira-leque-de-saia, ';Taxon[850881]='berberes-japonês, ';Taxon[70980]='iné, ';Taxon[850537]='coyore, grigri, macaw-palmae, ';Taxon[865118]='farinha-seca, ';Taxon[850590]='jaborandi, ';Taxon[2639]='eucalipto, gomeiro-azul, príncipe-dos-eucaliptos, ';Taxon[414270]='babosa-feroz, ';Taxon[2002]='tulipa-da-áfrica, ';Taxon[962233]='palmeira-rabo-de-peixe-salomônica, ';Taxon[502111]='maracujá, ';Taxon[414900]='dente-de-cachorro, japecanga, juquecanga, salsaparrilha, ';Taxon[3240]='cacaohí, cacao-jacaré, cacaorana, cacaxí, c.-maracujá, macaca-açã, ';Taxon[209567]='batata-do-inferno, ';Taxon[180658]='jasmim-da-índia, ';Taxon[414454]='árvore-branca, árvore-de-papel, árvore-do-óleo-de-cajeput, ';Taxon[414415]='bicuíba, árvore-do-sebo, andiroba, noz-moscada, ucuúba-da-várzea, ucuúba-cheirosa, ucuúba, ';Taxon[851127]='ipê-rosa, ';Taxon[315965]='amesclinha, ';Taxon[850940]='caeté, ';Taxon[850480]='perinã, ';Taxon[863305]='apuí, figueira-do-rio-grande, ';Taxon[415981]='avoira-do-dendê, coco-de-dendê, coqueiro-de-dendê, dendê, dendezeiro, perinã, ';Taxon[121776]='araça-goiaba, goiaba-branca, goiaba-vermelha, goiabeira, goiabeira-amarela, ';Taxon[1837]='quebacho-vermelho-chaquenho, quebracho, quebracho-colorado, quebracho-colorado-chaquenho, quebracho-vermelho, ';Taxon[414987]='clerodendro, ';Taxon[951086]='urucurana, ';Taxon[853838]='sangue-de-adão, ';Taxon[396708]='dedaleira, pacari, ';Taxon[414843]='longana, olho-de-boi, olho-de-boi-verdadeiro, olho-de-dragão, ';Taxon[850048]='coração-de-negro, ';Taxon[119938]='cocô-de-cotia, ';Taxon[414496]='jasmim, jasmim-do-rio, jasmim-dos-açores, jasmineiro, ';Taxon[326829]='paricá, ';Taxon[14944]=', ';Taxon[414108]='nozes-do-japão, ';Taxon[646880]='cumbixaba, grumixaba, grumixama, grumixama-branca, grumixameira, ibaporoiti, ';Taxon[850448]='perinã, ';Taxon[850853]='pau-cetim, g-branco, g-legítimo, g-vermelho, guatambu-oliva, g-amarelo, guatambu-rosa, guatambu-amarelo, p-marfim, guatambu-legítimo, peroba-vermelha, guatambu-marfim, guatambú-mirim, guatambu-vermelho, g-marfim, guaratiba-mimosa, tambu, p-vermelha, pequiá-marfim, carapanaúba, g-rosa, amarelão, pau-de-tanho-branco, peroba-amarela, guatambu-branco, guatambú, guatambu, peroba, guatambu-peroba, g-peroba, pequiá-branco, ';Taxon[893858]='açucará, esporão-de-galo, ';Taxon[416245]='tâmara-do-senegal, ';Taxon[414203]='guanacaste, ';Taxon[414860]='abiu, gema-de-ovo, guapebeiro, caimito, abiurana, tapinhoá-amarelo, guapeba-vermelha, ';Taxon[414477]='cereja-do-rio-grande, goiaba-chilena, ';Taxon[414497]='jasmim, ';Taxon[850555]='pata-de-vaca, unha-de-vaca, ';Taxon[795654]='araçá, araça-do-campo, araça-de-comer, araça-doce, araça-rosa, araça-vermelho, a.-do-mato, araçazeiro, china-guava, araçá-de-coroa, a.-de-comer, araça-amarelo, araça-manteiga, araça-pera, a.-vermelho, araçá-encarnado, araçá-da-praia, a.-pera, a.-rosa, ';Taxon[851063]='avelos, ';Taxon[317659]='unha-de-boi, ';Taxon[420853]='alho-cebola, ';Taxon[55523]='carne-de-pescado, ';
+function pegaPonto(lat,long,zoom)
+{
+	
+	document.forms["frm"].action="arboreto.php";
+	document.getElementById('edtzoom').value=zoom;
+	document.getElementById('edtlat').value=lat;
+	document.getElementById('edtlong').value=long;
+	document.forms["frm"].submit();
+}
+
+ var side_bar_html = ""; 
+ var gmarkers = []; 
+ var map = null;
+
+
+function createMarker(latlng, map2,taxon,html,inventario,loc,codtaxon,pimagem) 
+{
+	var zeros = "00000000";
+	var qtd = inventario.length;
+	zeros = zeros.substring(0,8-qtd);
+	var inv = zeros + inventario;
+	var img = pimagem;
+	var htmlimagem = '';
+	if (img == 'T')
+	{
+	    htmlimagem='<a href=templaterb2.php?colbot=RBv&imagem='+inv+'_01&arquivo='+inv+'.jpg target=\'Visualizador\'><img src="http://imagens1.jbrj.gov.br/fsi/server?type=image&source=rbv%2F'+inv+'_01.jpg&width=300&height=100&profile=jpeg&quality=95">';
+	}
+	else
+	{
+		htmlimagem = '<img src="../v2/imagens/semimagem.png" width="100px">';
+	}
+	if (loc=='INSETIVORA')
+	{
+		htmlimagem = '<img src="../v2/imagens/INSETIVORA.jpg" width="100px">';
+	}
+	if (loc=='BROMELIARIO')
+	{
+		htmlimagem = '<img src="../v2/imagens/BROMELIARIO.jpg" width="100px">';
+	}
+	if (loc=='CACTARIO')
+	{
+		htmlimagem = '<img src="../v2/imagens/CACTARIO.jpg" width="100px">';
+	}
+    var contentString = '<table width="400px"><tr><td colspan="2"><font size="3" face="Arial, Helvetica, sans-serif"><b>'+taxon+'</b></font></td></tr><tr><td width="100px">'+htmlimagem+'</td><td valign="top" width="300px"><font size="2" face="Arial, Helvetica, sans-serif">Tombo: <b>'+inventario+'</b></font><br><font size="2" face="Arial, Helvetica, sans-serif">Localização: <b>'+loc+'</font></b><br><font size="2" face="Arial, Helvetica, sans-serif">Nome popular: <b>'+Taxon[codtaxon]+'</b></font></td></tr></table>';
+	if (inventario=='BROMELIARIO')
+	{
+    	var marker = new google.maps.Marker({
+        	position: latlng,
+        	map: map2,
+			draggable: false,
+        	icon: 'imagens/bromeliario.png'
+        });
+	}
+	else
+	{
+		if (inventario=='INSETIVORA')
+		{
+    		var marker = new google.maps.Marker({
+        		position: latlng,
+        		map: map2,
+				draggable: false,
+        		icon: 'imagens/insetivora.png'
+        	});
+		}
+		else
+		{
+			if (inventario=='CACTARIO')
+			{
+    			var marker = new google.maps.Marker({
+        			position: latlng,
+        			map: map2,
+					draggable: false,
+        			icon: 'imagens/cactario.png'
+        		});
+			}
+			else
+			{
+    			var marker = new google.maps.Marker({
+        		position: latlng,
+        		map: map2,
+				draggable: false,
+        		//icon: 'imagens/place-03.png'
+				icon: {
+					path: google.maps.SymbolPath.CIRCLE,
+					scale: 8,
+					fillColor: '#A74EAF',
+					fillOpacity: 0.8,
+					strokeColor: '#fff',
+					strokeWeight: 3
+					}
+        		});
+			}
+		}
+	}
+  	var infowindow = new google.maps.InfoWindow(
+      { content: contentString,
+        size: new google.maps.Size(150,70),
+		disableAutoPan:true
+      });
+  	google.maps.event.addListener(marker, 'click', function() 
+	{
+		infowindow.open(map,marker);
+  	});
+}
+  
+function initialize() {
+  
+  
+    var myLatlng = new google.maps.LatLng(-22.96800,-43.224738);
+
+//	var myMapType = google.maps.MapTypeId.ROADMAP;
+
+			var myMapType = google.maps.MapTypeId.ROADMAP;
+	
+		
+
+    var myOptions = {
+		panControl:false,
+      	zoom: 17,
+	  	zoomControl:true,
+	  	zoomControlOptions: {
+  		style:google.maps.ZoomControlStyle.DEFAULT
+	 	},
+      	center: myLatlng,
+	  	mapTypeControl:true,
+	  	mapTypeControlOptions: {
+  			style:google.maps.MapTypeControlStyle.DEFAULT
+	 	},
+	 	mapTypeId: myMapType
+	    //mapTypeId: google.maps.MapTypeId.SATELLITE
+		// mapTypeId: google.maps.MapTypeId.TERRAIN,		 
+		//style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+    }
+    map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+	var homeControlDiv = document.createElement('div');
+  	var homeControl = new HomeControl(homeControlDiv, map);
+  	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
+
+	var kmlLayer = new google.maps.KmlLayer({
+    	url: 'http://jabot.jbrj.gov.br/v2/canteiros.kml',
+    	suppressInfoWindows: true,
+    	map: map,
+    	preserveViewport: true
+  	});
+	var kmlLayer2 = new google.maps.KmlLayer({
+    	url: 'http://jabot.jbrj.gov.br/v2/drenagem_wgs84.kml',
+    	suppressInfoWindows: true,
+    	map: map,
+    	preserveViewport: true
+  	});
+
+  	var drawingManager = new google.maps.drawing.DrawingManager({
+    //drawingMode: google.maps.drawing.OverlayType.MARKER,
+    	drawingControl: true,
+    	drawingControlOptions: {
+      		position: google.maps.ControlPosition.TOP_CENTER,
+      		drawingModes: [
+        		google.maps.drawing.OverlayType.POLYGON
+      		]
+    	},
+    	markerOptions: {
+      		icon: 'imagens/place-03.png'
+    	},
+    	circleOptions: {
+      		fillColor: '#ffff00',
+      		fillOpacity: 1,
+      		strokeWeight: 5,
+      		clickable: false,
+      		editable: true,
+      		zIndex: 1
+    	},
+ 		polygonOptions: {
+      		strokeWeight: 5,
+      		clickable: false,
+      		editable: true,
+      		zIndex: 1,
+			strokeColor: '#A74EAF',
+    		strokeOpacity: 0.8,
+    		fillColor: '#A74EAF',
+    		fillOpacity: 0.35
+  		}	
+  	});	
+
+
+ google.maps.event.addListener(drawingManager, 'polygoncomplete', function (polygon) {
+    var coordinates = (polygon.getPath().getArray());
+	document.forms["frm"].action="arboreto.php";
+	document.getElementById('edtpoligono2').value = coordinates; 
+	document.getElementById('edtzoom').value = map.getZoom();
+	document.getElementById('edtlat').value = polygon.getPath().getAt(0).lat();
+    document.getElementById('edtlong').value = polygon.getPath().getAt(0).lng();
+	document.forms["frm"].submit();
+  });
+ 	drawingManager.setMap(map);  
+  
+	google.maps.event.addListener(map,'click',function(event) {	
+		document.getElementById('edtvalor').value='';
+		pegaPonto(event.latLng.lat(),event.latLng.lng(),map.getZoom());
+	//document.getElementById('edtvalor').value = event.latLng.lat() + ', ' + event.latLng.lng()
+ 	});
+
+
+
+
+
+  	 downloadUrl("phpsqlajax_genxml.php?f=&v=&lat=&long=&ml=", function(data, marker) {
+      var markers = data.documentElement.getElementsByTagName("marker");
+      for (var i = 0; i < markers.length; i++) {
+        var latlng = new google.maps.LatLng(parseFloat(markers[i].getAttribute("lat")),
+                                    parseFloat(markers[i].getAttribute("lng")));
+
+		  var html = markers[i].getAttribute("lat");
+          var label = markers[i].getAttribute("taxon");
+          var inventario = markers[i].getAttribute("inventario");
+          var loc = markers[i].getAttribute("loc");
+          var vulgar = markers[i].getAttribute("vulgar");
+		  var codtaxon = markers[i].getAttribute("codtaxon");
+		  var imagem = markers[i].getAttribute("imagem");
+          // create the marker
+//          var marker = createMarker(latlng,label,html);
+		  var marker = createMarker(latlng,map,label,html,inventario,loc,codtaxon,imagem);
+		 
+//        var marker = new google.maps.Marker({position: latlng, map: map,});
+	   //var marker = createMarker(latlng);//, name, address, type);
+         //   map.addOverlay(marker);
+       }
+     });
+    
+    var marker = new google.maps.Marker({
+        position: myLatlng,
+        map: map,
+		draggable: true,
+		icon: 'imagens/eu.png'
+        });
+
+// CRIAÇÃO DO CIRCULO DE PROXIMIDADE -> GUILHERME
+var myCity = new google.maps.Circle({
+  center:myLatlng,
+  radius:6,
+  strokeColor:"#F9FF00",
+  strokeOpacity:0.8,
+  strokeWeight:3,
+  fillColor:"#D8C11D",
+  fillOpacity:0.2
+  });
+myCity.setMap(map);
+
+
+	google.maps.event.addListener(marker,'dragend',function(event) {
+		document.forms["frm"].action="arboreto.php";
+        document.getElementById('edtlat').value = this.position.lat();
+        document.getElementById('edtlong').value = this.position.lng();
+		document.getElementById('edtzoom').value = map.getZoom();
+		//alert(map.getCurrentMapType());
+		//document.getElementById('maptype').value = map.maptype;
+		document.forms["frm"].submit();
+    });
+
+	 
+}
+
+function HomeControl(controlDiv, map) {
+  controlDiv.style.padding = '5px';
+  var controlUI = document.createElement('div');
+  controlUI.style.backgroundColor = '#FFCC00';
+  controlUI.style.border='1px solid';
+  controlUI.style.cursor = 'pointer';
+  controlUI.style.textAlign = 'center';
+  controlUI.title = 'Minha Localização';
+  controlDiv.appendChild(controlUI);
+  var controlText = document.createElement('div');
+  controlText.style.fontFamily='Arial,sans-serif';
+  controlText.style.fontSize='12px';
+  controlText.style.paddingLeft = '4px';
+  controlText.style.paddingRight = '4px';
+  controlText.innerHTML = '<img src="imagens/eu.png" height="30px">'
+  controlUI.appendChild(controlText);
+  map.controls[google.maps.ControlPosition.RIGHT_TOP].push(controlUI);
+
+  // Setup click-event listener: simply set the map to London
+  google.maps.event.addDomListener(controlUI, 'click', function() {
+   minhaLocaizacao()
+  });
+}
+
+	</script>
+
+</head>
+    <body onLoad="initialize()">
+		<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-64831879-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+<style>
+.dropdown-submenu{position:relative;}
+.dropdown-submenu>.dropdown-menu{top:0;left:100%;margin-top:-6px;margin-left:-1px;-webkit-border-radius:0 6px 6px 6px;-moz-border-radius:0 6px 6px 6px;border-radius:0 6px 6px 6px;}
+.dropdown-submenu:hover>.dropdown-menu{display:block;}
+.dropdown-submenu>a:after{display:block;content:" ";float:right;width:0;height:0;border-color:transparent;border-style:solid;border-width:5px 0 5px 5px;border-left-color:#cccccc;margin-top:5px;margin-right:-10px;}
+.dropdown-submenu:hover>a:after{border-left-color:#ffffff;}
+.dropdown-submenu.pull-left{float:none;}.dropdown-submenu.pull-left>.dropdown-menu{left:-100%;margin-left:10px;-webkit-border-radius:6px 0 6px 6px;-moz-border-radius:6px 0 6px 6px;border-radius:6px 0 6px 6px;}
+</style>
+<div class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.php"><img src="media/images/logo2.png" style="margin-top:-14px;"/></a>
+        </div>
+
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+            <!-- /.dropdown -->                
+ 				<li><a href="index.php"><i class="glyphicon glyphicon-search"></i> Consultar</a></li>
+ 				<li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="glyphicon glyphicon-leaf"></i> Arboreto <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-alerts">
+                        <li >
+                            <a href="arboreto.php">
+                                <div>
+                                    <i class="fa fa-globe fa-fw"></i> Mapa
+                                </div>
+                            </a>
+                        </li>
+                        <li >
+                            <a href="arboretoemfoto.php">
+                                <div>
+                                    <i class="fa fa-leaf fa-fw"></i> Imagens
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-alerts -->
+                </li>
+				
+                <li>
+                    <a href="estatisticapublica.php"><i class="glyphicon glyphicon-stats"></i> Estatísticas</a>
+                </li>				
+				<li>
+                    <a href="herbariosparceiros.php"><i class="glyphicon glyphicon-thumbs-up"></i> Parceiros </a>
+                </li>				
+				<li>
+                    <a href="suporte_jabot.php"><i class="fa fa-envelope-o fa-fw"></i> Suporte </a>
+                </li>
+				
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+						<i class="glyphicon glyphicon-question-sign"></i> Sobre <i class="fa fa-caret-down"></i>
+					</a>
+					<ul class="dropdown-menu dropdown-alerts">
+						<li>
+							<a href="http://jabot.jbrj.gov.br/manual" target="_blank">
+                                <div><i class="fa fa-book"></i>  Manual</div>
+                            </a>
+						</li>
+						<li>
+							<a href="https://www.youtube.com/channel/UCzdKjOTZ8t5jVHFalacJCoA" target="_blank">
+                                <div><i class="fa fa-caret-square-o-right "></i> Videos</div>
+                            </a>
+						</li>
+						<li>
+							<a href="comocitar.php" >
+                                <div><i class="glyphicon glyphicon-pencil"></i> Como citar </div>
+                            </a>
+						</li>
+                        <li>
+                            <a href="descherbario.php" >
+                                <div> <i class="glyphicon glyphicon-list"></i> Informações do Herbário </div>
+                            </a>
+                        </li>
+					</ul>
+				</li>
+					
+				<li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="glyphicon glyphicon-cog"></i> Ferramentas <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-alerts">
+                        <li>
+                            <a href="validarplanilha_externo.php">
+                                <div>
+                                    <i class="fa fa-table"></i>  Validação planilha
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="configuraetiqueta.php">
+                            <!--a onClick="gerarEtiqueta()"-->
+                                <div>
+                                    <i class="fa fa-barcode"></i> Gerar Código de Barra
+                                </div>
+                            </a>
+                        </li>
+						<li>
+                            <a href="ferramentas/arboreto.apk">
+                                <div>
+                                    <i class="fa fa-android"></i> Arboreto (Android)
+                                </div>
+                            </a>
+                        </li>
+						<li>
+                            <a href="configuraetiquetadeterminacao.php">
+                                <div>
+                                    <i class="fa fa-barcode"></i> Gerador de Etiqueta de Determinação
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-alerts -->
+                </li>
+			
+				<li class="dropdown">
+                    <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                        <i class="glyphicon glyphicon-user"> </i> Login <strong class="caret"></strong>
+                    </a>
+                    <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
+                    	<form role="form"  action="exec.login.php?ins=Jardim" method="post" name="frmlogin" id="frmlogin">
+                        	<input id="user_username" style="margin-bottom: 15px;" type="text" placeholder="Usuário" name="login" size="30" class="form-control"/>
+                        	<input id="user_password" style="margin-bottom: 15px;" type="password" placeholder="Senha" id="password" name="password" size="30" class="form-control" />
+                        	<h5><a href="perdeuasenha.php?op=RS">esqueci minha senha</a></h5>
+                        	<button type="submit" id="btnfiltrar" name="btnfiltrar" class="btn btn-success btn-consulta" onClick="execLogin();"> 
+                        	Login </button>
+                        	<!--<input class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 14px;" type="submit" name="commit" value=" Login " />-->
+                    	</form>
+                    </div>
+                </li>
+            </ul>
+						
+        </div><!--/.nav-collapse -->
+    </div><!--/.container-fluid -->
+</div>
+
+<script type="text/javascript" charset="utf-8">
+
+function gerarEtiqueta()
+    {
+        document.getElementById('frm').action='configuraetiqueta.php';
+        document.getElementById('frm').submit();
+    }
+</script>		<div id="page-wrapper">
+            <div class="row">
+                
+    <div class="col-lg-12"> </br> 
+      <div class="panel panel-default"> 
+        		<div class="panel-heading"> Arboreto - JBRJ <a href="http://jabot.jbrj.gov.br/manual/doku.php?id=arboreto" target="_blank"> <img src="imagens/ajuda.png" style="width:20px;margin-left:5px;" alt="Ajuda" /></a></div>
+        		<form id='frm' name='frm' action="arboreto.php" method="post">
+          <input type="hidden" name="sql_filtro" id="sql_filtro" value="
+select t.codigobarras,t.codtestemunho,
+det.aux_detpor,det.diadeterm,det.mesdeterm,det.anodeterm,
+aux_coletprinc,
+diaacesso1,mesacesso1,anoacesso1,
+aux_numcolprinc,
+aux_nomecompunidgeo_invertido,
+deta.descrlocal,
+t.observacoes,
+t.desaparecido,
+t.codcolbot,
+qtdestoqueduplic,
+pj.siglapj,
+fam.nometaxon as familia,
+gen.nometaxon as genero,
+a.aux_nomecompltaxon,
+deta.aux_coletprinc,
+deta.aux_numcolprinc,
+t.numtombo,
+det.codcattypus,
+ugp.aux_nomecomplunidgeo,
+cb.codtipocolbot,
+t.locfisico1,
+t.locfisico2,
+t.codbasedados,
+ct.nomecattypus,
+tcb.nomeespecime,
+ej.latitude,
+ej.longitude,
+t.desaparecido,
+t.numtombo,
+t.dataultalter,
+t.alteradopor,
+Y(replace(AsText(geom), 'MULTIPOINT', 'POINT')) as #latitude#,
+X(replace(AsText(geom), 'MULTIPOINT', 'POINT')) as #longitude#
+
+ from jabot.testemunho t left join jabot.individuovivo iv on t.codtestemunho = iv.codindividuovivo
+ left join publicacao.extracao_jabot ej on t.codtestemunho = ej.codtestemunho
+ ,
+jabot.determinacao det
+ left join jabot.categoriatypus ct on det.codcattypus = ct.codcattypus,
+jabot.arvoretaxon a
+left join
+jabot.arvoretaxon gen ON
+(a.aux_genero = gen.codarvtaxon),
+jabot.arvoretaxon fam,
+jabot.detacesso deta,
+jabot.unidgeopolitica ugp,
+jabot.colecaobotanica cb,
+jabot.basedados bd, 
+jabot.tipocolbotanica tcb,
+pessoajuridica pj,
+geo.inventario_final p 
+  where 
+cast(p.inventario as int) = t.numtombo and
+t.ultimadeterm = det.coddeterminacao and
+t.codtipocolbot = tcb.codtipocolbot and
+det.codarvtaxon = a.codarvtaxon and
+t.codacesso = deta.coddetacesso and
+a.aux_familia = fam.codarvtaxon and
+deta.codunidgeo = ugp.codunidgeo and
+t.codcolbot = cb.codcolecaobot and
+t.codbasedados = bd.codbasedados and
+cb.codcolecaobot = pj.codpj and
+(t.desaparecido = 'F' or t.desaparecido is null or t.desaparecido = '')
+and t.codcolbot = 4635
+ and t.codtestemunho = 0 
+	union
+select t.codigobarras,t.codtestemunho,
+det.aux_detpor,det.diadeterm,det.mesdeterm,det.anodeterm,
+aux_coletprinc,
+diaacesso1,mesacesso1,anoacesso1,
+aux_numcolprinc,
+aux_nomecompunidgeo_invertido,
+deta.descrlocal,
+t.observacoes,
+t.desaparecido,
+t.codcolbot,
+qtdestoqueduplic,
+pj.siglapj,
+fam.nometaxon as familia,
+gen.nometaxon as genero,
+a.aux_nomecompltaxon,
+deta.aux_coletprinc,
+deta.aux_numcolprinc,
+t.numtombo,
+det.codcattypus,
+ugp.aux_nomecomplunidgeo,
+cb.codtipocolbot,
+t.locfisico1,
+t.locfisico2,
+t.codbasedados,
+ct.nomecattypus,
+tcb.nomeespecime,
+ej.latitude,
+ej.longitude,
+t.desaparecido,
+t.numtombo,
+t.dataultalter,
+t.alteradopor,
+-22.967339 as #latitude#,
+-43.228713 as #longitude# 
+ from jabot.testemunho t left join jabot.individuovivo iv on t.codtestemunho = iv.codindividuovivo
+ left join publicacao.extracao_jabot ej on t.codtestemunho = ej.codtestemunho
+ ,
+jabot.determinacao det
+ left join jabot.categoriatypus ct on det.codcattypus = ct.codcattypus,
+jabot.arvoretaxon a
+left join
+jabot.arvoretaxon gen ON
+(a.aux_genero = gen.codarvtaxon),
+jabot.arvoretaxon fam,
+jabot.detacesso deta,
+jabot.unidgeopolitica ugp,
+jabot.colecaobotanica cb,
+jabot.basedados bd, 
+jabot.tipocolbotanica tcb,
+pessoajuridica pj,
+geo.inventario_final p 
+  where 
+cast(p.inventario as int) = t.numtombo and
+t.ultimadeterm = det.coddeterminacao and
+t.codtipocolbot = tcb.codtipocolbot and
+det.codarvtaxon = a.codarvtaxon and
+t.codacesso = deta.coddetacesso and
+a.aux_familia = fam.codarvtaxon and
+deta.codunidgeo = ugp.codunidgeo and
+t.codcolbot = cb.codcolecaobot and
+t.codbasedados = bd.codbasedados and
+cb.codcolecaobot = pj.codpj and
+(t.desaparecido = 'F' or t.desaparecido is null or t.desaparecido = '')
+and t.codcolbot = 18678
+ and t.codtestemunho = 0 
+	union
+select t.codigobarras,t.codtestemunho,
+det.aux_detpor,det.diadeterm,det.mesdeterm,det.anodeterm,
+aux_coletprinc,
+diaacesso1,mesacesso1,anoacesso1,
+aux_numcolprinc,
+aux_nomecompunidgeo_invertido,
+deta.descrlocal,
+t.observacoes,
+t.desaparecido,
+t.codcolbot,
+qtdestoqueduplic,
+pj.siglapj,
+fam.nometaxon as familia,
+gen.nometaxon as genero,
+a.aux_nomecompltaxon,
+deta.aux_coletprinc,
+deta.aux_numcolprinc,
+t.numtombo,
+det.codcattypus,
+ugp.aux_nomecomplunidgeo,
+cb.codtipocolbot,
+t.locfisico1,
+t.locfisico2,
+t.codbasedados,
+ct.nomecattypus,
+tcb.nomeespecime,
+ej.latitude,
+ej.longitude,
+t.desaparecido,
+t.numtombo,
+t.dataultalter,
+t.alteradopor,
+-22.967722 as #latitude#,
+-43.225575 as #longitude#
+ from jabot.testemunho t left join jabot.individuovivo iv on t.codtestemunho = iv.codindividuovivo
+ left join publicacao.extracao_jabot ej on t.codtestemunho = ej.codtestemunho
+ ,
+jabot.determinacao det
+ left join jabot.categoriatypus ct on det.codcattypus = ct.codcattypus,
+jabot.arvoretaxon a
+left join
+jabot.arvoretaxon gen ON
+(a.aux_genero = gen.codarvtaxon),
+jabot.arvoretaxon fam,
+jabot.detacesso deta,
+jabot.unidgeopolitica ugp,
+jabot.colecaobotanica cb,
+jabot.basedados bd, 
+jabot.tipocolbotanica tcb,
+pessoajuridica pj,
+geo.inventario_final p 
+  where 
+cast(p.inventario as int) = t.numtombo and
+t.ultimadeterm = det.coddeterminacao and
+t.codtipocolbot = tcb.codtipocolbot and
+det.codarvtaxon = a.codarvtaxon and
+t.codacesso = deta.coddetacesso and
+a.aux_familia = fam.codarvtaxon and
+deta.codunidgeo = ugp.codunidgeo and
+t.codcolbot = cb.codcolecaobot and
+t.codbasedados = bd.codbasedados and
+cb.codcolecaobot = pj.codpj and
+(t.desaparecido = 'F' or t.desaparecido is null or t.desaparecido = '')
+and t.codcolbot = 19346
+ and t.codtestemunho = 0 
+	union
+select t.codigobarras,t.codtestemunho,
+det.aux_detpor,det.diadeterm,det.mesdeterm,det.anodeterm,
+aux_coletprinc,
+diaacesso1,mesacesso1,anoacesso1,
+aux_numcolprinc,
+aux_nomecompunidgeo_invertido,
+deta.descrlocal,
+t.observacoes,
+t.desaparecido,
+t.codcolbot,
+qtdestoqueduplic,
+pj.siglapj,
+fam.nometaxon as familia,
+gen.nometaxon as genero,
+a.aux_nomecompltaxon,
+deta.aux_coletprinc,
+deta.aux_numcolprinc,
+t.numtombo,
+det.codcattypus,
+ugp.aux_nomecomplunidgeo,
+cb.codtipocolbot,
+t.locfisico1,
+t.locfisico2,
+t.codbasedados,
+ct.nomecattypus,
+tcb.nomeespecime,
+ej.latitude,
+ej.longitude,
+t.desaparecido,
+t.numtombo,
+t.dataultalter,
+t.alteradopor,
+-22.969848 as #latitude#,
+-43.4322516 as #longitude#
+ from jabot.testemunho t left join jabot.individuovivo iv on t.codtestemunho = iv.codindividuovivo
+ left join publicacao.extracao_jabot ej on t.codtestemunho = ej.codtestemunho
+ ,
+jabot.determinacao det
+ left join jabot.categoriatypus ct on det.codcattypus = ct.codcattypus,
+jabot.arvoretaxon a
+left join
+jabot.arvoretaxon gen ON
+(a.aux_genero = gen.codarvtaxon),
+jabot.arvoretaxon fam,
+jabot.detacesso deta,
+jabot.unidgeopolitica ugp,
+jabot.colecaobotanica cb,
+jabot.basedados bd, 
+jabot.tipocolbotanica tcb,
+pessoajuridica pj,
+geo.inventario_final p 
+  where 
+cast(p.inventario as int) = t.numtombo and
+t.ultimadeterm = det.coddeterminacao and
+t.codtipocolbot = tcb.codtipocolbot and
+det.codarvtaxon = a.codarvtaxon and
+t.codacesso = deta.coddetacesso and
+a.aux_familia = fam.codarvtaxon and
+deta.codunidgeo = ugp.codunidgeo and
+t.codcolbot = cb.codcolecaobot and
+t.codbasedados = bd.codbasedados and
+cb.codcolecaobot = pj.codpj and
+(t.desaparecido = 'F' or t.desaparecido is null or t.desaparecido = '')
+and t.codcolbot = 21374
+ and t.codtestemunho = 0 ">
+          <input type="hidden" name="codtestemunho" id="codtestemunho" value="">
+          <input type="hidden" name="edtlat" id="edtlat" value="">
+          <input type="hidden" name="edtlong" id="edtlong" value="">
+          <input type="hidden" name="edtzoom" id="edtzoom" value="">
+          <input type="hidden" name="ML" id="ML" value="">
+          <input type="hidden" name="MENU" id="MENU" value="T">
+          <input type="hidden" name="maptype" id="maptype" value="">
+			<input type="hidden" name="edtpoligono2" id="edtpoligono2" value="">		
+          <div class="panel-body"> 
+            <div class="row"> 
+              <div class="col-lg-2"> 
+                <div class="form-group"> 
+                  <select name="cmboxtipo" id="cmboxtipo" class="form-control" >
+                    <option value="CIENTIFICO" >Nome 
+                    científico</option>
+                    <option value="POPULAR" >Nome 
+                    popular</option>
+                    <option value="COLETOR" >Coletor</option>
+                    <option value="LOCALIZACAO" >Localização  
+                    </option>
+                    <option value="TOMBO" >Número 
+                    Tombo</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-4"> 
+                <div class="input-group"> 
+                  <input type="text" class="form-control" name="edtvalor" id="edtvalor" value="" placeholder="10/A ou 10-A" > 
+				 
+<span class="input-group-btn"> 
+                  <button class="btn btn-success btn-arboreto-enviar" type="button" onClick="enviar()">Consultar</button>
+                  </span>
+				  <span class="input-group-btn"> 
+                  <button class="btn btn-default btn-limpar" type="button" onClick="limpar()"> 
+				  <span class="glyphicon glyphicon-refresh"></span></button>
+                  </span>
+		  		  </div>
+</div>
+              </div>
+			 </div>
+			 <a name="RESULTADO"></a>
+              <div class="row"> 
+                <div class="col-lg-6"> 
+                  <div id="map-canvas"></div>
+                </div>
+				<div class="col-lg-6"> 
+					<div class="table-responsive"> 
+						  
+		<input type="hidden" id='PAG_ORDEM' name="PAG_ORDEM" value="">
+		<input type="hidden" id='PAG_DIR' name="PAG_DIR" value="">
+		<!--table-striped table-bordered table-hover-->
+		
+			
+						</div>
+                </div>
+				<!--                <div class="col-lg-2"> 
+				  <label>Acesse pelo celular</label>
+                  <img src="media/images/qrcode2.png" width="150px">
+                </div>
+
+-->
+				
+			 </div>
+			  <div class="row"> 
+
+              </div>
+            </div>
+            <br>
+        </form>
+      </div>
+      <!-- /.panel -->
+    </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <div class="panel-body">
+
+        </div>
+
+ <!-- Core Scripts - Include with every page -->
+	<script type="text/javascript" language="javascript" src="media/js/jquery.js"></script>
+		<script type="text/javascript" language="javascript" src="media/js/jquery.dataTables.js"></script>
+		<script type="text/javascript" language="javascript" src="media/js/jquery.tooltip.js"></script>
+		<script type="text/javascript" language="javascript" src="media/js/bootbox.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+
+  function showalert(message,alerttype) {
+    $('#alert_placeholder').append('<div id="alertdiv" class="alert ' +  alerttype + '"><a class="close" data-dismiss="alert">Ã—</a><span>'+message+'</span></div>');
+    setTimeout(function() {
+		 // this will automatically close the alert and remove this if the users doesnt close it in 5 secs
+      $("#alertdiv").remove();
+	  }, 5000);
+  }
+	function limpar()
+	{
+		window.location = "arboreto.php?L=true&MENU="+document.getElementById('MENU').value;
+	}
+
+	function minhaLocaizacao()
+	{
+		getLocation();
+	}
+	
+	function getLocation() 
+	{
+		document.getElementById('ML').value='S';
+    	if (navigator.geolocation) {
+       		navigator.geolocation.getCurrentPosition(showPosition);
+    	} 
+    }
+	function showPosition(position) {
+		document.forms[0].action='arboreto.php';
+		document.getElementById('edtlat').value=position.coords.latitude;
+		document.getElementById('edtlong').value=position.coords.longitude;
+		document.forms["frm"].submit();
+	}
+	
+	function exportarXLS()
+	{
+		document.getElementById('frm').action='exportarxls2.php?tipo=P2';
+		document.getElementById('frm').target="_blank";
+		document.getElementById('frm').submit();
+	}
+
+	function exportarsplink()
+	{
+		document.getElementById('frm').action='exportarxlssplink.php';
+		document.getElementById('frm').target="_blank";
+		document.getElementById('frm').submit();
+	}
+	
+	function exportarCSV()
+	{
+		document.getElementById('frm').action='exportarcsv.php';
+		document.getElementById('frm').target="_blank";
+		document.getElementById('frm').submit();
+	}
+	
+	
+	function exportarODS()
+	{
+		document.getElementById('frm').action='exportarods.php';
+		document.getElementById('frm').target="_blank";
+		document.getElementById('frm').submit();
+	}
+	function exportarJSON()
+	{
+		document.getElementById('frm').action='exportarjson.php';
+		document.getElementById('frm').target="_blank";
+		document.getElementById('frm').submit();
+	}
+	
+	function exportarXML()
+	{
+		document.getElementById('frm').action='exportarxml.php';
+		document.getElementById('frm').target="_blank";
+		document.getElementById('frm').submit();
+	}
+	
+	
+	function exportar(valor)
+	{
+		if(valor == 'xls'){
+			exportarXLS();
+		}
+		if(valor == 'splink'){
+			exportarsplink();
+		}
+		if(valor == 'csv'){
+			exportarCSV();
+		}
+		if(valor == 'ods'){
+			exportarODS();
+		}
+		
+		if(valor == 'json'){
+			exportarJSON();
+		}
+		
+		if(valor == 'xml'){
+			exportarXML();
+		}
+	}
+	
+	
+
+	function enviar()
+	{
+		document.getElementById('frm').action='arboreto.php';
+		document.getElementById('frm').submit();
+	}
+function exportarCSV()
+	{
+		document.forms[0].action='relcsv.php';
+		document.forms[0].target="_blank";
+		document.forms[0].submit();
+	}
+  
+	function montapaginacao(p,nr,tr)
+	{
+		document.getElementById('frm').action='arboreto.php?p='+p+'&nr='+nr+'&tr='+tr;
+    	document.getElementById('frm').submit();
+	}
+  
+		
+			$(document).ready(function() {
+			} );
+		</script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+    <!-- SB Admin Scripts - Include with every page -->
+    <script src="js/sb-admin.js"></script>
+
+    </body>
+</html>
