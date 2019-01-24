@@ -143,7 +143,7 @@ li.lifooter a:hover:not(.active) {
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>	
 		  </button>
-		  <a class="navbar-brand" href="index2.html">Arboreto 0.9</a>
+		  <a class="navbar-brand" href="index2.html">Arboreto 1.0</a>
 		  <span id="div_dadoslogin" ></span>
 
 		</div>
@@ -245,16 +245,16 @@ li.lifooter a:hover:not(.active) {
 				
 				<div class="form-group">
 				</div>
+				<input type="checkbox" name="chboxarquivo" id="chboxarquivo" value="S">Arquivo local
 				<button id='btnresultado' class="btn btn-primary btn-block" data-toggle="collapse" data-target="#demo">Clique para ver o resultado</button>
 				<div id="demo" class="collapse">
 				<div class="list-group">
+				  
 				  <div id='div_resultado'></div>
 				</div>
 				</div>
 				
 				<div id="map" style="width:100%;height:400px"></div>
-
-   			   
 				
 			</div>			
 		</div>
@@ -508,7 +508,7 @@ function criaPontos(myObj)
 	else
 	{
 		document.getElementById('btnresultado').style.visibility = 'visible';
-		document.getElementById('btnresultado').innerHTML = 'Fora(m) encontrado(s) '+myObj.length + ' espécime(s), Clique para abrir';
+		document.getElementById('btnresultado').innerHTML = 'Fora(m) encontrado(s) '+myObj.length + ' espécime(s)';
 	for (x in myObj) {
 		var qtd = myObj[x].numtombo.length;
 		
@@ -577,7 +577,7 @@ function criaPontos(myObj)
 		  htmlimagem = '';
 		  if (myObj[x].arquivo!=null)
 		  {
-			htmlimagem = '      <img id="div'+myObj[x].numtombo+'" src="http://imagens1.jbrj.gov.br/fsi/server?type=image&source=rbv%2F'+inv+'_01.jpg&width=300&height=100&profile=jpeg&quality=95">';
+			htmlimagem = '<img id="div'+myObj[x].numtombo+'" src="http://imagens1.jbrj.gov.br/fsi/server?type=image&source=rbv%2F'+inv+'_01.jpg&width=300&height=100&profile=jpeg&quality=95">';
 		  }
 		  html+='<br>'+htmlimagem;
 		  //if (myObj[x].arquivo!='')
@@ -615,6 +615,16 @@ function abreCamera(tipofoto,numtombo)
    gtipofoto = tipofoto;
    gnumtombo = numtombo;
    var tipo = 'CAMERA';
+   
+   if (document.getElementById('chboxarquivo').checked)
+   {
+	   tipo=='ARQUIVO';
+   }
+   else
+   {
+       tipo=='CAMERA';
+   }
+   
    getImage(tipo);
 }
 
@@ -650,7 +660,7 @@ function uploadPhoto(imageURI) {
 	 options.fileKey = "file";
 //	 options.fileName = gnumtombo+'-'+gtipofoto+'-'+imageURI.substr(imageURI.lastIndexOf('/') + 1);
 //	 options.fileName = leftPad(document.getElementById('edtID').value,4)+'_'+imageURI.substr(imageURI.lastIndexOf('/') + 1);
-	 options.fileName = leftPad(gnumtombo,8)+'_'+leftPad(gtipofoto,2)+'_'+leftPad(document.getElementById('idusuario').value,4)+'.jpg';
+	 options.fileName = leftPad(gnumtombo,8)+'_'+leftPad(gtipofoto,2)+'_'+leftPad(window.localStorage.getItem("idusuario"),4)+'.jpg';
 	 options.mimeType = "image/jpeg";
 	 console.log(options.fileName);
 	 var params = new Object();

@@ -28,7 +28,7 @@ while (false !== ($filename = readdir($dh))) {
 			}
 			$ol .= '<li data-target="#myCarousel" data-slide-to="'.$c.'" '.$classe.'></li>';
 			$div .= ' <div '.$classe2.'">
-					<img src="'.'https://aplicacoes.jbrj.gov.br/jabot/arboreto/upload/'.$filename.'" alt="" style="width:100%;">
+					<img src="'.'https://aplicacoes.jbrj.gov.br/jabot/arboreto/upload/'.$filename.'" alt="" style="width: 100%;">
 					</div>';
 			$c++;
 		}
