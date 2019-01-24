@@ -618,11 +618,11 @@ function abreCamera(tipofoto,numtombo)
    
    if (document.getElementById('chboxarquivo').checked)
    {
-	   tipo=='ARQUIVO';
+	   tipo='ARQUIVO';
    }
    else
    {
-       tipo=='CAMERA';
+       tipo='CAMERA';
    }
    
    getImage(tipo);
@@ -900,7 +900,7 @@ function myMap2(div,myObj,minhalat,minhalong) {
 
 	 */
 	$( document ).ready(function() {
-		setFiltro('CIENTIFICO','Filtro: Nome Científico');
+		setFiltro('POPULAR','Filtro: Nome popular');
 		document.getElementById('btnresultado').style.visibility = 'hidden';
 		Circulo.setRadius(document.getElementById(edtraio).value);
 		$('#myNavbar a[href="#home"]').tab('show');
