@@ -245,7 +245,7 @@ li.lifooter a:hover:not(.active) {
 				
 				<div class="form-group">
 				</div>
-				<input type="checkbox" name="chboxarquivo" id="chboxarquivo" value="S">Arquivo local
+				<!--<input type="checkbox" name="chboxarquivo" id="chboxarquivo" value="S">Arquivo local-->
 				<button id='btnresultado' class="btn btn-primary btn-block" data-toggle="collapse" data-target="#demo">Clique para ver o resultado</button>
 				<div id="demo" class="collapse">
 				<div class="list-group">
@@ -318,7 +318,7 @@ var options = {
 	});
 
 	var kmlLayer2 = new google.maps.KmlLayer({
-			url: 'http://jabot.jbrj.gov.br/v2/drenagem_wgs84.kml',
+			url: 'http://rb.jbrj.gov.br/v2/drenagem_wgs84.kml',
 			suppressInfoWindows: true,
 			map: map,
 			preserveViewport: true
@@ -402,8 +402,6 @@ var options = {
 			return resultado;
  }
 		
-		
-		
 
 function pegaMinhaPosicao()
 {
@@ -437,8 +435,9 @@ function pegaMinhaPosicao()
 
 	function error(err) 
 	{
-
+		alert('Não foi possível acessar sua localização!');
 	}
+	
 }
 
 function setMapOnAll(map) {
@@ -475,7 +474,7 @@ function pegaResultado(filtro,minhalat,minhalong)
 			//Circulo.setMap(null);	
 			myLatlng = new google.maps.LatLng(minhalat,minhalong);
 			Circulo.setCenter(myLatlng);
-			raio = parseInt(document.getElementById('edtraio').value);
+			raio = 6;//parseInt(document.getElementById('edtraio').value);
 			Circulo.setRadius(raio);
 			Circulo.setMap(map);
 			//document.getElementById('loading').style.display = 'none';
@@ -498,7 +497,7 @@ function criaPontos(myObj)
 	
 	var marker, i;
 	var htmlimagem = '';
-	var html2 = '';
+	var html2 = '<input type="checkbox" name="chboxarquivo" id="chboxarquivo" value="S" class="form-control"> Utilizar arquivo local ';
 	var zeros = "00000000";
 	if (myObj == false) 
 	{
@@ -673,6 +672,7 @@ function uploadPhoto(imageURI) {
 	 ft.upload(imageURI, "https://jabot.jbrj.gov.br/arboreto/upload.php", function(result){
 	 console.log(JSON.stringify(result));
 	 }, function(error){
+	 alert(JSON.stringify(error));
 	 console.log(JSON.stringify(error));
 	 }, options);
 }
@@ -902,7 +902,8 @@ function myMap2(div,myObj,minhalat,minhalong) {
 	$( document ).ready(function() {
 		setFiltro('POPULAR','Filtro: Nome popular');
 		document.getElementById('btnresultado').style.visibility = 'hidden';
-		Circulo.setRadius(document.getElementById(edtraio).value);
+		//Circulo.setRadius(document.getElementById(edtraio).value);
+		Circulo.setRadius(6);
 		$('#myNavbar a[href="#home"]').tab('show');
 		//cordova.SpinnerDialog.show("title","message");
 		
