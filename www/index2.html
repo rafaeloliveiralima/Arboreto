@@ -682,9 +682,9 @@ function getImage(tipo) {
 function uploadPhoto(imageURI) {
 	 var options = new FileUploadOptions();
 	 options.fileKey = "file";
-//	 options.fileName = gnumtombo+'-'+gtipofoto+'-'+imageURI.substr(imageURI.lastIndexOf('/') + 1);
+	 options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
 //	 options.fileName = leftPad(document.getElementById('edtID').value,4)+'_'+imageURI.substr(imageURI.lastIndexOf('/') + 1);
-	 options.fileName = leftPad(gnumtombo,8)+'_'+leftPad(gtipofoto,2)+'_'+leftPad(window.localStorage.getItem("idusuario"),4)+'.jpg';
+//	 options.fileName = leftPad(gnumtombo,8)+'_'+leftPad(gtipofoto,2)+'_'+leftPad(window.localStorage.getItem("idusuario"),4)+'.jpg';
 	 options.mimeType = "image/jpeg";
 	 console.log(options.fileName);
 	 var params = new Object();
@@ -694,10 +694,10 @@ function uploadPhoto(imageURI) {
 	 options.chunkedMode = false;
 
 	var ft = new FileTransfer();
-	 ft.upload(imageURI, "https://jabot.jbrj.gov.br/arboreto/upload.php", function(result){
-	 console.log(JSON.stringify(result));
+	 ft.upload(imageURI, "https://rb.jbrj.gov.br/arboreto/upload.php", function(result){
+		alert(JSON.stringify(result));
 	 }, function(error){
-	 alert(JSON.stringify(error));
+		alert(JSON.stringify(error));
 	 console.log(JSON.stringify(error));
 	 }, options);
 }
