@@ -645,8 +645,8 @@ function abreCamera(tipofoto,numtombo)
    document.getElementById('edtgnumtombo').value=numtombo;
    document.getElementById('edtgtipofoto').value=tipofoto;
    
-   alert(gtipofoto);
-   alert(gnumtombo);
+  // alert(gtipofoto);
+  // alert(gnumtombo);
    
    var tipo = 'CAMERA';
    
@@ -708,9 +708,9 @@ function uploadPhoto(imageURI) {
 
 	var ft = new FileTransfer();
 	 ft.upload(imageURI, "https://rb.jbrj.gov.br/arboreto/upload.php", function(result){
-		alert(JSON.stringify(result));
+		//alert(JSON.stringify(result));
 	 }, function(error){
-		alert(JSON.stringify(error));
+		//alert(JSON.stringify(error));
 	 console.log(JSON.stringify(error));
 	 }, options);
 }
