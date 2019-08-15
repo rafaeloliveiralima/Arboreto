@@ -273,6 +273,7 @@ li.lifooter a:hover:not(.active) {
 		$("ul").on("click", function(){
 			$('.navbar-collapse').collapse('hide');
 		});
+var ggcodusuario = '999';
 var codusuario = '';
 var username = '';
 var gnumtombo = '';
@@ -377,6 +378,7 @@ var options = {
 							var res = str.split("|");
 							//alert(res[0]);
 							codusuario = res[0];
+							ggcodusuario = res[0];
 							username = res[1];
 							
 							window.localStorage.setItem("uname", username);
@@ -670,7 +672,7 @@ function getImage(tipo) {
 		navigator.camera.getPicture(uploadPhoto, function(message) {
 			alert('get picture failed');
 		}, {
-		quality: 25,
+		quality: gqualidade,
 		destinationType: navigator.camera.DestinationType.FILE_URI,
 		sourceType: navigator.camera.PictureSourceType.CAMERA
 		});
@@ -680,7 +682,7 @@ function getImage(tipo) {
 		navigator.camera.getPicture(uploadPhoto, function(message) {
 			alert('get picture failed');
 		}, {
-		quality: 25,
+		quality: gqualidade,
 		destinationType: navigator.camera.DestinationType.FILE_URI,
 		sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
 		});
@@ -694,7 +696,7 @@ function uploadPhoto(imageURI) {
 //	 options.fileName = leftPad(document.getElementById('edtID').value,4)+'_'+imageURI.substr(imageURI.lastIndexOf('/') + 1);
 //	 options.fileName = leftPad(gnumtombo,8)+'_'+leftPad(gtipofoto,2)+'_'+leftPad(window.localStorage.getItem("idusuario"),4)+'.jpg';
 
-	 options.fileName = leftPad(document.getElementById('edtgnumtombo').value,8)+'_'+leftPad(document.getElementById('edtgtipofoto').value,2)+'_'+leftPad(document.getElementById("idusuario").value,4)+'.jpg';
+	 options.fileName = leftPad(document.getElementById('edtgnumtombo').value,8)+'_'+leftPad(document.getElementById('edtgtipofoto').value,2)+'_'+leftPad(ggcodusuario,4)+'.jpg';
 
 	 options.mimeType = "image/jpeg";
 	 console.log(options.fileName);
