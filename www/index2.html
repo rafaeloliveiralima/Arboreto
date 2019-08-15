@@ -143,7 +143,7 @@ li.lifooter a:hover:not(.active) {
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>	
 		  </button>
-		  <a class="navbar-brand" href="index2.html">Arboreto 1.0</a>
+		  <a class="navbar-brand" href="index2.html">Arboreto 1.1</a>
 		  <span id="div_dadoslogin" ></span>
 
 		</div>
@@ -317,6 +317,7 @@ var options = {
 			preserveViewport: true
 	});
 
+	
 	var kmlLayer2 = new google.maps.KmlLayer({
 			url: 'http://rb.jbrj.gov.br/v2/drenagem_wgs84.kml',
 			suppressInfoWindows: true,
@@ -497,7 +498,7 @@ function criaPontos(myObj)
 	
 	var marker, i;
 	var htmlimagem = '';
-	var html2 = '<input type="checkbox" name="chboxarquivo" id="chboxarquivo" value="S" class="form-control"> Utilizar arquivo local ';
+	var html2 = '<br><input type="checkbox" name="chboxarquivo" id="chboxarquivo" value="S"> Imagens armazenadas no dispositivo.';
 	var zeros = "00000000";
 	if (myObj == false) 
 	{
@@ -508,95 +509,119 @@ function criaPontos(myObj)
 	{
 		document.getElementById('btnresultado').style.visibility = 'visible';
 		document.getElementById('btnresultado').innerHTML = 'Fora(m) encontrado(s) '+myObj.length + ' espécime(s)';
-	for (x in myObj) {
-		var qtd = myObj[x].numtombo.length;
+		for (x in myObj) {
+			var qtd = myObj[x].numtombo.length;
+			
+			zeros = zeros.substring(0,8-qtd);
+			var inv = zeros + myObj[x].numtombo;	
 		
-		zeros = zeros.substring(0,8-qtd);
-		var inv = zeros + myObj[x].numtombo;	
-	
-		html2 += '<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">';
-		html2 += '<div class="d-flex w-100 justify-content-between">';
-		html2 += '	   <h5 >'+myObj[x].siglapj+ ' '+myObj[x].numtombo+' - '+myObj[x].aux_nomecompltaxon+'</h5>';
-		html2 += '	   <p>'+myObj[x].locfisico1 + '/' + myObj[x].locfisico2+'</p>';
-		if (myObj[x].observacoes==null)
-		{
-		}
-		else
-		{
-			html2 += '	 <small>'+myObj[x].observacoes+'</small>';
-		}
-
-
-		htmlimagem = '';
-		
-		if (myObj[x].arquivo!=null)
-		{
-		htmlimagem = '<img id="div'+myObj[x].numtombo+'" src="http://imagens1.jbrj.gov.br/fsi/server?type=image&source=rbv%2F'+inv+'_01.jpg&width=300&height=100&profile=jpeg&quality=95">';
-		html2 += '<div class="col-sm-4 pull-right">';
-		html2 += htmlimagem;
-		html2 += '</div>';
-		}
-		
-		html2 += '</div>';
-		html2 += '<div class="row text-center">';		
-		html2 += '	<button type="button" class="btn btn-success" onclick="abreCamera(01,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-tree-deciduous"></span></button>';
-		html2 += '	<button type="button" class="btn btn-success" onclick="abreCamera(02,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-leaf"></span></button>';
-		html2 += '	<button type="button" class="btn btn-success" onclick="abreCamera(03,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-grain"></span></button>';
-		html2 += '	<button type="button" class="btn btn-success" onclick="abreCamera(04,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-apple"></span></button>';
-		html2 += '	<button type="button" class="btn btn-success" onclick="abreCamera(05,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-tag"></span></button>';
-		html2 += '	<button type="button" class="btn btn-warning" onclick="pegaImagens('+myObj[x].numtombo+')"><span class="glyphicon glyphicon-refresh"></span></button>';
-		html2 += '</div>';
-
-		html2 += '<div id="imagem'+myObj[x].numtombo+'"</div>';
-
-		var myLatlng = new google.maps.LatLng(myObj[x].latitude,myObj[x].longitude);
-		var marker = new google.maps.Marker({
-		position: myLatlng,
-		draggable:false,
-		icon: {
-					path: google.maps.SymbolPath.CIRCLE,
-					scale: 8,
-					fillColor: '#A74EAF',
-					fillOpacity: 0.8,
-					strokeColor: '#fff',
-					strokeWeight: 3
-			},
-		title:""
-		});
-		marker.setMap(map);
-		markers.push(marker);
-		var infowindow = new google.maps.InfoWindow();
-		google.maps.event.addListener(marker, 'click', (function(marker, x) {
-        return function() {
-		  var qtd = myObj[x].numtombo.length;
-		  zeros = zeros.substring(0,8-qtd);
-		  var inv = zeros + myObj[x].numtombo;
-		  var html = myObj[x].siglapj+ ' '+myObj[x].numtombo+ '<br>'+myObj[x].aux_nomecompltaxon;
-          html+='<br>'+myObj[x].locfisico1 + '/' + myObj[x].locfisico2;
-		  htmlimagem = '';
-		  if (myObj[x].arquivo!=null)
-		  {
+			html2 += '<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">';
+			html2 += '<div class="d-flex w-100 justify-content-between">';
+			html2 += '	   <h5 >'+myObj[x].siglapj+ ' '+myObj[x].numtombo+' - '+myObj[x].aux_nomecompltaxon+'</h5>';
+			html2 += '	   <p>'+myObj[x].locfisico1 + '/' + myObj[x].locfisico2+'</p>';
+			if (myObj[x].observacoes==null)
+			{
+			}
+			else
+			{
+				html2 += '	 <small>'+myObj[x].observacoes+'</small>';
+			}
+			htmlimagem = '';
+			
+			//if (myObj[x].arquivo!=null)
+			//{
 			htmlimagem = '<img id="div'+myObj[x].numtombo+'" src="http://imagens1.jbrj.gov.br/fsi/server?type=image&source=rbv%2F'+inv+'_01.jpg&width=300&height=100&profile=jpeg&quality=95">';
-		  }
-		  html+='<br>'+htmlimagem;
-		  //if (myObj[x].arquivo!='')
-		  //{
-		//	 html +='<br><img id="'+inv+'" src="http://imagens1.jbrj.gov.br/fsi/server?type=image&source=rbv%2F'+inv+'_01.jpg&width=300&height=100&profile=jpeg&quality=95">';
-		 // }
-		  
-		  		//html2 = '<div class="row text-center">';		
-		html2 = '	<br><br><button type="button" class="btn btn-sm btn-success" onclick="abreCamera(01,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-tree-deciduous"></span></button>';
-		html2 += '	<button type="button" class="btn btn-sm btn-success" onclick="abreCamera(02,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-leaf"></span></button>';
-		html2 += '	<button type="button" class="btn btn-sm btn-success" onclick="abreCamera(03,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-grain"></span></button>';
-		html2 += '	<button type="button" class="btn btn-sm btn-success" onclick="abreCamera(04,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-apple"></span></button>';
-		html2 += '	<button type="button" class="btn btn-sm btn-success" onclick="abreCamera(05,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-tag"></span></button>';
-		//html2 += '	<button type="button" class="btn btn-warning" onclick="pegaImagens('+myObj[x].numtombo+')"><span class="glyphicon glyphicon-refresh"></span></button>';
-		//html2 += '</div>';
+			
+			//}
+			
+			
+			
+			//html2 += '<div class="row text-center">';		
+			//html2 += '<button type="button" class="btn btn-xs btn-block btn-success" data-toggle="collapse" data-target="#collapseimagem'+inv+'">Imagem</button>';
+			//html2 += '<div id="collapseimagem'+inv+'" class="collapse in">';
+			html2 += '<div class="col-sm-4 pull-right">';
+			html2 += htmlimagem;
+			html2 += '</div>';
+			html2 += '<br>';
+			html2 += '<button type="button" class="btn btn-success" onclick="abreCamera(01,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-tree-deciduous"></span></button>';
+			html2 += '	<button type="button" class="btn btn-success" onclick="abreCamera(02,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-leaf"></span></button>';
+			html2 += '	<button type="button" class="btn btn-success" onclick="abreCamera(03,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-grain"></span></button>';
+			html2 += '	<button type="button" class="btn btn-success" onclick="abreCamera(04,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-apple"></span></button>';
+			html2 += '	<button type="button" class="btn btn-success" onclick="abreCamera(05,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-tag"></span></button>';
+			html2 += '	<button type="button" class="btn btn-warning" onclick="pegaImagens('+myObj[x].numtombo+')"><span class="glyphicon glyphicon-refresh"></span></button>';
+			//html2 += '</div></div>';
+			html2 += '<br><br>';
+			html2 += '<div class="row">';
+			html2 += '<button type="button" class="btn btn-xs btn-block btn-success" data-toggle="collapse" data-target="#fenologia'+inv+'">Fenologia</button>';
+			html2 += '</div>';
+			html2 += '';
+			html2 += '<div id="fenologia'+inv+'" class="collapse out">';
+			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxfen" value="26">Botões florais</label><br>';
+			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxfen" value="27">Floração adiantada</label><br>';
+			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxfen" value="28">Floração terminando</label><br>';
+			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxfen" value="29">Frutos terminando</label><br>';
+			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxfen" value="30">Frutos maduros</label><br>';
+			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxfen" value="31">Sementes dispersando</label><br>';
+			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxfen" value="32">Folhas novas aparecendo</label><br>';
+			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxfen" value="33">Maioria de folhas novas</label><br>';
+			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxfen" value="34">Folhas velhas</label><br>';
+			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxfen" value="35">Desfolhada, pouca folha</label><br>';
+			html2 += '<br><button type="button" onclick="salvaFenologia('+myObj[x].numtombo+')" class="btn btn-primary btn-xs">Salvar Fenologia</button>';
+			html2 += '</div>';
+			html2 += '</div>';
 
-		  
-		  infowindow.setContent(html+html2);
-          infowindow.open(map, marker);
-        }
+			html2 += '</div></a><br>';	
+			//html2 += '<div id="imagem'+myObj[x].numtombo+'"</div>';
+
+			var myLatlng = new google.maps.LatLng(myObj[x].latitude,myObj[x].longitude);
+			var marker = new google.maps.Marker({
+			position: myLatlng,
+			draggable:false,
+			icon: {
+						path: google.maps.SymbolPath.CIRCLE,
+						scale: 8,
+						fillColor: '#A74EAF',
+						fillOpacity: 0.8,
+						strokeColor: '#fff',
+						strokeWeight: 3
+				},
+			title:""
+			});
+			marker.setMap(map);
+			markers.push(marker);
+			var infowindow = new google.maps.InfoWindow();
+			google.maps.event.addListener(marker, 'click', (function(marker, x) {
+			return function() 
+			{
+			  var qtd = myObj[x].numtombo.length;
+			  zeros = zeros.substring(0,8-qtd);
+			  var inv = zeros + myObj[x].numtombo;
+			  var html = myObj[x].siglapj+ ' '+myObj[x].numtombo+ '<br>'+myObj[x].aux_nomecompltaxon;
+			  html+='<br>'+myObj[x].locfisico1 + '/' + myObj[x].locfisico2;
+			  htmlimagem = '';
+			  //if (myObj[x].arquivo!=null)
+			  //{
+				htmlimagem = '<img id="div'+myObj[x].numtombo+'" src="http://imagens1.jbrj.gov.br/fsi/server?type=image&source=rbv%2F'+inv+'_01.jpg&width=300&height=100&profile=jpeg&quality=95">';
+			  //}
+			  html+='<br>'+htmlimagem;
+			  //if (myObj[x].arquivo!='')
+			  //{
+			//	 html +='<br><img id="'+inv+'" src="http://imagens1.jbrj.gov.br/fsi/server?type=image&source=rbv%2F'+inv+'_01.jpg&width=300&height=100&profile=jpeg&quality=95">';
+			 // }
+			  
+					//html2 = '<div class="row text-center">';		
+			html2 = '	<br><br><button type="button" class="btn btn-sm btn-success" onclick="abreCamera(01,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-tree-deciduous"></span></button>';
+			html2 += '	<button type="button" class="btn btn-sm btn-success" onclick="abreCamera(02,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-leaf"></span></button>';
+			html2 += '	<button type="button" class="btn btn-sm btn-success" onclick="abreCamera(03,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-grain"></span></button>';
+			html2 += '	<button type="button" class="btn btn-sm btn-success" onclick="abreCamera(04,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-apple"></span></button>';
+			html2 += '	<button type="button" class="btn btn-sm btn-success" onclick="abreCamera(05,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-tag"></span></button>';
+			//html2 += '	<button type="button" class="btn btn-warning" onclick="pegaImagens('+myObj[x].numtombo+')"><span class="glyphicon glyphicon-refresh"></span></button>';
+			//html2 += '</div>';
+
+			  
+			  infowindow.setContent(html+html2);
+			  infowindow.open(map, marker);
+		}
       })(marker, x));
 	}
 	document.getElementById('div_resultado').innerHTML = html2;
@@ -704,201 +729,55 @@ function pegaImagens(id)
 	return resultado;       
 }
 
+
+function salvaFenologia(pcodtestemunho)
+{
+	var choices = [];
+    var els = document.getElementsByName('chkboxfen');
+	var codtestemunho = pcodtestemunho;
+    for (var i = 0; i < els.length; i++) {
+        if (els[i].checked) choices.push(els[i].value);
+    }
+    var resultado = choices.join(',');
+    //alert(resultado + '-codusuario: '+window.localStorage.getItem("codusuario")+' -codtestemunho: '+codtestemunho);
+	
+    var params = "id="+resultado+'&codusuario='+window.localStorage.getItem("codusuario")+'&codtestemunho='+codtestemunho;
+//	alert(params);
+		var resultado = 0;
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/exec.fenologia.php?"+params,false);
+		xmlhttp.onload = function (){
+			if (xmlhttp.status==200)
+				{
+					var html = this.responseText;
+					//alert(this.responseText);
+					if (this.responseText.trim()=='OK')
+					{
+						alert('Cadastrado com sucesso');
+					}
+					else
+					{
+						alert('Não foi possível cadastrar');
+					}
+				}
+			else if (xmlhttp.status == 404) {
+				alert("Web Service doesn't work");
+			}
+			else
+				{
+					alert("Unknown erro occurred while trying insert data");
+				}
+		};
+		xmlhttp.send();
+	return resultado;  
+}
+
 function exitFromApp(){
    window.localStorage.clear();
    navigator.app.exitApp();
 }
 
 
-/*
-function myMap2(div,myObj,minhalat,minhalong) {
-
-	if (minhalat!='')
-	{
-		latitude = minhalat;
-		longitude = minhalong;
-	}
-	//alert(latitude);
-
-   navigator.geolocation.getCurrentPosition(onSuccess, onError);
-   
-   function onSuccess(position) {
-
-    var zoom = 16;
-	var mapCanvas = document.getElementById(div);
-	var map = new google.maps.Map(mapCanvas, mapOptions);	
-	
-	var kmlLayer = new google.maps.KmlLayer({
-    	url: 'http://jabot.jbrj.gov.br/v2/canteiros.kml',
-    	suppressInfoWindows: true,
-    	map: map,
-    	preserveViewport: true
-  	});
-	var kmlLayer2 = new google.maps.KmlLayer({
-    	url: 'http://jabot.jbrj.gov.br/v2/drenagem_wgs84.kml',
-    	suppressInfoWindows: true,
-    	map: map,
-    	preserveViewport: true
-  	});		
-
-	var infowindow = new google.maps.InfoWindow();
-	
-
-
-	var markerEU = new google.maps.Marker({
-		position: new google.maps.LatLng(latitude,longitude),
-		draggable:true,
-		icon: 'img/eu.png',
-		title:""
-		});
-	markerEU.setMap(map);
-	google.maps.event.addListener(markerEU, 'click', function() {
-        return function() {
-		  infowindow.setContent('<a onclick="alert(\'pegaMinhaPosicao()\')">Clique aqui para<br>atualizar minha posição</a>');
-          infowindow.open(map, markerEU);
-        }
-      });
-	  google.maps.event.addListener(markerEU, "dragend", function() {
-	  
-	//pegaResultado('',markerEU.getPosition().lat(),markerEU.getPosition().lng());
-	  
-	  
-		});
-		
-		var myCity = new google.maps.Circle({
-			center: new google.maps.LatLng(latitude,longitude),
-			radius:6,
-			strokeColor:"#F9FF00",
-			strokeOpacity:0.8,
-			strokeWeight:3,
-			fillColor:"#D8C11D",
-			fillOpacity:0.2
-		});
-		myCity.setMap(map);	  
-		
-		
-
-	   document.getElementById('div_resultado').innerHTML = html2;
-    }
-
-    // onError Callback receives a PositionError object
-    //
-    function onError(error) {
-        alert('code: '    + error.code    + '\n' +
-                'message: ' + error.message + '\n');
-    }
-}
-
-
-
-		
-		
-		
-		
-		function exitFromApp(){
-		   window.localStorage.clear();
-		   navigator.app.exitApp();
-		}
-		
-		function abreCamera(tipo)
-		{
-		   getImage(tipo);
-		   preencheDadosChamado(document.getElementById('edtID').value);
-		   //alert('Imagem enviado ao servidor');
-     	   pegaImagens(document.getElementById('edtID').value);
-		}
-		
-		function getImage(tipo) {
-		if (tipo=='CAMERA')
-		{
-			navigator.camera.getPicture(uploadPhoto, function(message) {
-				alert('get picture failed');
-			}, {
-			quality: 25,
-			destinationType: navigator.camera.DestinationType.FILE_URI,
-		sourceType: navigator.camera.PictureSourceType.CAMERA
-		 });
-		}
-		else
-		{
-			navigator.camera.getPicture(uploadPhoto, function(message) {
-				alert('get picture failed');
-			}, {
-			quality: 25,
-			destinationType: navigator.camera.DestinationType.FILE_URI,
-		sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
-		 });
-		
-		}
-			
-		}
-
-		function leftPad(value, totalWidth, paddingChar) {
-			var length = totalWidth - value.toString().length + 1;
-			return Array(length).join(paddingChar || '0') + value;
-		};
-
-		
-		function uploadPhoto(imageURI) {
-		 var options = new FileUploadOptions();
-		 options.fileKey = "file";
-		 //options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
-		 options.fileName = leftPad(document.getElementById('edtID').value,4)+'_'+imageURI.substr(imageURI.lastIndexOf('/') + 1);
-		 options.mimeType = "image/jpeg";
-		 console.log(options.fileName);
-		 var params = new Object();
-		 params.value1 = "test";
-		 params.value2 = "param";
-		 options.params = params;
-		 options.chunkedMode = false;
-
-		var ft = new FileTransfer();
-		 ft.upload(imageURI, "https://projetofauna.jbrj.gov.br/upload.php", function(result){
-		 console.log(JSON.stringify(result));
-		 }, function(error){
-		 console.log(JSON.stringify(error));
-		 }, options);
-		 }
-		 
-	 	function pegaResultado(filtro,minhalat,minhalong)
-		{
-				var params = "filtro="+filtro+"&lat="+minhalat+"&long="+minhalong;
-				var resultado = 0;
-				var xmlhttp = new XMLHttpRequest();
-				xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/getarboretojson.php?"+params,false);
-				xmlhttp.onload = function ()
-				{
-					if (xmlhttp.status==200)
-					{
-						document.getElementById('map3').style.visibility='visible';
-						var myObj = JSON.parse(this.responseText);
-						myMap2('map3',myObj,minhalat,minhalong);
-						
-						
-						
-					}
-					else if (xmlhttp.status == 404) {
-						alert("Web Service doesn't work");
-					}
-					else
-					{
-					   alert("Unknown erro occurred while trying insert data");
-					}
-				};
-				xmlhttp.send();
-				return resultado;
-		}
-	 
-
-
-		
-		function alertDismissed() {
-
-		}
-
-		
-
-	 */
 	$( document ).ready(function() {
 		setFiltro('POPULAR','Filtro: Nome popular');
 		document.getElementById('btnresultado').style.visibility = 'hidden';

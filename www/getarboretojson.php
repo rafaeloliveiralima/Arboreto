@@ -10,6 +10,10 @@ $conn = $conexao->Conectar();
 $operacao = $_REQUEST['op'];
 $id = $_REQUEST['id'];
 
+//$_REQUEST['tipofiltro'] = 'POPULAR';
+//$_REQUEST['filtro'] = 'pau-brasil';
+
+
 $v = $_REQUEST['filtro'];
 $lat = $_REQUEST['lat'];
 $long = $_REQUEST['long'];
@@ -64,12 +68,13 @@ ct.nomecattypus,
 ej.latitude,
 ej.longitude,
 t.desaparecido,
-Y(replace(AsText(geom), 'MULTIPOINT', 'POINT')) as \"latitude\",
-X(replace(AsText(geom), 'MULTIPOINT', 'POINT')) as \"longitude\",
-imagem.arquivo
+iv.latitude as \"latitude\",
+iv.longitude as \"longitude\"
+--,imagem.arquivo
 
  from jabot.testemunho t
- left join jabot.imagem imagem on t.numtombo = cast(imagem.codigobarras as int) and imagem.siglacolbotorigem = 'rbv' and arquivo ilike '%_01.jpg'
+-- left join jabot.imagem imagem on t.numtombo = cast(imagem.codigobarras as int) 
+-- and imagem.siglacolbotorigem = 'rbv' and arquivo ilike '%_01.jpg'
  left join jabot.individuovivo iv on t.codtestemunho = iv.codindividuovivo
 
  left join publicacao.extracao_jabot ej on t.codtestemunho = ej.codtestemunho
