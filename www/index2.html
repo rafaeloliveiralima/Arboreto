@@ -170,6 +170,8 @@ li.lifooter a:hover:not(.active) {
 	</nav>
 	
 	<input type='hidden' name='idusuario' id='idusuario' value=''>
+	<input type='hidden' name='edtgnumtombo' id='edtgnumtombo' value=''>
+	<input type='hidden' name='edtgtipofoto' id='edtgtipofoto' value=''>
 	<input type='hidden' name='nome' id='nome' value=''>
 	<div class="tab-content" id="mytab">
 
@@ -638,6 +640,12 @@ function abreCamera(tipofoto,numtombo)
 {
    gtipofoto = tipofoto;
    gnumtombo = numtombo;
+   document.getElementById('edtgnumtombo').value=numtombo;
+   document.getElementById('edtgtipofoto').value=tipofoto;
+   
+   alert(gtipofoto);
+   alert(gnumtombo);
+   
    var tipo = 'CAMERA';
    
    if (document.getElementById('chboxarquivo').checked)
@@ -682,9 +690,12 @@ function getImage(tipo) {
 function uploadPhoto(imageURI) {
 	 var options = new FileUploadOptions();
 	 options.fileKey = "file";
-	 options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
+//	 options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
 //	 options.fileName = leftPad(document.getElementById('edtID').value,4)+'_'+imageURI.substr(imageURI.lastIndexOf('/') + 1);
 //	 options.fileName = leftPad(gnumtombo,8)+'_'+leftPad(gtipofoto,2)+'_'+leftPad(window.localStorage.getItem("idusuario"),4)+'.jpg';
+
+	 options.fileName = leftPad(document.getElementById('edtgnumtombo').value,8)+'_'+leftPad(document.getElementById('edtgtipofoto').value,2)+'_'+leftPad(document.getElementById("idusuario").value,4)+'.jpg';
+
 	 options.mimeType = "image/jpeg";
 	 console.log(options.fileName);
 	 var params = new Object();
