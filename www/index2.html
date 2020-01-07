@@ -36,7 +36,7 @@
         * Enable eval(): add 'unsafe-eval' to default-src
     * Create your own at http://cspisawesome.com
     -->
-    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> 
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" />
 -->
     <link rel="stylesheet" type="text/css" href="css/index.css" />
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
@@ -82,7 +82,7 @@ li.lifooter a:hover:not(.active) {
     #posiciona {
         position: absolute; /* posição absoluta ao elemento pai, neste caso o BODY */
         /* Posiciona no meio, tanto em relação a esquerda como ao topo */
-        left: 50%; 
+        left: 50%;
         top: 50%;
         width: 100px; /* Largura da DIV */
         height: 50px; /* Altura da DIV */
@@ -100,8 +100,8 @@ li.lifooter a:hover:not(.active) {
     #fechar { margin: 5px; font-size: 12px; }
 
 </style>
-  
-	
+
+
     <title>Arboreto JBRJ</title>
 </head>
 
@@ -137,17 +137,17 @@ li.lifooter a:hover:not(.active) {
 	<nav class="navbar navbar-default">
 	  <div class="container-fluid">
 		<div class="navbar-header">
-		  	
+
 		  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>	
+			<span class="icon-bar"></span>
 		  </button>
-		  <a class="navbar-brand" href="index2.html">Arboreto 1.1</a>
+		  <a class="navbar-brand" href="index2.html">Arboreto 1.2</a>
 		  <span id="div_dadoslogin" ></span>
 
 		</div>
-		<div class="collapse navbar-collapse" id="myNavbar">	
+		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav">
 			  <li class="active"><a data-toggle="pill" href="#home">Mapa</a></li>
 			  <!--<li class='hidden'><a data-toggle="pill" href="#novochamado" >Novo chamado</a></li>
@@ -164,11 +164,11 @@ li.lifooter a:hover:not(.active) {
 			  <li><a onclick='$("#myModalSobre").modal();'><span class="glyphicon glyphicon-question-sign"></span> Sobre</a></li>
 			  <li><a onclick='exitFromApp()'><span class="glyphicon glyphicon-log-out"></span> Sair</a></li>
 			</ul>
-			
+
 		</div>
 	  </div>
 	</nav>
-	
+
 	<input type='hidden' name='idusuario' id='idusuario' value=''>
 	<input type='hidden' name='edtgnumtombo' id='edtgnumtombo' value=''>
 	<input type='hidden' name='edtgtipofoto' id='edtgtipofoto' value=''>
@@ -179,8 +179,8 @@ li.lifooter a:hover:not(.active) {
 			<div class="container">
 				<div class="app">
 					<!--<h1>Fauna JBRJ</h1>-->
-			
-				
+
+
 				<div class="form-group">
 					<label for="email">Usuário:</label>
 					<input type="text" class="form-control" id="edtlogin">
@@ -191,13 +191,13 @@ li.lifooter a:hover:not(.active) {
 					<input type="password" class="form-control" id="edtsenha">
 				</div>
 				<button  type="button" onclick='login()' class="btn btn-success btn-block">Enviar</button>
-				
+
 				</div>
 			</div>
 		</div>
-		
-		
-		
+
+
+
 		<div id="config" class="tab-pane fade">
 			<div class="container">
 				<div class="row">
@@ -218,7 +218,7 @@ li.lifooter a:hover:not(.active) {
 		</div>
 
 		<div id="home" class="tab-pane fade in active">
-		
+
 
 			<div class="container">
 				<div class="row">
@@ -235,7 +235,7 @@ li.lifooter a:hover:not(.active) {
 							<input type="text" class="form-control" id="edtfiltro" name="edtfiltro"/>
 							<div class="input-group-btn">
 								<button class="btn btn-success" type="button" onclick="pegaResultado(document.getElementById('edtfiltro').value,'','')">
-								<i class="glyphicon glyphicon-search"></i> 
+								<i class="glyphicon glyphicon-search"></i>
 								</button>
 								<button class="btn btn-danger" type="button" onclick="pegaMinhaPosicao()">
 								<span class="glyphicon glyphicon-map-marker"></span>
@@ -244,28 +244,28 @@ li.lifooter a:hover:not(.active) {
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="form-group">
 				</div>
 				<!--<input type="checkbox" name="chboxarquivo" id="chboxarquivo" value="S">Arquivo local-->
 				<button id='btnresultado' class="btn btn-primary btn-block" data-toggle="collapse" data-target="#demo">Clique para ver o resultado</button>
 				<div id="demo" class="collapse">
 				<div class="list-group">
-				  
+
 				  <div id='div_resultado'></div>
 				</div>
 				</div>
-				
+
 				<div id="map" style="width:100%;height:400px"></div>
-				
-			</div>			
+
+			</div>
 		</div>
 	</div>
-	
-	<div id="posiciona" style="display:none;">  
+
+	<div id="posiciona" style="display:none;">
 <img src='img/spinner.gif'>
 </div>
-	
+
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript">
@@ -302,7 +302,7 @@ var longitude = -43.224738;
 var zoom = 16;
 var mapCanvas = document.getElementById('map');
 var mapOptions = {
-		center: new google.maps.LatLng(latitude,longitude), 
+		center: new google.maps.LatLng(latitude,longitude),
 		zoom: 16
 };
 
@@ -310,9 +310,9 @@ var options = {
 	  enableHighAccuracy: true,
 	  timeout: 5000,
 	  maximumAge: 0
-};	
+};
 
-	var map = new google.maps.Map(mapCanvas, mapOptions);	
+	var map = new google.maps.Map(mapCanvas, mapOptions);
 	var kmlLayer = new google.maps.KmlLayer({
 			url: 'http://jabot.jbrj.gov.br/v2/canteiros.kml',
 			suppressInfoWindows: true,
@@ -320,14 +320,14 @@ var options = {
 			preserveViewport: true
 	});
 
-	
+
 	var kmlLayer2 = new google.maps.KmlLayer({
 			url: 'http://rb.jbrj.gov.br/v2/drenagem_wgs84.kml',
 			suppressInfoWindows: true,
 			map: map,
 			preserveViewport: true
-	});		
-	
+	});
+
 	function setFiltro(tipo,label)
 	{
 		document.getElementById('tipofiltro').value=tipo;
@@ -336,7 +336,7 @@ var options = {
 
 	function login()
 	{
-	
+
 	var login = document.getElementById('edtlogin').value;
 	var senha = document.getElementById('edtsenha').value;
 	var uuid = document.getElementById('edtuuid').value;
@@ -348,11 +348,11 @@ var options = {
 			var resultado = 0;
 			var xmlhttp = new XMLHttpRequest();
 			//alert(params);
-			
+
 			//xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/testaloginapp.php?"+params,false);
 			//xmlhttp.setRequestHeader( 'Access-Control-Allow-Origin', '*');
 			xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/testaloginapp.php?"+params,false);
-			
+
 			xmlhttp.onload = function (){
 				//alert(xmlhttp.status);
 				if (xmlhttp.status==200)
@@ -369,34 +369,34 @@ var options = {
 								'Atenção',            // title
 								'OK'                  // buttonName
 							);
-							
+
 							//alert('Não foi possível efetuar o login.');
 						}
 						else
 						{
-							
+
 							var res = str.split("|");
 							//alert(res[0]);
 							codusuario = res[0];
 							ggcodusuario = res[0];
 							username = res[1];
-							
+
 							window.localStorage.setItem("uname", username);
 							window.localStorage.setItem("codusuario",codusuario);
-							
+
 							document.getElementById('div_dadoslogin').innerHTML='<p class="navbar-text">'+username+'</p>';
-							
+
 							document.getElementById('idusuario').value=window.localStorage.getItem("idusuario");
 							document.getElementById('nome').value=window.localStorage.getItem("uname");
-							
-							
+
+
 							$('#myNavbar a[href="#home"]').tab('show');
 
 						}
 					}
 				else if (xmlhttp.status == 404) {
 					alert("Web Service doesn't work");
-					
+
 				}
 				else
 					{
@@ -406,28 +406,28 @@ var options = {
 			xmlhttp.send();
 			return resultado;
  }
-		
+
 
 function pegaMinhaPosicao()
 {
 	navigator.geolocation.getCurrentPosition(success, error, options);
 	function success(pos) {
 		setMapOnAll(null);
-		
-		
+
+
 		var crd = pos.coords;
 		myLatlng = new google.maps.LatLng(crd.latitude,crd.longitude);
 		markerEU.setPosition(myLatlng);
 		markerEU.setMap(map);
-		
+
 
 		Circulo.setCenter(myLatlng);
 		raio = parseInt(document.getElementById('edtraio').value);
 		//alert(raio);
 		Circulo.setRadius(raio);
-		Circulo.setMap(map);	
+		Circulo.setMap(map);
 
-		
+
         //document.getElementById('loading').innerHTML = "<img src='img/spinner2.gif'>";
 		pegaResultado('',crd.latitude,crd.longitude);
         google.maps.event.addListener(markerEU, "dragend", function() {
@@ -438,11 +438,11 @@ function pegaMinhaPosicao()
 
 	}
 
-	function error(err) 
+	function error(err)
 	{
 		alert('Não foi possível acessar sua localização!');
 	}
-	
+
 }
 
 function setMapOnAll(map) {
@@ -476,7 +476,7 @@ function pegaResultado(filtro,minhalat,minhalong)
 			var myObj = JSON.parse(this.responseText);
 			setMapOnAll(null);
 			criaPontos(myObj);
-			//Circulo.setMap(null);	
+			//Circulo.setMap(null);
 			myLatlng = new google.maps.LatLng(minhalat,minhalong);
 			Circulo.setCenter(myLatlng);
 			raio = 6;//parseInt(document.getElementById('edtraio').value);
@@ -499,12 +499,12 @@ function pegaResultado(filtro,minhalat,minhalong)
 
 function criaPontos(myObj)
 {
-	
+
 	var marker, i;
 	var htmlimagem = '';
 	var html2 = '<br><input type="checkbox" name="chboxarquivo" id="chboxarquivo" value="S"> Imagens armazenadas no dispositivo.';
 	var zeros = "00000000";
-	if (myObj == false) 
+	if (myObj == false)
 	{
 		alert('A busca não retornou resultado.');
 		document.getElementById('btnresultado').style.visibility = 'hidden';
@@ -515,10 +515,10 @@ function criaPontos(myObj)
 		document.getElementById('btnresultado').innerHTML = 'Fora(m) encontrado(s) '+myObj.length + ' espécime(s)';
 		for (x in myObj) {
 			var qtd = myObj[x].numtombo.length;
-			
+
 			zeros = zeros.substring(0,8-qtd);
-			var inv = zeros + myObj[x].numtombo;	
-		
+			var inv = zeros + myObj[x].numtombo;
+
 			html2 += '<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">';
 			html2 += '<div class="d-flex w-100 justify-content-between">';
 			html2 += '	   <h5 >'+myObj[x].siglapj+ ' '+myObj[x].numtombo+' - '+myObj[x].aux_nomecompltaxon+'</h5>';
@@ -531,16 +531,16 @@ function criaPontos(myObj)
 				html2 += '	 <small>'+myObj[x].observacoes+'</small>';
 			}
 			htmlimagem = '';
-			
+
 			//if (myObj[x].arquivo!=null)
 			//{
 			htmlimagem = '<img id="div'+myObj[x].numtombo+'" src="http://imagens1.jbrj.gov.br/fsi/server?type=image&source=rbv%2F'+inv+'_01.jpg&width=300&height=100&profile=jpeg&quality=95">';
-			
+
 			//}
-			
-			
-			
-			//html2 += '<div class="row text-center">';		
+
+
+
+			//html2 += '<div class="row text-center">';
 			//html2 += '<button type="button" class="btn btn-xs btn-block btn-success" data-toggle="collapse" data-target="#collapseimagem'+inv+'">Imagem</button>';
 			//html2 += '<div id="collapseimagem'+inv+'" class="collapse in">';
 			html2 += '<div class="col-sm-4 pull-right">';
@@ -574,7 +574,7 @@ function criaPontos(myObj)
 			html2 += '</div>';
 			html2 += '</div>';
 
-			html2 += '</div></a><br>';	
+			html2 += '</div></a><br>';
 			//html2 += '<div id="imagem'+myObj[x].numtombo+'"</div>';
 
 			var myLatlng = new google.maps.LatLng(myObj[x].latitude,myObj[x].longitude);
@@ -595,7 +595,7 @@ function criaPontos(myObj)
 			markers.push(marker);
 			var infowindow = new google.maps.InfoWindow();
 			google.maps.event.addListener(marker, 'click', (function(marker, x) {
-			return function() 
+			return function()
 			{
 			  var qtd = myObj[x].numtombo.length;
 			  zeros = zeros.substring(0,8-qtd);
@@ -612,8 +612,8 @@ function criaPontos(myObj)
 			  //{
 			//	 html +='<br><img id="'+inv+'" src="http://imagens1.jbrj.gov.br/fsi/server?type=image&source=rbv%2F'+inv+'_01.jpg&width=300&height=100&profile=jpeg&quality=95">';
 			 // }
-			  
-					//html2 = '<div class="row text-center">';		
+
+					//html2 = '<div class="row text-center">';
 			html2 = '	<br><br><button type="button" class="btn btn-sm btn-success" onclick="abreCamera(01,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-tree-deciduous"></span></button>';
 			html2 += '	<button type="button" class="btn btn-sm btn-success" onclick="abreCamera(02,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-leaf"></span></button>';
 			html2 += '	<button type="button" class="btn btn-sm btn-success" onclick="abreCamera(03,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-grain"></span></button>';
@@ -622,7 +622,7 @@ function criaPontos(myObj)
 			//html2 += '	<button type="button" class="btn btn-warning" onclick="pegaImagens('+myObj[x].numtombo+')"><span class="glyphicon glyphicon-refresh"></span></button>';
 			//html2 += '</div>';
 
-			  
+
 			  infowindow.setContent(html+html2);
 			  infowindow.open(map, marker);
 		}
@@ -644,12 +644,12 @@ function abreCamera(tipofoto,numtombo)
    gnumtombo = numtombo;
    document.getElementById('edtgnumtombo').value=numtombo;
    document.getElementById('edtgtipofoto').value=tipofoto;
-   
+
   // alert(gtipofoto);
   // alert(gnumtombo);
-   
+
    var tipo = 'CAMERA';
-   
+
    if (document.getElementById('chboxarquivo').checked)
    {
 	   tipo='ARQUIVO';
@@ -658,7 +658,7 @@ function abreCamera(tipofoto,numtombo)
    {
        tipo='CAMERA';
    }
-   
+
    getImage(tipo);
 }
 
@@ -721,7 +721,7 @@ function pegaImagens(id)
  var params = "id="+id;
 		var resultado = 0;
 		var xmlhttp = new XMLHttpRequest();
-		
+
 		xmlhttp.open("GET","https://aplicacoes.jbrj.gov.br/jabot/arboreto/listafotos.php?"+params,false);
 		xmlhttp.onload = function (){
 			if (xmlhttp.status==200)
@@ -739,7 +739,7 @@ function pegaImagens(id)
 				}
 		};
 		xmlhttp.send();
-	return resultado;       
+	return resultado;
 }
 
 
@@ -753,7 +753,7 @@ function salvaFenologia(pcodtestemunho)
     }
     var resultado = choices.join(',');
     //alert(resultado + '-codusuario: '+window.localStorage.getItem("codusuario")+' -codtestemunho: '+codtestemunho);
-	
+
     var params = "id="+resultado+'&codusuario='+window.localStorage.getItem("codusuario")+'&codtestemunho='+codtestemunho;
 //	alert(params);
 		var resultado = 0;
@@ -782,7 +782,7 @@ function salvaFenologia(pcodtestemunho)
 				}
 		};
 		xmlhttp.send();
-	return resultado;  
+	return resultado;
 }
 
 function exitFromApp(){
@@ -798,18 +798,18 @@ function exitFromApp(){
 		Circulo.setRadius(6);
 		$('#myNavbar a[href="#home"]').tab('show');
 		//cordova.SpinnerDialog.show("title","message");
-		
-		
 
-		
+
+
+
 		//pegaResultado(document.getElementById('edtfiltro').value,'','');
-		//myMap(0,0,0,'map3');	
+		//myMap(0,0,0,'map3');
 	});
 
 
     </script>
-	
-				
+
+
 </body>
 
 </html>
