@@ -502,7 +502,7 @@ function criaPontos(myObj)
 
 	var marker, i;
 	var htmlimagem = '';
-	var html2 = '<br><input type="checkbox" name="chboxarquivo" id="chboxarquivo" value="S"> Imagens armazenadas no dispositivo.';
+	var html2 = '<br><input type="checkbox" name="chboxarquivo" id="chboxarquivo" value="S"> Imagens armazenadas no dispositivo.<br><div id="statuscarregamento"></div>';
 	var zeros = "00000000";
 	if (myObj == false)
 	{
@@ -702,7 +702,31 @@ function uploadPhoto(imageURI) {
 	 options.params = params;
 	 options.chunkedMode = false;
 
-	var ft = new FileTransfer();
+	var ft = new FileTransfer;
+  ft.onprogress = function(progressEvent) {
+    if (progressEvent.lengthComputable) {
+    			var perc = Math.floor(progressEvent.loaded / progressEvent.total * 100);
+    			statusDom.innerHTML = perc + "% loaded...";
+    		} else {
+    			if(document.getElementById('statuscarregamento').innerHTML == "") {
+    				document.getElementById('statuscarregamento').innerHTML = "Loading";
+    			} else {
+    				document.getElementById('statuscarregamento').innerHTML += ".";
+    			}
+    		}
+
+
+
+
+/*      if (progressEvent.lengthComputable) {
+          loadingStatus.setPercentage(progressEvent.loaded / progressEvent.total);
+      } else {
+          loadingStatus.increment();
+      }
+*/
+  };
+
+
 	 ft.upload(imageURI, "https://rb.jbrj.gov.br/arboreto/upload.php", function(result){
 		//alert(JSON.stringify(result));
 	 }, function(error){
