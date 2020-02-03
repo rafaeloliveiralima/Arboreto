@@ -554,7 +554,8 @@ function criaPontos(myObj)
 			html2 += '	<button type="button" class="btn btn-success" onclick="abreCamera(05,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-tag"></span></button>';
 			html2 += '	<button type="button" class="btn btn-warning" onclick="pegaImagens('+myObj[x].numtombo+')"><span class="glyphicon glyphicon-refresh"></span></button>';
 			//html2 += '</div></div>';
-			html2 += '<br><br>';
+      html2 += '<div id="divimagenscarregadas">Imagens carregadas</div>';
+      html2 += '<br><br>';
 			html2 += '<div class="row">';
 			html2 += '<button type="button" class="btn btn-xs btn-block btn-success" data-toggle="collapse" data-target="#fenologia'+inv+'">Fenologia</button>';
 			html2 += '</div>';
@@ -704,6 +705,7 @@ function uploadPhoto(imageURI) {
 
 	var ft = new FileTransfer;
   ft.onprogress = function(progressEvent) {
+    alert(progressEvent.lengthComputable);
     if (progressEvent.lengthComputable) {
     			var perc = Math.floor(progressEvent.loaded / progressEvent.total * 100);
     			statusDom.innerHTML = perc + "% loaded...";
@@ -759,7 +761,7 @@ function pegaImagens(id)
 				}
 		};
 		xmlhttp.send();
-	return resultado;
+	  alert(resultado);
 }
 
 
