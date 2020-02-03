@@ -750,7 +750,8 @@ function pegaImagens(id)
 				{
 					var html = this.responseText;
 					var div = 'imagem'+id;
-					document.getElementById(div).innerHTML = html;
+//					document.getElementById(div).innerHTML = html;
+          document.getElementById('divimagenscarregadas').innerHTML = html;
 				}
 			else if (xmlhttp.status == 404) {
 				alert("Web Service doesn't work");
