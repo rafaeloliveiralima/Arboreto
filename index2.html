@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2016 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=yes" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />-->
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" />
+-->
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/jquery-3.2.1.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhi_DlmaFvRu7eP357bOzl29fyZXKIJE0&libraries=drawing"></script>
+
+<style>
+body {margin:0;}
+
+ul.footer {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: lightgray;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+li.lifooter {
+    float: left;
+}
+
+li.lifooter a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li.lifooter a:hover:not(.active) {
+   */ background-color: #111;*/
+}
+
+.active {
+ */   background-color: #4CAF50;*/
+}
+
+    /*body {background-color: #21610B; font-family: Tahoma,Arial;}*/
+    #posiciona {
+        position: absolute; /* posição absoluta ao elemento pai, neste caso o BODY */
+        /* Posiciona no meio, tanto em relação a esquerda como ao topo */
+        left: 50%;
+        top: 50%;
+        width: 100px; /* Largura da DIV */
+        height: 50px; /* Altura da DIV */
+        /* A margem a esquerda deve ser menos a metade da largura */
+        /* A margem ao topo deve ser menos a metade da altura */
+        /* Fazendo isso, centralizará a DIV */
+        margin-left: -50px;
+        margin-top: -25px;
+        /*background-color: #FFF;*/
+        /*color: #FFF;*/
+        /*background-color: #666;*/
+        text-align: center; /* Centraliza o texto */
+        z-index: 1000; /* Faz com que fique sobre todos os elementos da página */
+    }
+    #fechar { margin: 5px; font-size: 12px; }
+
+</style>
+
+
+    <title>Arboreto JBRJ</title>
+</head>
+
+<body >
+<ul class="footer">
+  <li class="lifooter"></span></li>
+</ul>
+
+<!-- Modal content-->
+ <div class="modal fade" id="myModalSobre" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Arboreto JBRJ</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+			<label for="email">Sistema desenvolvido pela CTIC</label>
+			<br>
+			<label for="email">Rafael Lima</label>
+			<br>
+			<label for="email">Bruno Augusto de Farias</label>
+		  </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+	 </div>
+	</div>
+
+	<nav class="navbar navbar-default">
+	  <div class="container-fluid">
+		<div class="navbar-header">
+
+		  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		  </button>
+		  <a class="navbar-brand" href="index2.html">Arboreto 1.2</a>
+		  <span id="div_dadoslogin" ></span>
+
+		</div>
+		<div class="collapse navbar-collapse" id="myNavbar">
+			<ul class="nav navbar-nav">
+			  <li class="active"><a data-toggle="pill" href="#home">Mapa</a></li>
+			  <!--<li class='hidden'><a data-toggle="pill" href="#novochamado" >Novo chamado</a></li>
+			  <li><a onclick='novochamado()'>Novo chamado</a></li>
+			  <li><a onclick='meuschamados()'>Meus chamados</a></li>
+			  <li><a onclick='carregaatendimento(0,0)'>Atender Chamado</a></li>
+			  <li class='hidden'><a data-toggle="pill" href="#conschamado">Cons. Chamado</a></li>
+			  <li class='hidden'><a data-toggle="pill" href="#consatendimento">Cons. Atendimento</a></li>
+			  <li class='hidden'><a data-toggle="pill" href="#consatendimentofiltro">Cons. Atendimento</a></li>
+			  <li class='hidden'><a data-toggle="pill" href="#mapa">Mapa Ocorrência</a></li>
+			  -->
+			  <li><a data-toggle="pill" href="#login"><span class="glyphicon glyphicon-user"></span> Login</a></li>
+			  <li><a data-toggle="pill" href="#config"><span class="glyphicon glyphicon-wrench"></span> Configuração</a></li>
+			  <li><a onclick='$("#myModalSobre").modal();'><span class="glyphicon glyphicon-question-sign"></span> Sobre</a></li>
+			  <li><a onclick='exitFromApp()'><span class="glyphicon glyphicon-log-out"></span> Sair</a></li>
+			</ul>
+
+		</div>
+	  </div>
+	</nav>
+
+	<input type='hidden' name='idusuario' id='idusuario' value=''>
+	<input type='hidden' name='edtgnumtombo' id='edtgnumtombo' value=''>
+	<input type='hidden' name='edtgtipofoto' id='edtgtipofoto' value=''>
+	<input type='hidden' name='nome' id='nome' value=''>
+	<div class="tab-content" id="mytab">
+
+		<div id="login" class="tab-pane fade">
+			<div class="container">
+				<div class="app">
+					<!--<h1>Fauna JBRJ</h1>-->
+
+
+				<div class="form-group">
+					<label for="email">Usuário:</label>
+					<input type="text" class="form-control" id="edtlogin">
+					<input type="hidden" class="form-control" id="edtuuid">
+				</div>
+				<div class="form-group">
+					<label for="pwd">Senha:</label>
+					<input type="password" class="form-control" id="edtsenha">
+				</div>
+				<button  type="button" onclick='login()' class="btn btn-success btn-block">Enviar</button>
+
+				</div>
+			</div>
+		</div>
+
+
+
+		<div id="config" class="tab-pane fade">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12">
+					<div class="form-group">
+						<label for="usr">Raio em metros:</label>
+						<input type="number" name="edtraio" id='edtraio' class="form-control" min="1" max="20" step="1" value="6">
+						<label for="usr">Quantidade de item retornáveis:</label>
+						<input type="number" name="edtqtditem" id='edtqtditem' class="form-control" min="1" max="200" step="1" value="50">
+						<label for="usr">Qualidade da foto (%):</label>
+						<input type="number" name="edtqualidade" id='edtqualidade' class="form-control" min="1" max="100" step="1" value="25">
+					</div>
+						<div class="input-group">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="home" class="tab-pane fade in active">
+
+
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12">
+						<input type='hidden' id='tipofiltro' name='tipofiltro'>
+						<label for="usr" id='lblfiltro'>Filtro: </label>
+						<div class="input-group">
+							<span class="input-group-addon" data-toggle="dropdown"><i class="glyphicon glyphicon-filter"></i></span>
+							<ul class="dropdown-menu" role="menu">
+      <li><a onclick="setFiltro('TOMBO','Filtro: Núm. Tombo');">Núm. Tombo</a></li>
+      <li><a onclick="setFiltro('POPULAR','Filtro: Nome popular');">Nome popular</a></li>
+      <li><a onclick="setFiltro('CIENTIFICO','Filtro: Nome Científico');">Nome Científico</a></li>
+    </ul>
+							<input type="text" class="form-control" id="edtfiltro" name="edtfiltro"/>
+							<div class="input-group-btn">
+								<button class="btn btn-success" type="button" onclick="pegaResultado(document.getElementById('edtfiltro').value,'','')">
+								<i class="glyphicon glyphicon-search"></i>
+								</button>
+								<button class="btn btn-danger" type="button" onclick="pegaMinhaPosicao()">
+								<span class="glyphicon glyphicon-map-marker"></span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+				</div>
+				<!--<input type="checkbox" name="chboxarquivo" id="chboxarquivo" value="S">Arquivo local-->
+				<button id='btnresultado' class="btn btn-primary btn-block" data-toggle="collapse" data-target="#demo">Clique para ver o resultado</button>
+				<div id="demo" class="collapse">
+				<div class="list-group">
+
+				  <div id='div_resultado'></div>
+				</div>
+				</div>
+
+				<div id="map" style="width:100%;height:400px"></div>
+
+			</div>
+		</div>
+	</div>
+
+	<div id="posiciona" style="display:none;">
+<img src='img/spinner.gif'>
+</div>
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript">
+        app.initialize();
+		$("ul").on("click", function(){
+			$('.navbar-collapse').collapse('hide');
+		});
+var ggcodusuario = '999';
+var codusuario = '';
+var username = '';
+var gnumtombo = '';
+var gtipofoto = '';
+var gqualidade = 25;
+var markers = new Array();
+var markerEU = new google.maps.Marker({
+	draggable:true,
+	icon: 'img/eu.png',
+	title:""
+});
+
+var raio = 6;
+var Circulo = new google.maps.Circle({
+			radius:6,
+			strokeColor:"#F9FF00",
+			strokeOpacity:0.8,
+			strokeWeight:3,
+			fillColor:"#D8C11D",
+			fillOpacity:0.2
+		});
+
+var c = 0;
+var latitude = -22.96800;
+var longitude = -43.224738;
+var zoom = 16;
+var mapCanvas = document.getElementById('map');
+var mapOptions = {
+		center: new google.maps.LatLng(latitude,longitude),
+		zoom: 16
+};
+
+var options = {
+	  enableHighAccuracy: true,
+	  timeout: 5000,
+	  maximumAge: 0
+};
+
+	var map = new google.maps.Map(mapCanvas, mapOptions);
+	var kmlLayer = new google.maps.KmlLayer({
+			url: 'http://jabot.jbrj.gov.br/v2/canteiros.kml',
+			suppressInfoWindows: true,
+			map: map,
+			preserveViewport: true
+	});
+
+
+	var kmlLayer2 = new google.maps.KmlLayer({
+			url: 'http://rb.jbrj.gov.br/v2/drenagem_wgs84.kml',
+			suppressInfoWindows: true,
+			map: map,
+			preserveViewport: true
+	});
+
+	function setFiltro(tipo,label)
+	{
+		document.getElementById('tipofiltro').value=tipo;
+		document.getElementById('lblfiltro').innerHTML=label;
+	}
+
+	function login()
+	{
+
+	var login = document.getElementById('edtlogin').value;
+	var senha = document.getElementById('edtsenha').value;
+	var uuid = document.getElementById('edtuuid').value;
+	//alert(login);
+	//alert(senha);
+	//alert(uuid);
+	 //document.getElementById('edtlabel').innerHTML="Usuario: "+usuario+" Lat/Long: "+latitude + ','+ longitude + ' Equipe: '+equipe;
+	 var params = "edtlogin="+login+"&edtsenha="+senha+"&edtuuid="+uuid;
+			var resultado = 0;
+			var xmlhttp = new XMLHttpRequest();
+			//alert(params);
+
+			//xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/testaloginapp.php?"+params,false);
+			//xmlhttp.setRequestHeader( 'Access-Control-Allow-Origin', '*');
+			xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/testaloginapp.php?"+params,false);
+
+			xmlhttp.onload = function (){
+				//alert(xmlhttp.status);
+				if (xmlhttp.status==200)
+					{
+						var str = xmlhttp.responseText;
+						//alert(str);
+						if (str.substring(0, 4)=='ERRO')
+						{
+							document.getElementById('div_dadoslogin').innerHTML='<p class="navbar-text">LOGIN INVÁLIDO</p>';
+
+							navigator.notification.alert(
+								'Não foi possível efetuar o login.',  // message
+								alertDismissed,         // callback
+								'Atenção',            // title
+								'OK'                  // buttonName
+							);
+
+							//alert('Não foi possível efetuar o login.');
+						}
+						else
+						{
+
+							var res = str.split("|");
+							//alert(res[0]);
+							codusuario = res[0];
+							ggcodusuario = res[0];
+							username = res[1];
+
+							window.localStorage.setItem("uname", username);
+							window.localStorage.setItem("codusuario",codusuario);
+
+							document.getElementById('div_dadoslogin').innerHTML='<p class="navbar-text">'+username+'</p>';
+
+							document.getElementById('idusuario').value=window.localStorage.getItem("idusuario");
+							document.getElementById('nome').value=window.localStorage.getItem("uname");
+
+
+							$('#myNavbar a[href="#home"]').tab('show');
+
+						}
+					}
+				else if (xmlhttp.status == 404) {
+					alert("Web Service doesn't work");
+
+				}
+				else
+					{
+						alert("Unknown erro occurred while trying insert data");
+					}
+			};
+			xmlhttp.send();
+			return resultado;
+ }
+
+
+function pegaMinhaPosicao()
+{
+	navigator.geolocation.getCurrentPosition(success, error, options);
+	function success(pos) {
+		setMapOnAll(null);
+
+
+		var crd = pos.coords;
+		myLatlng = new google.maps.LatLng(crd.latitude,crd.longitude);
+		markerEU.setPosition(myLatlng);
+		markerEU.setMap(map);
+
+
+		Circulo.setCenter(myLatlng);
+		raio = parseInt(document.getElementById('edtraio').value);
+		//alert(raio);
+		Circulo.setRadius(raio);
+		Circulo.setMap(map);
+
+
+        //document.getElementById('loading').innerHTML = "<img src='img/spinner2.gif'>";
+		pegaResultado('',crd.latitude,crd.longitude);
+        google.maps.event.addListener(markerEU, "dragend", function() {
+			 //document.getElementById('loading').innerHTML = "<img src='img/spinner2.gif'>";
+			 pegaResultado('',markerEU.getPosition().lat(),markerEU.getPosition().lng());
+		});
+		map.setCenter(myLatlng);
+
+	}
+
+	function error(err)
+	{
+		alert('Não foi possível acessar sua localização!');
+	}
+
+}
+
+function setMapOnAll(map) {
+        for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(map);
+        }
+      }
+
+function pegaResultado(filtro,minhalat,minhalong)
+{
+	//alert(minhalong);
+	//alert(minhalong);
+	document.getElementById('posiciona').style.display = 'block';
+	//document.getElementById('loading').innerHTML = "Carregando";//"<img src='img/spinner2.gif'>";
+	//setTimeout('', 1000);
+	tipofiltro = document.getElementById('tipofiltro').value;
+	qtditem = document.getElementById('edtqtditem').value;
+	//alert(tipofiltro);
+	//alert(filtro);
+	var params = "qtditem="+qtditem+"&filtro="+filtro+"&lat="+minhalat+"&long="+minhalong+"&raio="+raio+"&tipofiltro="+tipofiltro;
+	var resultado = 0;
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/getarboretojson.php?"+params,true);
+	xmlhttp.onload = function ()
+	{
+		//alert(xmlhttp.status);
+		if (xmlhttp.status==200)
+		{
+			document.getElementById('posiciona').style.display='none';
+			//alert(this.responseText);
+			var myObj = JSON.parse(this.responseText);
+			setMapOnAll(null);
+			criaPontos(myObj);
+			//Circulo.setMap(null);
+			myLatlng = new google.maps.LatLng(minhalat,minhalong);
+			Circulo.setCenter(myLatlng);
+			raio = 6;//parseInt(document.getElementById('edtraio').value);
+			Circulo.setRadius(raio);
+			Circulo.setMap(map);
+			//document.getElementById('loading').style.display = 'none';
+			//myMap2('map3',myObj,minhalat,minhalong);
+		}
+		else if (xmlhttp.status == 404) {
+			alert("Web Service doesn't work");
+		}
+		else
+		{
+		   alert("Unknown erro occurred while trying insert data");
+		}
+	};
+	xmlhttp.send();
+	return resultado;
+}
+
+function criaPontos(myObj)
+{
+
+	var marker, i;
+	var htmlimagem = '';
+	var html2 = '<br><input type="checkbox" name="chboxarquivo" id="chboxarquivo" value="S"> Imagens armazenadas no dispositivo.<br><div id="statuscarregamento"></div>';
+	var zeros = "00000000";
+	if (myObj == false)
+	{
+		alert('A busca não retornou resultado.');
+		document.getElementById('btnresultado').style.visibility = 'hidden';
+	}
+	else
+	{
+		document.getElementById('btnresultado').style.visibility = 'visible';
+		document.getElementById('btnresultado').innerHTML = 'Fora(m) encontrado(s) '+myObj.length + ' espécime(s)';
+		for (x in myObj) {
+			var qtd = myObj[x].numtombo.length;
+
+			zeros = zeros.substring(0,8-qtd);
+			var inv = zeros + myObj[x].numtombo;
+
+			html2 += '<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">';
+			html2 += '<div class="d-flex w-100 justify-content-between">';
+			html2 += '	   <h5 >'+myObj[x].siglapj+ ' '+myObj[x].numtombo+' - '+myObj[x].aux_nomecompltaxon+'</h5>';
+			html2 += '	   <p>'+myObj[x].locfisico1 + '/' + myObj[x].locfisico2+'</p>';
+			if (myObj[x].observacoes==null)
+			{
+			}
+			else
+			{
+				html2 += '	 <small>'+myObj[x].observacoes+'</small>';
+			}
+			htmlimagem = '';
+
+			//if (myObj[x].arquivo!=null)
+			//{
+			htmlimagem = '<img id="div'+myObj[x].numtombo+'" src="http://imagens1.jbrj.gov.br/fsi/server?type=image&source=rbv%2F'+inv+'_01.jpg&width=300&height=100&profile=jpeg&quality=95">';
+
+			//}
+
+
+
+			//html2 += '<div class="row text-center">';
+			//html2 += '<button type="button" class="btn btn-xs btn-block btn-success" data-toggle="collapse" data-target="#collapseimagem'+inv+'">Imagem</button>';
+			//html2 += '<div id="collapseimagem'+inv+'" class="collapse in">';
+			html2 += '<div class="col-sm-4 pull-right">';
+			html2 += htmlimagem;
+			html2 += '</div>';
+			html2 += '<br>';
+			html2 += '<button type="button" class="btn btn-success" onclick="abreCamera(01,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-tree-deciduous"></span></button>';
+			html2 += '	<button type="button" class="btn btn-success" onclick="abreCamera(02,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-leaf"></span></button>';
+			html2 += '	<button type="button" class="btn btn-success" onclick="abreCamera(03,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-grain"></span></button>';
+			html2 += '	<button type="button" class="btn btn-success" onclick="abreCamera(04,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-apple"></span></button>';
+			html2 += '	<button type="button" class="btn btn-success" onclick="abreCamera(05,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-tag"></span></button>';
+			html2 += '	<button type="button" class="btn btn-warning" onclick="pegaImagens('+myObj[x].numtombo+')"><span class="glyphicon glyphicon-refresh"></span></button>';
+			//html2 += '</div></div>';
+      html2 += '<div id="divimagenscarregadas">Imagens carregadas</div>';
+      html2 += '<br><br>';
+			html2 += '<div class="row">';
+			html2 += '<button type="button" class="btn btn-xs btn-block btn-success" data-toggle="collapse" data-target="#fenologia'+inv+'">Fenologia</button>';
+			html2 += '</div>';
+			html2 += '';
+
+			html2 += '<div id="fenologia'+inv+'" class="collapse out">';
+			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxfen" value="26">Botões florais</label><br>';
+			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxfen" value="27">Floração</label><br>';
+			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxfen" value="29">Frutificação</label><br>';
+			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxfen" value="35">Queda Foliar</label><br>';
+      html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxfen" value="34">Estéril</label><br>';
+			html2 += '<br><button type="button" onclick="salvaFenologia('+myObj[x].codtestemunho+')" class="btn btn-primary btn-xs">Salvar Fenologia</button>';
+			html2 += '</div>';
+			html2 += '</div>';
+
+			html2 += '</div></a><br>';
+			//html2 += '<div id="imagem'+myObj[x].numtombo+'"</div>';
+
+			var myLatlng = new google.maps.LatLng(myObj[x].latitude,myObj[x].longitude);
+			var marker = new google.maps.Marker({
+			position: myLatlng,
+			draggable:false,
+			icon: {
+						path: google.maps.SymbolPath.CIRCLE,
+						scale: 8,
+						fillColor: '#A74EAF',
+						fillOpacity: 0.8,
+						strokeColor: '#fff',
+						strokeWeight: 3
+				},
+			title:""
+			});
+			marker.setMap(map);
+			markers.push(marker);
+			var infowindow = new google.maps.InfoWindow();
+			google.maps.event.addListener(marker, 'click', (function(marker, x) {
+			return function()
+			{
+			  var qtd = myObj[x].numtombo.length;
+			  zeros = zeros.substring(0,8-qtd);
+			  var inv = zeros + myObj[x].numtombo;
+			  var html = myObj[x].siglapj+ ' '+myObj[x].numtombo+ '<br>'+myObj[x].aux_nomecompltaxon;
+			  html+='<br>'+myObj[x].locfisico1 + '/' + myObj[x].locfisico2;
+			  htmlimagem = '';
+			  //if (myObj[x].arquivo!=null)
+			  //{
+				htmlimagem = '<img id="div'+myObj[x].numtombo+'" src="http://imagens1.jbrj.gov.br/fsi/server?type=image&source=rbv%2F'+inv+'_01.jpg&width=300&height=100&profile=jpeg&quality=95">';
+			  //}
+			  html+='<br>'+htmlimagem;
+			  //if (myObj[x].arquivo!='')
+			  //{
+			//	 html +='<br><img id="'+inv+'" src="http://imagens1.jbrj.gov.br/fsi/server?type=image&source=rbv%2F'+inv+'_01.jpg&width=300&height=100&profile=jpeg&quality=95">';
+			 // }
+
+					//html2 = '<div class="row text-center">';
+			html2 = '	<br><br><button type="button" class="btn btn-sm btn-success" onclick="abreCamera(01,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-tree-deciduous"></span></button>';
+			html2 += '	<button type="button" class="btn btn-sm btn-success" onclick="abreCamera(02,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-leaf"></span></button>';
+			html2 += '	<button type="button" class="btn btn-sm btn-success" onclick="abreCamera(03,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-grain"></span></button>';
+			html2 += '	<button type="button" class="btn btn-sm btn-success" onclick="abreCamera(04,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-apple"></span></button>';
+			html2 += '	<button type="button" class="btn btn-sm btn-success" onclick="abreCamera(05,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-tag"></span></button>';
+			//html2 += '	<button type="button" class="btn btn-warning" onclick="pegaImagens('+myObj[x].numtombo+')"><span class="glyphicon glyphicon-refresh"></span></button>';
+			//html2 += '</div>';
+
+
+			  infowindow.setContent(html+html2);
+			  infowindow.open(map, marker);
+		}
+      })(marker, x));
+	}
+	document.getElementById('div_resultado').innerHTML = html2;
+	}
+}
+
+function leftPad(value, totalWidth, paddingChar) {
+	var length = totalWidth - value.toString().length + 1;
+	return Array(length).join(paddingChar || '0') + value;
+};
+
+
+function abreCamera(tipofoto,numtombo)
+{
+   gtipofoto = tipofoto;
+   gnumtombo = numtombo;
+   document.getElementById('edtgnumtombo').value=numtombo;
+   document.getElementById('edtgtipofoto').value=tipofoto;
+
+  // alert(gtipofoto);
+  // alert(gnumtombo);
+
+   var tipo = 'CAMERA';
+
+   if (document.getElementById('chboxarquivo').checked)
+   {
+	   tipo='ARQUIVO';
+   }
+   else
+   {
+       tipo='CAMERA';
+   }
+
+   getImage(tipo);
+}
+
+function getImage(tipo) {
+	if (document.getElementById('edtqualidade').value!='')
+	{
+		gqualidade = document.getElementById('edtqualidade').value;
+	}
+	if (tipo=='CAMERA')
+	{
+		navigator.camera.getPicture(uploadPhoto, function(message) {
+			alert('get picture failed');
+		}, {
+		quality: gqualidade,
+		destinationType: navigator.camera.DestinationType.FILE_URI,
+		sourceType: navigator.camera.PictureSourceType.CAMERA
+		});
+	}
+	else
+	{
+		navigator.camera.getPicture(uploadPhoto, function(message) {
+			alert('get picture failed');
+		}, {
+		quality: gqualidade,
+		destinationType: navigator.camera.DestinationType.FILE_URI,
+		sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+		});
+	}
+}
+
+function uploadPhoto(imageURI) {
+	 var options = new FileUploadOptions();
+	 options.fileKey = "file";
+//	 options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
+//	 options.fileName = leftPad(document.getElementById('edtID').value,4)+'_'+imageURI.substr(imageURI.lastIndexOf('/') + 1);
+//	 options.fileName = leftPad(gnumtombo,8)+'_'+leftPad(gtipofoto,2)+'_'+leftPad(window.localStorage.getItem("idusuario"),4)+'.jpg';
+
+	 options.fileName = leftPad(document.getElementById('edtgnumtombo').value,8)+'_'+leftPad(document.getElementById('edtgtipofoto').value,2)+'_'+leftPad(ggcodusuario,4)+'.jpg';
+
+	 options.mimeType = "image/jpeg";
+	 console.log(options.fileName);
+	 var params = new Object();
+	 params.value1 = "test";
+	 params.value2 = "param";
+	 options.params = params;
+	 options.chunkedMode = false;
+
+	var ft = new FileTransfer;
+  ft.onprogress = function(progressEvent) {
+    alert(progressEvent.lengthComputable);
+    if (progressEvent.lengthComputable) {
+    			var perc = Math.floor(progressEvent.loaded / progressEvent.total * 100);
+    			statusDom.innerHTML = perc + "% loaded...";
+    		} else {
+    			if(document.getElementById('statuscarregamento').innerHTML == "") {
+    				document.getElementById('statuscarregamento').innerHTML = "Loading";
+    			} else {
+    				document.getElementById('statuscarregamento').innerHTML += ".";
+    			}
+    		}
+
+
+
+
+/*      if (progressEvent.lengthComputable) {
+          loadingStatus.setPercentage(progressEvent.loaded / progressEvent.total);
+      } else {
+          loadingStatus.increment();
+      }
+*/
+  };
+
+
+	 ft.upload(imageURI, "https://rb.jbrj.gov.br/arboreto/upload.php", function(result){
+		//alert(JSON.stringify(result));
+	 }, function(error){
+		//alert(JSON.stringify(error));
+	 console.log(JSON.stringify(error));
+	 }, options);
+}
+
+
+function pegaImagens(id)
+{
+ var params = "id="+id;
+		var resultado = 0;
+		var xmlhttp = new XMLHttpRequest();
+
+		xmlhttp.open("GET","https://aplicacoes.jbrj.gov.br/jabot/arboreto/listafotos.php?"+params,false);
+		xmlhttp.onload = function (){
+			if (xmlhttp.status==200)
+				{
+					var html = this.responseText;
+					var div = 'imagem'+id;
+//					document.getElementById(div).innerHTML = html;
+          document.getElementById('divimagenscarregadas').innerHTML = html;
+				}
+			else if (xmlhttp.status == 404) {
+				alert("Web Service doesn't work");
+			}
+			else
+				{
+					alert("Unknown erro occurred while trying insert data");
+				}
+		};
+		xmlhttp.send();
+	  alert(resultado);
+}
+
+
+function salvaFenologia(pcodtestemunho)
+{
+	var choices = [];
+    var els = document.getElementsByName('chkboxfen');
+	var codtestemunho = pcodtestemunho;
+    for (var i = 0; i < els.length; i++) {
+        if (els[i].checked) choices.push(els[i].value);
+    }
+    var resultado = choices.join(',');
+    //alert(resultado + '-codusuario: '+window.localStorage.getItem("codusuario")+' -codtestemunho: '+codtestemunho);
+
+    var params = "id="+resultado+'&codusuario='+window.localStorage.getItem("codusuario")+'&codtestemunho='+codtestemunho;
+//	alert(params);
+		var resultado = 0;
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/exec.fenologia.php?"+params,false);
+		xmlhttp.onload = function (){
+			if (xmlhttp.status==200)
+				{
+					var html = this.responseText;
+					//alert(this.responseText);
+					if (this.responseText.trim()=='OK')
+					{
+						alert('Cadastrado com sucesso');
+					}
+					else
+					{
+						alert('Não foi possível cadastrar');
+					}
+				}
+			else if (xmlhttp.status == 404) {
+				alert("Web Service doesn't work");
+			}
+			else
+				{
+					alert("Unknown erro occurred while trying insert data");
+				}
+		};
+		xmlhttp.send();
+	return resultado;
+}
+
+function exitFromApp(){
+   window.localStorage.clear();
+   navigator.app.exitApp();
+}
+
+
+	$( document ).ready(function() {
+		setFiltro('POPULAR','Filtro: Nome popular');
+		document.getElementById('btnresultado').style.visibility = 'hidden';
+		//Circulo.setRadius(document.getElementById(edtraio).value);
+		Circulo.setRadius(6);
+		$('#myNavbar a[href="#home"]').tab('show');
+		//cordova.SpinnerDialog.show("title","message");
+
+
+
+
+		//pegaResultado(document.getElementById('edtfiltro').value,'','');
+		//myMap(0,0,0,'map3');
+	});
+
+
+    </script>
+
+
+</body>
+
+</html>
