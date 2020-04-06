@@ -111,6 +111,37 @@ li.lifooter a:hover:not(.active) {
 </ul>
 
 <!-- Modal content-->
+<div class="modal fade" id="myModalManejo" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Manejo</h4>
+        </div>
+        <div class="modal-body">
+          <form>
+			<div class="checkbox">
+			  <label><input type="checkbox" value="">Morto</label>
+			</div>
+			<div class="checkbox">
+			  <label><input type="checkbox" value="">Necessita placa</label>
+			</div>
+			<div class="checkbox">
+			  <label><input type="checkbox" value="">Avaliação fitossanitária</label>
+			</div>
+			<div class="checkbox">
+			  <label><input type="checkbox" value="">Avaliação poda</label>
+			</div>
+		  </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
  <div class="modal fade" id="myModalSobre" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -143,7 +174,7 @@ li.lifooter a:hover:not(.active) {
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		  </button>
-		  <a class="navbar-brand" href="index2.html">Arboreto 1.2</a>
+		  <a class="navbar-brand" href="index2.html">Arboreto 1.3</a>
 		  <span id="div_dadoslogin" ></span>
 
 		</div>
@@ -270,9 +301,24 @@ li.lifooter a:hover:not(.active) {
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript">
         app.initialize();
+
+			$( document ).ready(function() {
+		//alert('ready');
+		setFiltro('TOMBO','Filtro: Num. tombo');
+		document.getElementById('btnresultado').style.visibility = 'hidden';
+		//Circulo.setRadius(document.getElementById(edtraio).value);
+		Circulo.setRadius(6);
+		$('#myNavbar a[href="#home"]').tab('show');
+	});
+
+
+
 		$("ul").on("click", function(){
 			$('.navbar-collapse').collapse('hide');
 		});
+		
+		
+		
 var ggcodusuario = '999';
 var codusuario = '';
 var username = '';
@@ -313,7 +359,41 @@ var options = {
 };
 
 	var map = new google.maps.Map(mapCanvas, mapOptions);
-	var kmlLayer = new google.maps.KmlLayer({
+	
+	var data_layer = new google.maps.Data({map: map});
+	var data_layer_2 = new google.maps.Data({map: map});
+	
+data_layer.loadGeoJson(
+    'drenagem.json');
+data_layer_2.loadGeoJson(
+    'canteiro.json');
+data_layer.setStyle({
+    fillColor: 'blue',
+    strokeWeight: 0.5
+});
+data_layer_2.setStyle({
+    opacity: 1,
+	fillColor: "#B0DE5C",
+	fillOpacity: 0.8,
+	strokeWeight: 0.5
+});
+/*	drenagem = map.data.loadGeoJson('drenagem.json');
+	canteiro = map.data.loadGeoJson('canteiro.json');
+	
+*/ 
+	map.data.add({geometry: new google.maps.Data.Polygon([data_layer_2,data_layer
+                                                      ])})
+
+/*	map.data.setStyle({
+		fillColor: 'blue',
+		strokeWeight: 0.5
+	});
+*/
+														
+	//map.data.loadGeoJson('google.json');
+
+
+/*	var kmlLayer = new google.maps.KmlLayer({
 			url: 'http://jabot.jbrj.gov.br/v2/canteiros.kml',
 			suppressInfoWindows: true,
 			map: map,
@@ -327,7 +407,7 @@ var options = {
 			map: map,
 			preserveViewport: true
 	});
-
+*/
 	function setFiltro(tipo,label)
 	{
 		document.getElementById('tipofiltro').value=tipo;
@@ -451,6 +531,7 @@ function setMapOnAll(map) {
         }
       }
 
+	  
 function pegaResultado(filtro,minhalat,minhalong)
 {
 	//alert(minhalong);
@@ -512,7 +593,7 @@ function criaPontos(myObj)
 	else
 	{
 		document.getElementById('btnresultado').style.visibility = 'visible';
-		document.getElementById('btnresultado').innerHTML = 'Fora(m) encontrado(s) '+myObj.length + ' espécime(s)';
+		document.getElementById('btnresultado').innerHTML = ''+myObj.length + ' espécime(s) encontrado(s)';
 		for (x in myObj) {
 			var qtd = myObj[x].numtombo.length;
 
@@ -554,23 +635,29 @@ function criaPontos(myObj)
 			html2 += '	<button type="button" class="btn btn-success" onclick="abreCamera(05,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-tag"></span></button>';
 			html2 += '	<button type="button" class="btn btn-warning" onclick="pegaImagens('+myObj[x].numtombo+')"><span class="glyphicon glyphicon-refresh"></span></button>';
 			//html2 += '</div></div>';
-      html2 += '<div id="divimagenscarregadas">Imagens carregadas</div>';
-      html2 += '<br><br>';
-			html2 += '<div class="row">';
-			html2 += '<button type="button" class="btn btn-xs btn-block btn-success" data-toggle="collapse" data-target="#fenologia'+inv+'">Fenologia</button>';
-			html2 += '</div>';
-			html2 += '';
-
+			html2 += '<div id="divimagenscarregadas">Imagens carregadas</div>';
+			html2 += '<br>';
+			html2 += '<div class="row"><div class="col-xs-6">';
+			html2 += '<button type="button" class="btn btn-xs btn-success btn-block" data-toggle="collapse" data-target="#fenologia'+inv+'">Fenologia</button>';
 			html2 += '<div id="fenologia'+inv+'" class="collapse out">';
 			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxfen" value="26">Botões florais</label><br>';
 			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxfen" value="27">Floração</label><br>';
 			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxfen" value="29">Frutificação</label><br>';
 			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxfen" value="35">Queda Foliar</label><br>';
-      html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxfen" value="34">Estéril</label><br>';
+			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxfen" value="34">Estéril</label><br>';
 			html2 += '<br><button type="button" onclick="salvaFenologia('+myObj[x].codtestemunho+')" class="btn btn-primary btn-xs">Salvar Fenologia</button>';
+			html2 += '</div></div>';
+			html2 += '<div class="col-xs-6">';
+			html2 += '<button type="button" class="btn btn-xs btn-warning btn-block" data-toggle="collapse" data-target="#manejo'+inv+'">Manejo</button>';
+			html2 += '<div id="manejo'+inv+'" class="collapse out">';
+			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxman" value="3">Morto</label><br>';
+			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxman" value="14">Avaliação fitossanitária</label><br>';
+			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxman" value="7">Avaliação poda</label><br>';
+			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxman" value="24">Necessita placa</label><br>';
+			html2 += '<br><button type="button" onclick="salvaManejo('+myObj[x].codtestemunho+')" class="btn btn-primary btn-xs">Salvar Manejo</button>';
+			html2 += '</div></div>';
 			html2 += '</div>';
-			html2 += '</div>';
-
+			
 			html2 += '</div></a><br>';
 			//html2 += '<div id="imagem'+myObj[x].numtombo+'"</div>';
 
@@ -765,6 +852,48 @@ function pegaImagens(id)
 	  alert(resultado);
 }
 
+function salvaManejo(pcodtestemunho)
+{
+	var choices = [];
+    var els = document.getElementsByName('chkboxman');
+	var codtestemunho = pcodtestemunho;
+    for (var i = 0; i < els.length; i++) {
+        if (els[i].checked) choices.push(els[i].value);
+    }
+    var resultado = choices.join(',');
+    //alert(resultado + '-codusuario: '+window.localStorage.getItem("codusuario")+' -codtestemunho: '+codtestemunho);
+
+    var params = "id="+resultado+'&codusuario='+window.localStorage.getItem("codusuario")+'&codtestemunho='+codtestemunho;
+//	alert(params);
+		var resultado = 0;
+		var xmlhttp = new XMLHttpRequest();
+		//alert("https://jabot.jbrj.gov.br/arboreto/exec.manejo.php?"+params);
+		xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/exec.manejo.php?"+params,false);
+		xmlhttp.onload = function (){
+			if (xmlhttp.status==200)
+				{
+					var html = this.responseText;
+					//alert(this.responseText);
+					if (this.responseText.trim()=='OK')
+					{
+						alert('Cadastrado com sucesso');
+					}
+					else
+					{
+						alert('Não foi possível cadastrar');
+					}
+				}
+			else if (xmlhttp.status == 404) {
+				alert("Web Service doesn't work");
+			}
+			else
+				{
+					alert("Unknown erro occurred while trying insert data");
+				}
+		};
+		xmlhttp.send();
+	return resultado;
+}
 
 function salvaFenologia(pcodtestemunho)
 {
@@ -814,20 +943,6 @@ function exitFromApp(){
 }
 
 
-	$( document ).ready(function() {
-		setFiltro('POPULAR','Filtro: Nome popular');
-		document.getElementById('btnresultado').style.visibility = 'hidden';
-		//Circulo.setRadius(document.getElementById(edtraio).value);
-		Circulo.setRadius(6);
-		$('#myNavbar a[href="#home"]').tab('show');
-		//cordova.SpinnerDialog.show("title","message");
-
-
-
-
-		//pegaResultado(document.getElementById('edtfiltro').value,'','');
-		//myMap(0,0,0,'map3');
-	});
 
 
     </script>
