@@ -154,8 +154,6 @@ li.lifooter a:hover:not(.active) {
 			<label for="email">Sistema desenvolvido pela CTIC</label>
 			<br>
 			<label for="email">Rafael Lima</label>
-			<br>
-			<label for="email">Bruno Augusto de Farias</label>
 		  </div>
         </div>
         <div class="modal-footer">
@@ -174,7 +172,7 @@ li.lifooter a:hover:not(.active) {
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		  </button>
-		  <a class="navbar-brand" href="index2.html">Arboreto 1.3</a>
+		  <a class="navbar-brand" href="index2.html">Arboreto 1.4</a>
 		  <span id="div_dadoslogin" ></span>
 
 		</div>
@@ -201,6 +199,7 @@ li.lifooter a:hover:not(.active) {
 	</nav>
 
 	<input type='hidden' name='idusuario' id='idusuario' value=''>
+	<input type='hidden' name='papel' id='papel' value=''>
 	<input type='hidden' name='edtgnumtombo' id='edtgnumtombo' value=''>
 	<input type='hidden' name='edtgtipofoto' id='edtgtipofoto' value=''>
 	<input type='hidden' name='nome' id='nome' value=''>
@@ -210,17 +209,16 @@ li.lifooter a:hover:not(.active) {
 			<div class="container">
 				<div class="app">
 					<!--<h1>Fauna JBRJ</h1>-->
-
-
-				<div class="form-group">
-					<label for="email">Usuário:</label>
-					<input type="text" class="form-control" id="edtlogin">
-					<input type="hidden" class="form-control" id="edtuuid">
-				</div>
-				<div class="form-group">
-					<label for="pwd">Senha:</label>
-					<input type="password" class="form-control" id="edtsenha">
-				</div>
+<div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+    <input id="edtlogin" type="text" class="form-control" name="edtlogin" placeholder="Usuário">
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+    <input id="edtsenha" type="password" class="form-control" name="edtsenha" placeholder="Senha">
+  </div>	
+<input type="hidden" class="form-control" id="edtuuid">  
+<br>
 				<button  type="button" onclick='login()' class="btn btn-success btn-block">Enviar</button>
 
 				</div>
@@ -302,13 +300,16 @@ li.lifooter a:hover:not(.active) {
     <script type="text/javascript">
         app.initialize();
 
-			$( document ).ready(function() {
+		$( document ).ready(function() {
 		//alert('ready');
 		setFiltro('TOMBO','Filtro: Num. tombo');
 		document.getElementById('btnresultado').style.visibility = 'hidden';
 		//Circulo.setRadius(document.getElementById(edtraio).value);
 		Circulo.setRadius(6);
 		$('#myNavbar a[href="#home"]').tab('show');
+		
+
+		
 	});
 
 
@@ -363,51 +364,19 @@ var options = {
 	var data_layer = new google.maps.Data({map: map});
 	var data_layer_2 = new google.maps.Data({map: map});
 	
-data_layer.loadGeoJson(
-    'drenagem.json');
-data_layer_2.loadGeoJson(
-    'canteiro.json');
-data_layer.setStyle({
-    fillColor: 'blue',
-    strokeWeight: 0.5
-});
-data_layer_2.setStyle({
-    opacity: 1,
-	fillColor: "#B0DE5C",
-	fillOpacity: 0.8,
-	strokeWeight: 0.5
-});
-/*	drenagem = map.data.loadGeoJson('drenagem.json');
-	canteiro = map.data.loadGeoJson('canteiro.json');
-	
-*/ 
-	map.data.add({geometry: new google.maps.Data.Polygon([data_layer_2,data_layer
-                                                      ])})
-
-/*	map.data.setStyle({
+	data_layer.loadGeoJson('drenagem.json');
+	data_layer.setStyle({
 		fillColor: 'blue',
 		strokeWeight: 0.5
 	});
-*/
-														
-	//map.data.loadGeoJson('google.json');
-
-
-/*	var kmlLayer = new google.maps.KmlLayer({
-			url: 'http://jabot.jbrj.gov.br/v2/canteiros.kml',
-			suppressInfoWindows: true,
-			map: map,
-			preserveViewport: true
+	data_layer_2.loadGeoJson('canteiro.json');
+	data_layer_2.setStyle({
+		opacity: 1,
+		fillColor: "#B0DE5C",
+		fillOpacity: 0.8,
+		strokeWeight: 0.5
 	});
-
-
-	var kmlLayer2 = new google.maps.KmlLayer({
-			url: 'http://rb.jbrj.gov.br/v2/drenagem_wgs84.kml',
-			suppressInfoWindows: true,
-			map: map,
-			preserveViewport: true
-	});
-*/
+	map.data.add({geometry: new google.maps.Data.Polygon([data_layer_2,data_layer])});
 	function setFiltro(tipo,label)
 	{
 		document.getElementById('tipofiltro').value=tipo;
@@ -416,75 +385,69 @@ data_layer_2.setStyle({
 
 	function login()
 	{
+		var login = document.getElementById('edtlogin').value;
+		var senha = document.getElementById('edtsenha').value;
+		var uuid = document.getElementById('edtuuid').value;
+		var params = "edtlogin="+login+"&edtsenha="+senha+"&edtuuid="+uuid;
+		var resultado = 0;
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/testaloginapp.php?"+params,false);
+		xmlhttp.onload = function (){
+				
+		if (xmlhttp.status==200)
+		{
+			var str = xmlhttp.responseText;
+			//alert(str);
+			if (str.substring(0, 4)=='ERRO')
+			{
+				window.localStorage.setItem("uname", '');
+				window.localStorage.setItem("codusuario",'');
+				window.localStorage.setItem("papel",'');
+				document.getElementById('idusuario').value='';
+				document.getElementById('nome').value='';
+				document.getElementById('papel').value='';	
+				document.getElementById('div_dadoslogin').innerHTML='<p class="navbar-text">LOGIN INVÁLIDO</p>';
+				navigator.notification.alert(
+					'Não foi possível efetuar o login.',  // message
+					alertDismissed,         // callback
+					'Atenção',            // title
+					'OK'                  // buttonName
+				);
+			}
+			else
+			{
 
-	var login = document.getElementById('edtlogin').value;
-	var senha = document.getElementById('edtsenha').value;
-	var uuid = document.getElementById('edtuuid').value;
-	//alert(login);
-	//alert(senha);
-	//alert(uuid);
-	 //document.getElementById('edtlabel').innerHTML="Usuario: "+usuario+" Lat/Long: "+latitude + ','+ longitude + ' Equipe: '+equipe;
-	 var params = "edtlogin="+login+"&edtsenha="+senha+"&edtuuid="+uuid;
-			var resultado = 0;
-			var xmlhttp = new XMLHttpRequest();
-			//alert(params);
+				var res = str.split("|");
+				//alert(res[0]);
+				codusuario = res[0];
+				ggcodusuario = res[0];
+				username = res[1];
+				papel = res[2];
 
-			//xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/testaloginapp.php?"+params,false);
-			//xmlhttp.setRequestHeader( 'Access-Control-Allow-Origin', '*');
-			xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/testaloginapp.php?"+params,false);
-
-			xmlhttp.onload = function (){
-				//alert(xmlhttp.status);
-				if (xmlhttp.status==200)
-					{
-						var str = xmlhttp.responseText;
-						//alert(str);
-						if (str.substring(0, 4)=='ERRO')
-						{
-							document.getElementById('div_dadoslogin').innerHTML='<p class="navbar-text">LOGIN INVÁLIDO</p>';
-
-							navigator.notification.alert(
-								'Não foi possível efetuar o login.',  // message
-								alertDismissed,         // callback
-								'Atenção',            // title
-								'OK'                  // buttonName
-							);
-
-							//alert('Não foi possível efetuar o login.');
-						}
-						else
-						{
-
-							var res = str.split("|");
-							//alert(res[0]);
-							codusuario = res[0];
-							ggcodusuario = res[0];
-							username = res[1];
-
-							window.localStorage.setItem("uname", username);
-							window.localStorage.setItem("codusuario",codusuario);
-
-							document.getElementById('div_dadoslogin').innerHTML='<p class="navbar-text">'+username+'</p>';
-
-							document.getElementById('idusuario').value=window.localStorage.getItem("idusuario");
-							document.getElementById('nome').value=window.localStorage.getItem("uname");
-
-
-							$('#myNavbar a[href="#home"]').tab('show');
-
-						}
-					}
-				else if (xmlhttp.status == 404) {
-					alert("Web Service doesn't work");
-
-				}
-				else
-					{
-						alert("Unknown erro occurred while trying insert data");
-					}
-			};
-			xmlhttp.send();
-			return resultado;
+				window.localStorage.setItem("uname", username);
+				window.localStorage.setItem("codusuario",codusuario);
+				window.localStorage.setItem("papel",papel);
+				document.getElementById('div_dadoslogin').innerHTML='<p class="navbar-text">'+username+'</p>';
+				document.getElementById('idusuario').value=window.localStorage.getItem("idusuario");
+				document.getElementById('nome').value=window.localStorage.getItem("uname");
+				document.getElementById('papel').value=window.localStorage.getItem("papel");
+				$('#myNavbar a[href="#home"]').tab('show');
+				
+			}
+		}
+		else 
+		if (xmlhttp.status == 404) 
+		{
+			alert("Web Service doesn't work");
+		}
+		else
+		{
+			alert("Unknown erro occurred while trying insert data");
+		}
+	};
+	xmlhttp.send();
+	
+	return resultado;
  }
 
 
@@ -520,7 +483,7 @@ function pegaMinhaPosicao()
 
 	function error(err)
 	{
-		alert('Não foi possível acessar sua localização!');
+		exibeMensagem('02');
 	}
 
 }
@@ -580,14 +543,26 @@ function pegaResultado(filtro,minhalat,minhalong)
 
 function criaPontos(myObj)
 {
-
+	var papel = document.getElementById('papel').value;
+	//alert(papel);
+	var desabilitar = 'disabled';
+	if (papel=='ASSISTENTE')
+	{
+		desabilitar = '';
+	}
+	
 	var marker, i;
 	var htmlimagem = '';
 	var html2 = '<br><input type="checkbox" name="chboxarquivo" id="chboxarquivo" value="S"> Imagens armazenadas no dispositivo.<br><div id="statuscarregamento"></div>';
 	var zeros = "00000000";
 	if (myObj == false)
 	{
-		alert('A busca não retornou resultado.');
+		navigator.notification.alert(
+					'A busca não retornou resultado!',  // message
+					alertDismissed,         // callback
+					'Atenção',            // title
+					'OK'                  // buttonName
+		);	
 		document.getElementById('btnresultado').style.visibility = 'hidden';
 	}
 	else
@@ -628,12 +603,12 @@ function criaPontos(myObj)
 			html2 += htmlimagem;
 			html2 += '</div>';
 			html2 += '<br>';
-			html2 += '<button type="button" class="btn btn-success" onclick="abreCamera(01,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-tree-deciduous"></span></button>';
-			html2 += '	<button type="button" class="btn btn-success" onclick="abreCamera(02,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-leaf"></span></button>';
-			html2 += '	<button type="button" class="btn btn-success" onclick="abreCamera(03,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-grain"></span></button>';
-			html2 += '	<button type="button" class="btn btn-success" onclick="abreCamera(04,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-apple"></span></button>';
-			html2 += '	<button type="button" class="btn btn-success" onclick="abreCamera(05,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-tag"></span></button>';
-			html2 += '	<button type="button" class="btn btn-warning" onclick="pegaImagens('+myObj[x].numtombo+')"><span class="glyphicon glyphicon-refresh"></span></button>';
+			html2 += '<button type="button" '+desabilitar+' class="btn btn-success" onclick="abreCamera(01,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-tree-deciduous"></span></button>';
+			html2 += '	<button type="button"  '+desabilitar+' class="btn btn-success" onclick="abreCamera(02,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-leaf"></span></button>';
+			html2 += '	<button type="button"  '+desabilitar+' class="btn btn-success" onclick="abreCamera(03,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-grain"></span></button>';
+			html2 += '	<button type="button"  '+desabilitar+' class="btn btn-success" onclick="abreCamera(04,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-apple"></span></button>';
+			html2 += '	<button type="button"  '+desabilitar+' class="btn btn-success" onclick="abreCamera(05,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-tag"></span></button>';
+			html2 += '	<button type="button"  '+desabilitar+' class="btn btn-warning" onclick="pegaImagens('+myObj[x].numtombo+')"><span class="glyphicon glyphicon-refresh"></span></button>';
 			//html2 += '</div></div>';
 			html2 += '<div id="divimagenscarregadas">Imagens carregadas</div>';
 			html2 += '<br>';
@@ -645,7 +620,7 @@ function criaPontos(myObj)
 			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxfen" value="29">Frutificação</label><br>';
 			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxfen" value="35">Queda Foliar</label><br>';
 			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxfen" value="34">Estéril</label><br>';
-			html2 += '<br><button type="button" onclick="salvaFenologia('+myObj[x].codtestemunho+')" class="btn btn-primary btn-xs">Salvar Fenologia</button>';
+			html2 += '<br><button type="button"  '+desabilitar+' onclick="salvaFenologia('+myObj[x].codtestemunho+')" class="btn btn-primary btn-xs">Salvar Fenologia</button>';
 			html2 += '</div></div>';
 			html2 += '<div class="col-xs-6">';
 			html2 += '<button type="button" class="btn btn-xs btn-warning btn-block" data-toggle="collapse" data-target="#manejo'+inv+'">Manejo</button>';
@@ -654,7 +629,7 @@ function criaPontos(myObj)
 			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxman" value="14">Avaliação fitossanitária</label><br>';
 			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxman" value="7">Avaliação poda</label><br>';
 			html2 += '<label class="checkbox-inline"><input type="checkbox" name="chkboxman" value="24">Necessita placa</label><br>';
-			html2 += '<br><button type="button" onclick="salvaManejo('+myObj[x].codtestemunho+')" class="btn btn-primary btn-xs">Salvar Manejo</button>';
+			html2 += '<br><button type="button"  '+desabilitar+'  onclick="salvaManejo('+myObj[x].codtestemunho+')" class="btn btn-primary btn-xs">Salvar Manejo</button>';
 			html2 += '</div></div>';
 			html2 += '</div>';
 			
@@ -698,11 +673,11 @@ function criaPontos(myObj)
 			 // }
 
 					//html2 = '<div class="row text-center">';
-			html2 = '	<br><br><button type="button" class="btn btn-sm btn-success" onclick="abreCamera(01,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-tree-deciduous"></span></button>';
-			html2 += '	<button type="button" class="btn btn-sm btn-success" onclick="abreCamera(02,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-leaf"></span></button>';
-			html2 += '	<button type="button" class="btn btn-sm btn-success" onclick="abreCamera(03,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-grain"></span></button>';
-			html2 += '	<button type="button" class="btn btn-sm btn-success" onclick="abreCamera(04,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-apple"></span></button>';
-			html2 += '	<button type="button" class="btn btn-sm btn-success" onclick="abreCamera(05,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-tag"></span></button>';
+			html2 = '	<br><br><button type="button" '+desabilitar+' class="btn btn-sm btn-success" onclick="abreCamera(01,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-tree-deciduous"></span></button>';
+			html2 += '	<button type="button"  '+desabilitar+' class="btn btn-sm btn-success" onclick="abreCamera(02,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-leaf"></span></button>';
+			html2 += '	<button type="button"  '+desabilitar+' class="btn btn-sm btn-success" onclick="abreCamera(03,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-grain"></span></button>';
+			html2 += '	<button type="button"  '+desabilitar+' class="btn btn-sm btn-success" onclick="abreCamera(04,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-apple"></span></button>';
+			html2 += '	<button type="button"  '+desabilitar+' class="btn btn-sm btn-success" onclick="abreCamera(05,'+myObj[x].numtombo+')"><span class="glyphicon glyphicon-tag"></span></button>';
 			//html2 += '	<button type="button" class="btn btn-warning" onclick="pegaImagens('+myObj[x].numtombo+')"><span class="glyphicon glyphicon-refresh"></span></button>';
 			//html2 += '</div>';
 
@@ -724,104 +699,123 @@ function leftPad(value, totalWidth, paddingChar) {
 
 function abreCamera(tipofoto,numtombo)
 {
-   gtipofoto = tipofoto;
-   gnumtombo = numtombo;
-   document.getElementById('edtgnumtombo').value=numtombo;
-   document.getElementById('edtgtipofoto').value=tipofoto;
-
-  // alert(gtipofoto);
-  // alert(gnumtombo);
-
-   var tipo = 'CAMERA';
-
-   if (document.getElementById('chboxarquivo').checked)
-   {
-	   tipo='ARQUIVO';
-   }
-   else
-   {
-       tipo='CAMERA';
-   }
-
-   getImage(tipo);
-}
-
-function getImage(tipo) {
-	if (document.getElementById('edtqualidade').value!='')
+	var papel = document.getElementById('papel').value;
+	if (papel=='ASSISTENTE')
 	{
-		gqualidade = document.getElementById('edtqualidade').value;
-	}
-	if (tipo=='CAMERA')
-	{
-		navigator.camera.getPicture(uploadPhoto, function(message) {
-			alert('get picture failed');
-		}, {
-		quality: gqualidade,
-		destinationType: navigator.camera.DestinationType.FILE_URI,
-		sourceType: navigator.camera.PictureSourceType.CAMERA
-		});
+	   gtipofoto = tipofoto;
+	   gnumtombo = numtombo;
+	   document.getElementById('edtgnumtombo').value=numtombo;
+	   document.getElementById('edtgtipofoto').value=tipofoto;
+
+	   var tipo = 'CAMERA';
+	   if (document.getElementById('chboxarquivo').checked)
+	   {
+		   tipo='ARQUIVO';
+	   }
+	   else
+	   {
+		   tipo='CAMERA';
+	   }
+	   getImage(tipo);
 	}
 	else
 	{
-		navigator.camera.getPicture(uploadPhoto, function(message) {
-			alert('get picture failed');
-		}, {
-		quality: gqualidade,
-		destinationType: navigator.camera.DestinationType.FILE_URI,
-		sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
-		});
+		exibeMensagem('01');
+	}
+}
+
+function getImage(tipo) {
+	var papel = document.getElementById('papel').value;
+	if (papel=='ASSISTENTE')
+	{
+		if (document.getElementById('edtqualidade').value!='')
+		{
+			gqualidade = document.getElementById('edtqualidade').value;
+		}
+		if (tipo=='CAMERA')
+		{
+			navigator.camera.getPicture(uploadPhoto, function(message) {
+				alert('Falha ao acessar a câmera.');
+			}, {
+			quality: gqualidade,
+			destinationType: navigator.camera.DestinationType.FILE_URI,
+			sourceType: navigator.camera.PictureSourceType.CAMERA
+			});
+		}
+		else
+		{
+			navigator.camera.getPicture(uploadPhoto, function(message) {
+				alert('Folha ao acessar a câmera');
+			}, {
+			quality: gqualidade,
+			destinationType: navigator.camera.DestinationType.FILE_URI,
+			sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+			});
+		}
+	}
+	else
+	{
+		exibeMensagem('01');
 	}
 }
 
 function uploadPhoto(imageURI) {
-	 var options = new FileUploadOptions();
-	 options.fileKey = "file";
-//	 options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
-//	 options.fileName = leftPad(document.getElementById('edtID').value,4)+'_'+imageURI.substr(imageURI.lastIndexOf('/') + 1);
-//	 options.fileName = leftPad(gnumtombo,8)+'_'+leftPad(gtipofoto,2)+'_'+leftPad(window.localStorage.getItem("idusuario"),4)+'.jpg';
+	var papel = document.getElementById('papel').value;
+	if (papel=='ASSISTENTE')
+	{
+		 var options = new FileUploadOptions();
+		 options.fileKey = "file";
+	//	 options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
+	//	 options.fileName = leftPad(document.getElementById('edtID').value,4)+'_'+imageURI.substr(imageURI.lastIndexOf('/') + 1);
+	//	 options.fileName = leftPad(gnumtombo,8)+'_'+leftPad(gtipofoto,2)+'_'+leftPad(window.localStorage.getItem("idusuario"),4)+'.jpg';
 
-	 options.fileName = leftPad(document.getElementById('edtgnumtombo').value,8)+'_'+leftPad(document.getElementById('edtgtipofoto').value,2)+'_'+leftPad(ggcodusuario,4)+'.jpg';
+		 options.fileName = leftPad(document.getElementById('edtgnumtombo').value,8)+'_'+leftPad(document.getElementById('edtgtipofoto').value,2)+'_'+leftPad(ggcodusuario,4)+'.jpg';
 
-	 options.mimeType = "image/jpeg";
-	 console.log(options.fileName);
-	 var params = new Object();
-	 params.value1 = "test";
-	 params.value2 = "param";
-	 options.params = params;
-	 options.chunkedMode = false;
+		 options.mimeType = "image/jpeg";
+		 console.log(options.fileName);
+		 var params = new Object();
+		 params.value1 = "test";
+		 params.value2 = "param";
+		 options.params = params;
+		 options.chunkedMode = false;
 
-	var ft = new FileTransfer;
-  ft.onprogress = function(progressEvent) {
-    alert(progressEvent.lengthComputable);
-    if (progressEvent.lengthComputable) {
-    			var perc = Math.floor(progressEvent.loaded / progressEvent.total * 100);
-    			statusDom.innerHTML = perc + "% loaded...";
-    		} else {
-    			if(document.getElementById('statuscarregamento').innerHTML == "") {
-    				document.getElementById('statuscarregamento').innerHTML = "Loading";
-    			} else {
-    				document.getElementById('statuscarregamento').innerHTML += ".";
-    			}
-    		}
-
-
-
-
-/*      if (progressEvent.lengthComputable) {
-          loadingStatus.setPercentage(progressEvent.loaded / progressEvent.total);
-      } else {
-          loadingStatus.increment();
-      }
-*/
-  };
+		var ft = new FileTransfer;
+	  ft.onprogress = function(progressEvent) {
+		alert(progressEvent.lengthComputable);
+		if (progressEvent.lengthComputable) {
+					var perc = Math.floor(progressEvent.loaded / progressEvent.total * 100);
+					statusDom.innerHTML = perc + "% loaded...";
+				} else {
+					if(document.getElementById('statuscarregamento').innerHTML == "") {
+						document.getElementById('statuscarregamento').innerHTML = "Loading";
+					} else {
+						document.getElementById('statuscarregamento').innerHTML += ".";
+					}
+				}
 
 
-	 ft.upload(imageURI, "https://rb.jbrj.gov.br/arboreto/upload.php", function(result){
-		//alert(JSON.stringify(result));
-	 }, function(error){
-		//alert(JSON.stringify(error));
-	 console.log(JSON.stringify(error));
-	 }, options);
+
+
+	/*      if (progressEvent.lengthComputable) {
+			  loadingStatus.setPercentage(progressEvent.loaded / progressEvent.total);
+		  } else {
+			  loadingStatus.increment();
+		  }
+	*/
+	  };
+
+
+		 ft.upload(imageURI, "https://rb.jbrj.gov.br/arboreto/upload.php", function(result){
+			//alert(JSON.stringify(result));
+		 }, function(error){
+			//alert(JSON.stringify(error));
+		 console.log(JSON.stringify(error));
+		 }, options);
+	}
+	else
+	{
+		exibeMensagem('01');
+	}
 }
 
 
@@ -837,7 +831,6 @@ function pegaImagens(id)
 				{
 					var html = this.responseText;
 					var div = 'imagem'+id;
-//					document.getElementById(div).innerHTML = html;
           document.getElementById('divimagenscarregadas').innerHTML = html;
 				}
 			else if (xmlhttp.status == 404) {
@@ -849,92 +842,143 @@ function pegaImagens(id)
 				}
 		};
 		xmlhttp.send();
-	  alert(resultado);
+		//alert(resultado);
 }
 
 function salvaManejo(pcodtestemunho)
 {
-	var choices = [];
-    var els = document.getElementsByName('chkboxman');
-	var codtestemunho = pcodtestemunho;
-    for (var i = 0; i < els.length; i++) {
-        if (els[i].checked) choices.push(els[i].value);
-    }
-    var resultado = choices.join(',');
-    //alert(resultado + '-codusuario: '+window.localStorage.getItem("codusuario")+' -codtestemunho: '+codtestemunho);
+	var papel = document.getElementById('papel').value;
+	if (papel=='ASSISTENTE')
+	{
 
-    var params = "id="+resultado+'&codusuario='+window.localStorage.getItem("codusuario")+'&codtestemunho='+codtestemunho;
-//	alert(params);
-		var resultado = 0;
-		var xmlhttp = new XMLHttpRequest();
-		//alert("https://jabot.jbrj.gov.br/arboreto/exec.manejo.php?"+params);
-		xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/exec.manejo.php?"+params,false);
-		xmlhttp.onload = function (){
-			if (xmlhttp.status==200)
-				{
-					var html = this.responseText;
-					//alert(this.responseText);
-					if (this.responseText.trim()=='OK')
-					{
-						alert('Cadastrado com sucesso');
+		if (window.localStorage.getItem("codusuario").length>0)
+		{
+			var choices = [];
+			var els = document.getElementsByName('chkboxman');
+			var codtestemunho = pcodtestemunho;
+			for (var i = 0; i < els.length; i++) {
+				if (els[i].checked) choices.push(els[i].value);
+			}
+			var resultado = choices.join(',');
+
+			var params = "id="+resultado+'&codusuario='+window.localStorage.getItem("codusuario")+'&codtestemunho='+codtestemunho;
+				var resultado = 0;
+				var xmlhttp = new XMLHttpRequest();
+				//alert("https://jabot.jbrj.gov.br/arboreto/exec.manejo.php?"+params);
+				xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/exec.manejo.php?"+params,false);
+				xmlhttp.onload = function (){
+					if (xmlhttp.status==200)
+						{
+							var html = this.responseText;
+							//alert(this.responseText);
+							if (this.responseText.trim()=='OK')
+							{
+								alert('Cadastrado com sucesso');
+							}
+							else
+							{
+								alert('Não foi possível cadastrar');
+							}
+						}
+					else if (xmlhttp.status == 404) {
+						alert("Web Service doesn't work");
 					}
 					else
-					{
-						alert('Não foi possível cadastrar');
-					}
-				}
-			else if (xmlhttp.status == 404) {
-				alert("Web Service doesn't work");
-			}
-			else
-				{
-					alert("Unknown erro occurred while trying insert data");
-				}
-		};
-		xmlhttp.send();
-	return resultado;
+						{
+							alert("Unknown erro occurred while trying insert data");
+						}
+				};
+				xmlhttp.send();
+			return resultado;
+		}
+		else
+		{
+			alert('Efetue o login.');
+		}
+	}
+	else
+	{
+		exibeMensagem('01');
+	}
+	
 }
 
 function salvaFenologia(pcodtestemunho)
 {
-	var choices = [];
-    var els = document.getElementsByName('chkboxfen');
-	var codtestemunho = pcodtestemunho;
-    for (var i = 0; i < els.length; i++) {
-        if (els[i].checked) choices.push(els[i].value);
-    }
-    var resultado = choices.join(',');
-    //alert(resultado + '-codusuario: '+window.localStorage.getItem("codusuario")+' -codtestemunho: '+codtestemunho);
+	var papel = document.getElementById('papel').value;
+	if (papel=='ASSISTENTE')
+	{
+		if (window.localStorage.getItem("codusuario").length>0)
+		{
+			var choices = [];
+			var els = document.getElementsByName('chkboxfen');
+			var codtestemunho = pcodtestemunho;
+			for (var i = 0; i < els.length; i++) {
+				if (els[i].checked) choices.push(els[i].value);
+			}
+			var resultado = choices.join(',');
+			//alert(resultado + '-codusuario: '+window.localStorage.getItem("codusuario")+' -codtestemunho: '+codtestemunho);
 
-    var params = "id="+resultado+'&codusuario='+window.localStorage.getItem("codusuario")+'&codtestemunho='+codtestemunho;
-//	alert(params);
-		var resultado = 0;
-		var xmlhttp = new XMLHttpRequest();
-		xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/exec.fenologia.php?"+params,false);
-		xmlhttp.onload = function (){
-			if (xmlhttp.status==200)
-				{
-					var html = this.responseText;
-					//alert(this.responseText);
-					if (this.responseText.trim()=='OK')
-					{
-						alert('Cadastrado com sucesso');
+			var params = "id="+resultado+'&codusuario='+window.localStorage.getItem("codusuario")+'&codtestemunho='+codtestemunho;
+		//	alert(params);
+				var resultado = 0;
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/exec.fenologia.php?"+params,false);
+				xmlhttp.onload = function (){
+					if (xmlhttp.status==200)
+						{
+							var html = this.responseText;
+							//alert(this.responseText);
+							if (this.responseText.trim()=='OK')
+							{
+								alert('Cadastrado com sucesso');
+							}
+							else
+							{
+								alert('Não foi possível cadastrar');
+							}
+						}
+					else if (xmlhttp.status == 404) {
+						alert("Web Service doesn't work");
 					}
 					else
-					{
-						alert('Não foi possível cadastrar');
-					}
-				}
-			else if (xmlhttp.status == 404) {
-				alert("Web Service doesn't work");
-			}
-			else
-				{
-					alert("Unknown erro occurred while trying insert data");
-				}
-		};
-		xmlhttp.send();
-	return resultado;
+						{
+							alert("Unknown erro occurred while trying insert data");
+						}
+				};
+				xmlhttp.send();
+			return resultado;
+		}
+		else
+		{
+			alert('Efetue o login.');
+		}
+	}
+	else
+	{
+		exibeMensagem('01');
+	}
+	
+}
+
+function exibeMensagem(codigo)
+{
+	m = '';
+	if (codigo=='01')
+	{
+		m = 'Sem acesso a funcionalidade';
+	}
+	if (codigo=='02')
+	{
+		m = 'Não foi possível acessar sua localização!';
+	}
+	navigator.notification.alert(
+				m,  // message
+				alertDismissed,         // callback
+				'Atenção',            // title
+				'OK'                  // buttonName
+	);
+
 }
 
 function exitFromApp(){
@@ -942,10 +986,13 @@ function exitFromApp(){
    navigator.app.exitApp();
 }
 
-
+function alertDismissed() {
+    // do something
+}
 
 
     </script>
+	
 
 
 </body>
