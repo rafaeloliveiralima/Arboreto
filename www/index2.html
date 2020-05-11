@@ -780,8 +780,7 @@ function uploadPhoto(imageURI) {
 		 options.chunkedMode = false;
 
 		var ft = new FileTransfer;
-	  ft.onprogress = function(progressEvent) {
-		alert(progressEvent.lengthComputable);
+		ft.onprogress = function(progressEvent) {
 		if (progressEvent.lengthComputable) {
 					var perc = Math.floor(progressEvent.loaded / progressEvent.total * 100);
 					statusDom.innerHTML = perc + "% loaded...";
@@ -789,7 +788,7 @@ function uploadPhoto(imageURI) {
 					if(document.getElementById('statuscarregamento').innerHTML == "") {
 						document.getElementById('statuscarregamento').innerHTML = "Loading";
 					} else {
-						document.getElementById('statuscarregamento').innerHTML += ".";
+						document.getElementById('statuscarregamento').innerHTML += "";
 					}
 				}
 
@@ -806,8 +805,20 @@ function uploadPhoto(imageURI) {
 
 
 		 ft.upload(imageURI, "https://rb.jbrj.gov.br/arboreto/upload.php", function(result){
+			navigator.notification.alert(
+									'Imagem carregada com sucesso.',  // message
+									alertDismissed,         // callback
+									'Atenção',            // title
+									'OK'                  // buttonName
+				);
 			//alert(JSON.stringify(result));
 		 }, function(error){
+			navigator.notification.alert(
+									'Não foi possível carregar a imagem.',  // message
+									alertDismissed,         // callback
+									'Atenção',            // title
+									'OK'                  // buttonName
+				);
 			//alert(JSON.stringify(error));
 		 console.log(JSON.stringify(error));
 		 }, options);
@@ -893,7 +904,7 @@ function salvaManejo(pcodtestemunho)
 		}
 		else
 		{
-			alert('Efetue o login.');
+			exibeMensagem('03');
 		}
 	}
 	else
@@ -951,7 +962,7 @@ function salvaFenologia(pcodtestemunho)
 		}
 		else
 		{
-			alert('Efetue o login.');
+			exibeMensagem('03');
 		}
 	}
 	else
@@ -972,6 +983,10 @@ function exibeMensagem(codigo)
 	{
 		m = 'Não foi possível acessar sua localização!';
 	}
+	if (codigo=='03')
+	{
+		m = 'Efetue o login.';
+	}	
 	navigator.notification.alert(
 				m,  // message
 				alertDismissed,         // callback
