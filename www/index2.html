@@ -42,8 +42,7 @@
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <script src="bootstrap/js/jquery-3.2.1.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
-	
-<!--	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhi_DlmaFvRu7eP357bOzl29fyZXKIJE0&libraries=drawing"></script>-->
+	<!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhi_DlmaFvRu7eP357bOzl29fyZXKIJE0&libraries=drawing"></script>-->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbVmUiciv97tHYcMowlhqSoQ3au7goKHI&libraries=drawing"></script>
 
 <style>
@@ -262,7 +261,7 @@ li.lifooter a:hover:not(.active) {
       <li><a onclick="setFiltro('TOMBO','Filtro: Núm. Tombo');">Núm. Tombo</a></li>
       <li><a onclick="setFiltro('POPULAR','Filtro: Nome popular');">Nome popular</a></li>
       <li><a onclick="setFiltro('CIENTIFICO','Filtro: Nome Científico');">Nome Científico</a></li>
-      <li><a onclick="setFiltro('LOCALIZACAO','Filtro: Nome Científico');">Localização</a></li>
+      <li><a onclick="setFiltro('LOCALIZACAO','Filtro: Localizacao');">Localização</a></li>
     </ul>
 							<input type="text" class="form-control" id="edtfiltro" name="edtfiltro"/>
 							<div class="input-group-btn">
@@ -510,18 +509,21 @@ function pegaResultado(filtro,minhalat,minhalong)
 	//alert(tipofiltro);
 	//alert(filtro);
 	var params = "qtditem="+qtditem+"&filtro="+filtro+"&lat="+minhalat+"&long="+minhalong+"&raio="+raio+"&tipofiltro="+tipofiltro;
+	//alert(params);
 	var resultado = 0;
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.open("GET","https://jabot.jbrj.gov.br/arboreto/getarboretojson.php?"+params,true);
 	xmlhttp.onload = function ()
 	{
-		//alert(xmlhttp.status);
 		if (xmlhttp.status==200)
 		{
+			alert(this.responseText);
 			document.getElementById('posiciona').style.display='none';
 			//alert(this.responseText);
 			var myObj = JSON.parse(this.responseText);
 			setMapOnAll(null);
+			
+			//alert(myObj.length);
 			criaPontos(myObj);
 			//Circulo.setMap(null);
 			myLatlng = new google.maps.LatLng(minhalat,minhalong);
